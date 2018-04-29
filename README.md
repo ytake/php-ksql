@@ -1,6 +1,8 @@
 # php-ksql
 kafka ksql for php
 
+[![StyleCI](https://styleci.io/repos/131283937/shield?branch=master)](https://styleci.io/repos/131283937)
+
 ## Usage
 
 ### Query KSQL
