@@ -1,8 +1,10 @@
 # php-ksql
 kafka ksql for php
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ytake/php-ksql/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ytake/php-ksql/?branch=master)
 [![Build Status](https://travis-ci.org/ytake/php-ksql.svg?branch=master)](https://travis-ci.org/ytake/php-ksql)
 [![StyleCI](https://styleci.io/repos/131283937/shield?branch=master)](https://styleci.io/repos/131283937)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/1fe0cd22-6b08-4213-a99e-52fbc1911d9e/mini.png)](https://insight.sensiolabs.com/projects/1fe0cd22-6b08-4213-a99e-52fbc1911d9e)
 
 ## Usage
 
