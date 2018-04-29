@@ -1,0 +1,36 @@
+[
+  {
+    "description": {
+      "statementText": "",
+      "name": "MSGS",
+      "readQueries": [],
+      "writeQueries": [],
+      "schema": [
+        {
+          "name": "ROWTIME",
+          "type": "BIGINT"
+        },
+        {
+          "name": "ROWKEY",
+          "type": "VARCHAR(STRING)"
+        },
+        {
+          "name": "MESSAGE",
+          "type": "VARCHAR(STRING)"
+        }
+      ],
+      "type": "TABLE",
+      "key": "MESSAGE",
+      "timestamp": "",
+      "statistics": "",
+      "errorStats": "",
+      "extended": false,
+      "serdes": "JSON",
+      "kafkaTopic": "message.sender",
+      "topology": "",
+      "executionPlan": "",
+      "replication": 0,
+      "partitions": 0
+    }
+  }
+]

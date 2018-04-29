@@ -1,0 +1,41 @@
+{
+  "name": "ytake/php-ksql",
+  "description": "php ksql rest api client",
+  "minimum-stability": "stable",
+  "keywords": [
+    "kafka",
+    "ksql"
+  ],
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "yuuki takezawa",
+      "email": "yuuki.takezawa@comnect.jp.net"
+    }
+  ],
+  "require": {
+    "php": "^7.1",
+    "ext-curl": "*",
+    "psr/log": "~1.0",
+    "guzzlehttp/guzzle": "^6.3.3",
+    "fig/http-message-util": "^1.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.1.4",
+    "satooshi/php-coveralls": "*",
+    "sensiolabs/security-checker": "^4.1.8",
+    "monolog/monolog": "^1.23",
+    "phpmd/phpmd": "@stable"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ytake\\KsqlClient\\": "src/"
+    }
+  },
+  "scripts": {
+    "ci": [
+      "./vendor/bin/phpunit"
+    ],
+    "security-checker": "./vendor/bin/security-checker security:check composer.lock"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "commandStatuses": {
+    "stream/MESSAGE_STREAM/create": "QUEUED",
+    "table/MSGS/create": "SUCCESS",
+    "stream/PAGEVIEWS_ORIGINAL/create": "SUCCESS"
+  }
+}
