@@ -1,6 +1,6 @@
 {
   "name": "istyle-inc/php-ksql",
-  "description": "php ksql rest api client",
+  "description": "KSQL is the streaming SQL engine for Apache Kafka. REST Client for php",
   "minimum-stability": "stable",
   "keywords": [
     "kafka",

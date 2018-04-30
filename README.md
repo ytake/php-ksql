@@ -2,11 +2,29 @@
 
 Apache kafka / Confluent KSQL REST Client for php
 
+[![Build Status](http://img.shields.io/travis/istyle-inc/php-ksql/master.svg?style=flat-square)](https://travis-ci.org/istyle-inc/php-ksql)
+[![Coverage Status](http://img.shields.io/coveralls/istyle-inc/php-ksql/master.svg?style=flat-square)](https://coveralls.io/github/istyle-inc/php-ksql?branch=master)
+[![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/istyle-inc/php-ksql.svg?style=flat-square)](https://scrutinizer-ci.com/g/istyle-inc/php-ksql/?branch=master)
+[![StyleCI](https://styleci.io/repos/131283937/shield?branch=master)](https://styleci.io/repos/131283937)
+
+[![License](http://img.shields.io/packagist/l/istyle-inc/php-ksql.svg?style=flat-square)](https://packagist.org/packages/istyle-inc/php-ksql)
+[![Latest Version](http://img.shields.io/packagist/v/istyle-inc/php-ksql.svg?style=flat-square)](https://packagist.org/packages/istyle-inc/php-ksql)
+[![Total Downloads](http://img.shields.io/packagist/dt/istyle-inc/php-ksql.svg?style=flat-square)](https://packagist.org/packages/istyle-inc/php-ksql)
+
+## What is KSQL
+
+KSQL is the streaming SQL engine for Apache Kafka.
+
 [What Is KSQL?](https://docs.confluent.io/current/ksql/docs/)
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ytake/php-ksql/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ytake/php-ksql/?branch=master)
-[![Build Status](https://travis-ci.org/ytake/php-ksql.svg?branch=master)](https://travis-ci.org/ytake/php-ksql)
-[![StyleCI](https://styleci.io/repos/131283937/shield?branch=master)](https://styleci.io/repos/131283937)
+
+## Install
+
+required >= PHP 7.1
+
+```bash
+$ composer require istyle-inc/php-ksql
+```
 
 ## Usage
 
