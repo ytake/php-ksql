@@ -1,4 +1,4 @@
-# php-ksql Istyle\KsqlClient
+# Istyle\KsqlClient [istyle-inc/php-ksql]
 
 Apache kafka / Confluent KSQL REST Client for php
 
