@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient\Entity;
+namespace Istyle\KsqlClient\Entity;
 
 /**
  * Class RunningQuery
  */
-class RunningQuery implements EntityInterface
+final class RunningQuery implements EntityInterface
 {
     /** @var string */
     protected $queryString;

@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient\Result;
+namespace Istyle\KsqlClient\Mapper;
 
-use Ytake\KsqlClient\Entity\EntityInterface;
-use Ytake\KsqlClient\Entity\KsqlErrorMessage;
+use Istyle\KsqlClient\Entity\EntityInterface;
+use Istyle\KsqlClient\Entity\KsqlErrorMessage;
 
 /**
  * Class ErrorResult
  */
-class ErrorResult extends AbstractResult
+class ErrorMapper extends AbstractMapper
 {
     /**
      * @return EntityInterface|KsqlErrorMessage

@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient\Result;
+namespace Istyle\KsqlClient\Mapper;
 
-use Ytake\KsqlClient\Entity\CommandStatus;
-use Ytake\KsqlClient\Entity\CommandStatuses;
-use Ytake\KsqlClient\Entity\EntityInterface;
+use Istyle\KsqlClient\Entity\CommandStatus;
+use Istyle\KsqlClient\Entity\CommandStatuses;
+use Istyle\KsqlClient\Entity\EntityInterface;
 
 /**
  * Class StatusResult
  */
-class StatusResult extends AbstractResult
+final class StatusMapper extends AbstractMapper
 {
     /**
      * @return EntityInterface|CommandStatuses
@@ -21,14 +21,6 @@ class StatusResult extends AbstractResult
             $this->response->getBody()->getContents(), true
         );
         $statuses = new CommandStatuses();
-        /**
-         * response
-         * {
-         *   "commandStatuses": [
-         *     {"stream/EXAMPLE/create":"SUCCESS"}
-         *   ]
-         * }
-         */
         foreach ($decode['commandStatuses'] as $commandId => $status) {
             $statuses->addCommandStatus(new CommandStatus($commandId, $status));
         }

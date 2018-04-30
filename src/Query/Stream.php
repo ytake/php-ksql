@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient\Query;
+namespace Istyle\KsqlClient\Query;
 
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Message\ResponseInterface;
-use Ytake\KsqlClient\Result\AbstractResult;
-use Ytake\KsqlClient\Result\StreamResult;
+use Istyle\KsqlClient\Mapper\AbstractMapper;
+use Istyle\KsqlClient\Mapper\StreamMapper;
 
 /**
  * Class StreamQuery
@@ -42,11 +42,11 @@ final class Stream extends AbstractStreamQuery
     /**
      * @param ResponseInterface $response
      *
-     * @return AbstractResult
+     * @return AbstractMapper
      */
-    public function queryResult(ResponseInterface $response): AbstractResult
+    public function queryResult(ResponseInterface $response): AbstractMapper
     {
-        $stream = new StreamResult($response);
+        $stream = new StreamMapper($response);
         $stream->setCallback($this->callback);
 
         return $stream;

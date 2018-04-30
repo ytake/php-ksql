@@ -1,26 +1,25 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient;
+namespace Istyle\KsqlClient;
 
 use Fig\Http\Message\StatusCodeInterface;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\UriNormalizer;
-use Ytake\KsqlClient\Exception\KsqlRestClientException;
-use Ytake\KsqlClient\Query\QueryInterface;
-use Ytake\KsqlClient\Result\AbstractResult;
-use Ytake\KsqlClient\Result\ErrorResult;
+use Istyle\KsqlClient\Exception\KsqlRestClientException;
+use Istyle\KsqlClient\Mapper\AbstractMapper;
+use Istyle\KsqlClient\Mapper\ErrorMapper;
+use Istyle\KsqlClient\Query\QueryInterface;
 
 /**
  * Class RestClient
  */
 class RestClient
 {
-    const USER_AGENT = 'PHP-KSQLClient';
+    const VERSION = '0.1.0';
 
     /** @var string */
     private $serverAddress;
@@ -66,7 +65,7 @@ class RestClient
     {
         return new GuzzleClient([
             'headers' => [
-                'User-Agent' => self::USER_AGENT,
+                'User-Agent' => $this->userAgent(),
                 'Accept'     => 'application/json',
             ],
         ]);
@@ -110,14 +109,13 @@ class RestClient
      * @param int            $timeout
      * @param bool           $debug
      *
-     * @return AbstractResult|null
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return AbstractMapper
      */
     public function requestQuery(
         QueryInterface $query,
         int $timeout = 500000,
         bool $debug = false
-    ): AbstractResult {
+    ): AbstractMapper {
         $uri = new Uri($this->serverAddress);
         $uri = $uri->withPath($query->uri());
         $normalize = UriNormalizer::normalize(
@@ -140,11 +138,11 @@ class RestClient
             if ($response->getStatusCode() == StatusCodeInterface::STATUS_OK) {
                 return $query->queryResult($response);
             }
-
-            return new ErrorResult($response);
-        } catch (ClientException $e) {
-            throw new KsqlRestClientException($e->getMessage(), $e->getCode(), $e);
+        } catch (\GuzzleHttp\Exception\GuzzleException $e) {
+            throw new KsqlRestClientException($e->getMessage(), $e->getCode());
         }
+
+        return new ErrorMapper($response);
     }
 
     /**
@@ -172,5 +170,22 @@ class RestClient
     public function setOptions(array $options): void
     {
         $this->options = $options;
+    }
+
+    /**
+     * @return ClientInterface
+     */
+    public function getClient(): ClientInterface
+    {
+        return $this->client;
+    }
+
+    /**
+     * user agent
+     * @return string
+     */
+    protected function userAgent(): string
+    {
+        return 'PHP-KSQLClient/' . self::VERSION;
     }
 }

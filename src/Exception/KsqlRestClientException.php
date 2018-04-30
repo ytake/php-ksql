@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient\Exception;
+namespace Istyle\KsqlClient\Exception;
 
 /**
  * Class KsqlRestClientException

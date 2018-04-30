@@ -1,22 +1,25 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient\Result;
+namespace Istyle\KsqlClient\Mapper;
 
-use Ytake\KsqlClient\Entity\AbstractKsql;
-use Ytake\KsqlClient\Entity\Description;
-use Ytake\KsqlClient\Entity\EntityInterface;
-use Ytake\KsqlClient\Entity\FieldSchema;
-use Ytake\KsqlClient\Entity\KsqlCollection;
-use Ytake\KsqlClient\Entity\KsqlErrorMessage;
-use Ytake\KsqlClient\Entity\KsqlStatementErrorMessage;
-use Ytake\KsqlClient\Entity\Queries;
-use Ytake\KsqlClient\Entity\RunningQuery;
+use Istyle\KsqlClient\Entity\AbstractKsql;
+use Istyle\KsqlClient\Entity\Description;
+use Istyle\KsqlClient\Entity\EntityInterface;
+use Istyle\KsqlClient\Entity\FieldSchema;
+use Istyle\KsqlClient\Entity\KafkaTopicInfo;
+use Istyle\KsqlClient\Entity\KafkaTopics;
+use Istyle\KsqlClient\Entity\KsqlCollection;
+use Istyle\KsqlClient\Entity\KsqlErrorMessage;
+use Istyle\KsqlClient\Entity\KsqlStatementErrorMessage;
+use Istyle\KsqlClient\Entity\Queries;
+use Istyle\KsqlClient\Entity\RunningQuery;
+use Istyle\KsqlClient\Exception\UnknownJsonObjectsException;
 
 /**
  * Class KsqlResult
  */
-class KsqlResult extends AbstractResult
+class KsqlMapper extends AbstractMapper
 {
     /**
      * @return EntityInterface|KsqlCollection
@@ -53,7 +56,6 @@ class KsqlResult extends AbstractResult
 
             return new Queries($row['queries']['statementText'], $queries);
         }
-
         if (isset($row['description'])) {
             $read = $write = $schema = [];
             foreach ($row['description']['readQueries'] as $query) {
@@ -104,5 +106,20 @@ class KsqlResult extends AbstractResult
                 );
             }
         }
+        if (isset($row['kafka_topics'])) {
+            $topics = [];
+            foreach ($row['kafka_topics']['topics'] as $topic) {
+                $topics[] = new KafkaTopicInfo(
+                    $topic['name'],
+                    $topic['registered'],
+                    (is_array($topic['replicaInfo'])) ? $topic['replicaInfo'] : [$topic['replicaInfo']],
+                    $topic['consumerCount'],
+                    $topic['consumerGroupCount']
+                );
+            }
+
+            return new KafkaTopics($row['kafka_topics']['statementText'], $topics);
+        }
+        throw new UnknownJsonObjectsException('Unknown json objects.');
     }
 }

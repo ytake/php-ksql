@@ -5,13 +5,12 @@ namespace Istyle\KsqlClient\Query;
 
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Message\ResponseInterface;
-use Istyle\KsqlClient\Mapper\AbstractMapper;
-use Istyle\KsqlClient\Mapper\StatusMapper;
+use Istyle\KsqlClient\Mapper\ServerInfoMapper;
 
 /**
- * Class Status
+ * Class ServerInfo
  */
-final class Status implements QueryInterface
+final class ServerInfo implements QueryInterface
 {
     /**
      * {@inheritdoc}
@@ -26,7 +25,7 @@ final class Status implements QueryInterface
      */
     public function uri(): string
     {
-        return 'status';
+        return 'info';
     }
 
     /**
@@ -38,12 +37,10 @@ final class Status implements QueryInterface
     }
 
     /**
-     * @param ResponseInterface $response
-     *
-     * @return AbstractMapper
+     * {@inheritdoc}
      */
-    public function queryResult(ResponseInterface $response): AbstractMapper
+    public function queryResult(ResponseInterface $response)
     {
-        return new StatusMapper($response);
+        return new ServerInfoMapper($response);
     }
 }

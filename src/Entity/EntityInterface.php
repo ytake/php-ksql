@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient\Entity;
+namespace Istyle\KsqlClient\Entity;
 
 /**
  * Interface EntityInterface

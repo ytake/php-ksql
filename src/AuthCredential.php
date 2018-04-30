@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient;
+namespace Istyle\KsqlClient;
 
 /**
  * for KSQL basic

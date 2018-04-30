@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient\Entity;
+namespace Istyle\KsqlClient\Entity;
 
 /**
  * Class Description
@@ -17,7 +17,7 @@ final class Description extends AbstractKsql
     /** @var RunningQuery[] */
     private $writeQueries;
 
-    /** @var FieldSchema */
+    /** @var FieldSchema[] */
     private $schema;
 
     /** @var string */
@@ -45,19 +45,21 @@ final class Description extends AbstractKsql
     private $replication;
 
     /**
-     * @param string $statementText
-     * @param string $name
-     * @param array  $readQueries
-     * @param array  $writeQueries
-     * @param array  $schema
-     * @param string $type
-     * @param string $key
-     * @param string $timestamp
-     * @param string $statistics
-     * @param string $errorStats
-     * @param bool   $extended
-     * @param int    $partitions
-     * @param int    $replication
+     * Description constructor.
+     *
+     * @param string        $statementText
+     * @param string        $name
+     * @param array         $readQueries
+     * @param array         $writeQueries
+     * @param FieldSchema[] $schema
+     * @param string        $type
+     * @param string        $key
+     * @param string        $timestamp
+     * @param string        $statistics
+     * @param string        $errorStats
+     * @param bool          $extended
+     * @param int           $partitions
+     * @param int           $replication
      */
     public function __construct(
         string $statementText,
@@ -114,9 +116,9 @@ final class Description extends AbstractKsql
     }
 
     /**
-     * @return FieldSchema
+     * @return FieldSchema[]
      */
-    public function getSchema(): FieldSchema
+    public function getSchema(): array
     {
         return $this->schema;
     }

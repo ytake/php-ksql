@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient;
+namespace Istyle\KsqlClient;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface;
-use Ytake\KsqlClient\Exception\StreamQueryException;
-use Ytake\KsqlClient\Query\AbstractStreamQuery;
-use Ytake\KsqlClient\Query\QueryInterface;
-use Ytake\KsqlClient\Result\AbstractResult;
+use Istyle\KsqlClient\Exception\StreamQueryException;
+use Istyle\KsqlClient\Query\AbstractStreamQuery;
+use Istyle\KsqlClient\Query\QueryInterface;
+use Istyle\KsqlClient\Mapper\AbstractMapper;
 
 /**
  * Class StreamClient
@@ -24,7 +24,7 @@ final class StreamClient extends RestClient
     {
         return new GuzzleClient([
             'headers' => [
-                'User-Agent' => self::USER_AGENT,
+                'User-Agent' => $this->userAgent(),
                 'Accept'     => 'application/json',
             ],
             'stream'  => true,
@@ -36,14 +36,13 @@ final class StreamClient extends RestClient
      * @param int            $timeout
      * @param bool           $debug
      *
-     * @return AbstractResult
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return AbstractMapper
      */
     public function requestQuery(
         QueryInterface $query,
         int $timeout = 500000,
         bool $debug = false
-    ): AbstractResult {
+    ): AbstractMapper {
         if ($query instanceof AbstractStreamQuery) {
             return parent::requestQuery($query, $timeout, $debug);
         }

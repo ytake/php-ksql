@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use Ytake\KsqlClient\AuthCredential;
+use Istyle\KsqlClient\AuthCredential;
 
 class AuthCredentialTest extends \PHPUnit\Framework\TestCase
 {

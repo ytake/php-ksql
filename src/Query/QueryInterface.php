@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient\Query;
+namespace Istyle\KsqlClient\Query;
 
 use Psr\Http\Message\ResponseInterface;
-use Ytake\KsqlClient\Result\AbstractResult;
+use Istyle\KsqlClient\Mapper\AbstractMapper;
 
 /**
  * Interface QueryInterface
@@ -31,7 +31,7 @@ interface QueryInterface
     /**
      * @param ResponseInterface $response
      *
-     * @return AbstractResult
+     * @return AbstractMapper
      */
     public function queryResult(ResponseInterface $response);
 }

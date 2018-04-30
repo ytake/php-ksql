@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient\Result;
+namespace Istyle\KsqlClient\Mapper;
 
-use Ytake\KsqlClient\Entity\CommandStatus;
-use Ytake\KsqlClient\Entity\EntityInterface;
+use Istyle\KsqlClient\Entity\CommandStatus;
+use Istyle\KsqlClient\Entity\EntityInterface;
 
 /**
  * Class StatusCommandResult
  */
-class CommandStatusResult extends AbstractResult
+class CommandStatusMapper extends AbstractMapper
 {
     /**
      * @return EntityInterface|CommandStatus

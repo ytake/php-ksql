@@ -1,0 +1,169 @@
+[
+  {
+    "kafka_topics": {
+      "statementText": "SHOW TOPICS;",
+      "topics": [
+        {
+          "name": "__confluent.support.metrics",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "_confluent-controlcenter-4-1-0-1-aggregate-topic-partition",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "_confluent-controlcenter-4-1-0-1-aggregate-topic-partition-changelog",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "_confluent-controlcenter-4-1-0-1-aggregatedTopicPartitionTableWindows-THREE_HOURS-changelog",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "_confluent-controlcenter-4-1-0-1-error-topic",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "_confluent-controlcenter-4-1-0-1-expected-group-consumption-rekey",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "_confluent-controlcenter-4-1-0-1-group-aggregate-topic-ONE_MINUTE-changelog",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "_confluent-controlcenter-4-1-0-1-Group-ONE_MINUTE-changelog",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "_confluent-controlcenter-4-1-0-1-KSTREAM-OUTERTHIS-0000000095-store-changelog",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "_confluent-controlcenter-4-1-0-1-monitoring-message-rekey",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "_confluent-controlcenter-4-1-0-1-monitoring-trigger-event-rekey",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "_confluent-controlcenter-4-1-0-1-MonitoringMessageAggregatorWindows-ONE_MINUTE-changelog",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "_confluent-controlcenter-4-1-0-1-MonitoringMessageAggregatorWindows-THREE_HOURS-changelog",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "_confluent-controlcenter-4-1-0-1-MonitoringStream-ONE_MINUTE-changelog",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "_confluent-ksql-default__command_topic",
+          "registered": "true",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "_schemas",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "connect-configs",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "connect-offsets",
+          "registered": "false",
+          "partitionCount": 25,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "connect-statuses",
+          "registered": "false",
+          "partitionCount": 5,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        },
+        {
+          "name": "ksql__commands",
+          "registered": "false",
+          "partitionCount": 1,
+          "replicaInfo": "1",
+          "consumerCount": 0,
+          "consumerGroupCount": 0
+        }
+      ]
+    }
+  }
+]

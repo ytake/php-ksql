@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient\Query;
+namespace Istyle\KsqlClient\Query;
 
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Message\ResponseInterface;
-use Ytake\KsqlClient\Result\AbstractResult;
-use Ytake\KsqlClient\Result\CommandStatusResult;
+use Istyle\KsqlClient\Mapper\AbstractMapper;
+use Istyle\KsqlClient\Mapper\CommandStatusMapper;
 
 /**
  * Class StatusCommand
  */
-class CommandStatus implements QueryInterface
+final class CommandStatus implements QueryInterface
 {
     /** @var string */
     protected $commandId;
@@ -51,10 +51,10 @@ class CommandStatus implements QueryInterface
     /**
      * @param ResponseInterface $response
      *
-     * @return AbstractResult
+     * @return AbstractMapper
      */
-    public function queryResult(ResponseInterface $response): AbstractResult
+    public function queryResult(ResponseInterface $response): AbstractMapper
     {
-        return new CommandStatusResult($response);
+        return new CommandStatusMapper($response);
     }
 }

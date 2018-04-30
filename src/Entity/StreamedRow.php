@@ -1,26 +1,29 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient\Entity;
+namespace Istyle\KsqlClient\Entity;
 
-use Ytake\KsqlClient\GenericRow;
+use Istyle\KsqlClient\GenericRow;
 
 /**
  * Class StreamedRow
  */
-class StreamedRow implements EntityInterface
+final class StreamedRow implements EntityInterface
 {
     /** @var array */
-    protected $rows = [];
+    private $rows = [];
+
+    /** @var KsqlErrorMessage */
+    private $ksqlErrorMessage;
 
     /**
-     * StreamedRow constructor.
-     *
-     * @param array $rows
+     * @param array            $rows
+     * @param KsqlErrorMessage $ksqlErrorMessage
      */
-    public function __construct(array $rows)
+    public function __construct(array $rows, KsqlErrorMessage $ksqlErrorMessage)
     {
         $this->rows = $rows;
+        $this->ksqlErrorMessage = $ksqlErrorMessage;
     }
 
     /**
@@ -29,5 +32,13 @@ class StreamedRow implements EntityInterface
     public function getRow(): GenericRow
     {
         return new GenericRow($this->rows);
+    }
+
+    /**
+     * @return KsqlErrorMessage
+     */
+    public function getKsqlErrorMessage(): KsqlErrorMessage
+    {
+        return $this->ksqlErrorMessage;
     }
 }

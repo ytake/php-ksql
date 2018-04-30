@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient\Query;
+namespace Istyle\KsqlClient\Query;
 
-use Ytake\KsqlClient\StreamConsumable;
+use Istyle\KsqlClient\StreamConsumable;
 
 /**
  * Class AbstractStreamQuery

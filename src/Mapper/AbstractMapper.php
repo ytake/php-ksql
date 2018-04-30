@@ -1,15 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace Ytake\KsqlClient\Result;
+namespace Istyle\KsqlClient\Mapper;
 
 use Psr\Http\Message\ResponseInterface;
-use Ytake\KsqlClient\Entity\EntityInterface;
+use Istyle\KsqlClient\Entity\EntityInterface;
 
 /**
- * Class AbstractResult
+ * should use extends
+ * Class AbstractMapper
  */
-abstract class AbstractResult
+abstract class AbstractMapper
 {
     /** @var ResponseInterface */
     protected $response;

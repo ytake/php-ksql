@@ -1,41 +1,100 @@
-# php-ksql
-kafka ksql for php
+# php-ksql Istyle\KsqlClient
+
+Apache kafka / Confluent KSQL REST Client for php
+
+[What Is KSQL?](https://docs.confluent.io/current/ksql/docs/)
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ytake/php-ksql/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ytake/php-ksql/?branch=master)
 [![Build Status](https://travis-ci.org/ytake/php-ksql.svg?branch=master)](https://travis-ci.org/ytake/php-ksql)
 [![StyleCI](https://styleci.io/repos/131283937/shield?branch=master)](https://styleci.io/repos/131283937)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/1fe0cd22-6b08-4213-a99e-52fbc1911d9e/mini.png)](https://insight.sensiolabs.com/projects/1fe0cd22-6b08-4213-a99e-52fbc1911d9e)
 
 ## Usage
 
-### Query KSQL
+### Request Preset
 
-```bash
+| class |
+|-------------------------------------|
+| Istyle\KsqlClient\Query\CommandStatus |
+| Istyle\KsqlClient\Query\Status |
+| Istyle\KsqlClient\Query\ServerInfo |
+| Istyle\KsqlClient\Query\Ksql |
+| Istyle\KsqlClient\Query\Stream (for stream) |
+
+[Syntax Reference](https://docs.confluent.io/current/ksql/docs/syntax-reference.html)
+
+### Get Command Status
+
+```php
 <?php
 
-use Ytake\KsqlClient\RestClient;
-use Ytake\KsqlClient\Query\Ksql;
+use Istyle\KsqlClient\RestClient;
+use Istyle\KsqlClient\Query\CommandStatus;
+
+$client = new RestClient(
+    "http://localhost:8088"
+);
+$result = $client->requestQuery(
+    new CommandStatus('MESSAGE_STREAM/create')
+)->result();
+
+```
+
+### Get Statuses
+
+```php
+<?php
+
+use Istyle\KsqlClient\RestClient;
+use Istyle\KsqlClient\Query\Status;
+
+$client = new RestClient(
+    "http://localhost:8088"
+);
+$result = $client->requestQuery(new Status())->result();
+
+```
+
+### Get KSQL Server Information
+
+```php
+<?php
+
+use Istyle\KsqlClient\RestClient;
+use Istyle\KsqlClient\Query\ServerInfo;
+
+$client = new RestClient(
+    "http://localhost:8088"
+);
+$result = $client->requestQuery(new ServerInfo())->result();
+
+```
+
+### Query KSQL
+
+```php
+<?php
+
+use Istyle\KsqlClient\RestClient;
+use Istyle\KsqlClient\Query\Ksql;
 
 $client = new RestClient(
     "http://localhost:8088"
 );
 $result = $client->requestQuery(
     new Ksql('DESCRIBE users_original;')
-);
-$result->result();
+)->result();
 
-// return \Ytake\KsqlClient\Entity\Description object
 ```
 
 ### Client for Stream Response
 
-```bash
+```php
 <?php
 
-use Ytake\KsqlClient\StreamClient;
-use Ytake\KsqlClient\Query\Stream;
-use Ytake\KsqlClient\StreamConsumable;
-use Ytake\KsqlClient\Entity\StreamedRow;
+use Istyle\KsqlClient\StreamClient;
+use Istyle\KsqlClient\Query\Stream;
+use Istyle\KsqlClient\StreamConsumable;
+use Istyle\KsqlClient\Entity\StreamedRow;
 
 $client = new StreamClient(
     "http://localhost:8088"
@@ -50,7 +109,5 @@ $result = $client->requestQuery(
             }
         }    
     )
-);
-$result->result();
-
+)->result();
 ```
