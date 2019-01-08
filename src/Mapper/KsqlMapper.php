@@ -58,6 +58,10 @@ class KsqlMapper extends AbstractMapper
      */
     protected function detectEntity(array $row): AbstractKsql
     {
+        $type = $row['@type'] ?? '';
+        if($type === '') {
+            throw new UnknownJsonObjectsException('Unknown json objects.');
+        }
         if (isset($row['queries'])) {
             $queries = [];
             foreach ($row['queries']['queries'] as $query) {
@@ -120,9 +124,9 @@ class KsqlMapper extends AbstractMapper
                 );
             }
         }
-        if (isset($row['kafka_topics'])) {
+        if ($type === 'kafka_topics') {
             $topics = [];
-            foreach ($row['kafka_topics']['topics'] as $topic) {
+            foreach ($row['topics'] as $topic) {
                 $topics[] = new KafkaTopicInfo(
                     $topic['name'],
                     $topic['registered'],
@@ -132,8 +136,7 @@ class KsqlMapper extends AbstractMapper
                 );
             }
 
-            return new KafkaTopics($row['kafka_topics']['statementText'], $topics);
+            return new KafkaTopics($row['statementText'], $topics);
         }
-        throw new UnknownJsonObjectsException('Unknown json objects.');
     }
 }

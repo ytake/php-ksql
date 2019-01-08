@@ -28,7 +28,7 @@ class KafkaTopicInfo implements EntityInterface
     /** @var string */
     private $registered;
 
-    /** @var array */
+    /** @var array<int> */
     private $replicaInfo;
 
     /** @var int */
@@ -38,15 +38,15 @@ class KafkaTopicInfo implements EntityInterface
     private $consumerGroupCount;
 
     /**
-     * @param string $name
-     * @param string $registered
-     * @param array  $replicaInfo
-     * @param int    $consumerCount
-     * @param int    $consumerGroupCount
+     * @param string     $name
+     * @param bool       $registered
+     * @param array<int> $replicaInfo
+     * @param int        $consumerCount
+     * @param int        $consumerGroupCount
      */
     public function __construct(
         string $name,
-        string $registered,
+        bool $registered,
         array $replicaInfo,
         int $consumerCount,
         int $consumerGroupCount
@@ -67,15 +67,15 @@ class KafkaTopicInfo implements EntityInterface
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getRegistered(): string
+    public function getRegistered(): bool
     {
         return $this->registered;
     }
 
     /**
-     * @return array
+     * @return array<int>
      */
     public function getReplicaInfo(): array
     {

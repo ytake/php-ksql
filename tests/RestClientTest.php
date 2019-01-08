@@ -246,9 +246,9 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
             \Istyle\KsqlClient\Entity\ServerInfo::class,
             $entity
         );
-        $this->assertSame('4.1.0', $entity->getVersion());
-        $this->assertEmpty($entity->getKafkaClusterId());
-        $this->assertEmpty($entity->getKsqlServiceId());
+        $this->assertSame('5.0.1', $entity->getVersion());
+        $this->assertNotEmpty($entity->getKafkaClusterId());
+        $this->assertNotEmpty($entity->getKsqlServiceId());
     }
 
     public function testCanBeArrayForBasicAuth(): void
@@ -312,9 +312,9 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         );
         /** @var \Istyle\KsqlClient\Entity\KafkaTopicInfo $info */
         $info = $list[0];
-        $this->assertSame('__confluent.support.metrics', $info->getName());
-        $this->assertSame('false', $info->getRegistered());
-        $this->assertSame(['1'], $info->getReplicaInfo());
+        $this->assertSame('_schemas', $info->getName());
+        $this->assertSame(false, $info->getRegistered());
+        $this->assertSame([1], $info->getReplicaInfo());
         $this->assertSame(0, $info->getConsumerCount());
         $this->assertSame(0, $info->getConsumerGroupCount());
 
