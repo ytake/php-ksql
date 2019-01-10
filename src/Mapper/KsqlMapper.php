@@ -45,7 +45,8 @@ class KsqlMapper extends AbstractMapper
         );
         $collect = new KsqlCollection();
         foreach ($decode as $row) {
-            $collect->addKsql($this->detectEntity($row));
+            $em = new EntityManager($row);
+            $collect->addKsql($em->map());
         }
 
         return $collect;
@@ -123,20 +124,6 @@ class KsqlMapper extends AbstractMapper
                     new KsqlErrorMessage($errorMessage['message'], $errorMessage['stackTrace'])
                 );
             }
-        }
-        if ($type === 'kafka_topics') {
-            $topics = [];
-            foreach ($row['topics'] as $topic) {
-                $topics[] = new KafkaTopicInfo(
-                    $topic['name'],
-                    $topic['registered'],
-                    (is_array($topic['replicaInfo'])) ? $topic['replicaInfo'] : [$topic['replicaInfo']],
-                    $topic['consumerCount'],
-                    $topic['consumerGroupCount']
-                );
-            }
-
-            return new KafkaTopics($row['statementText'], $topics);
         }
     }
 }

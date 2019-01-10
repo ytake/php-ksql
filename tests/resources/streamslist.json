@@ -1,0 +1,14 @@
+[
+  {
+    "@type": "streams",
+    "statementText": "LIST STREAMS;",
+    "streams": [
+      {
+        "type": "STREAM",
+        "name": "KSQLTESTING",
+        "topic": "ksql-testing",
+        "format": "DELIMITED"
+      }
+    ]
+  }
+]

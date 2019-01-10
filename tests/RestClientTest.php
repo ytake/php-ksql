@@ -317,6 +317,38 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([1], $info->getReplicaInfo());
         $this->assertSame(0, $info->getConsumerCount());
         $this->assertSame(0, $info->getConsumerGroupCount());
+    }
 
+    public function testShouldReturnStreamsList(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/streamslist.json'))),
+        ]);
+        $client = new RestClient(
+            "http://localhost:8088",
+            [],
+            new Client(['handler' => HandlerStack::create($mock)])
+        );
+
+        $result = $client->requestQuery(new \Istyle\KsqlClient\Query\Ksql("LIST STREAMS;"));
+        $this->assertInstanceOf(AbstractMapper::class, $result);
+        /** @var  \Istyle\KsqlClient\Entity\KsqlCollection $entity */
+        $entity = $result->result();
+        $this->assertInstanceOf(
+            \Istyle\KsqlClient\Entity\KsqlCollection::class,
+            $entity
+        );
+        /** @var \Istyle\KsqlClient\Entity\StreamsList $topic */
+        $topic = $entity->getKsql()[0];
+        $this->assertInstanceOf(
+            \Istyle\KsqlClient\Entity\StreamsList::class,
+            $topic
+        );
+        $list = $topic->getSourceInfoList();
+        $this->assertContainsOnly(\Istyle\KsqlClient\Entity\SourceInfo::class, $list);
+        $this->assertCount(1, $list);
+        foreach($list as $row) {
+            $this->assertSame($row->getType(), 'STREAM');
+        }
     }
 }

@@ -31,9 +31,9 @@ use Istyle\KsqlClient\Query\QueryInterface;
 /**
  * Class RestClient
  */
-class RestClient
+class RestClient implements \Istyle\KsqlClient\ClientInterface
 {
-    const VERSION = '0.1.0';
+    const VERSION = '0.2.0';
 
     /** @var string */
     private $serverAddress;
@@ -78,10 +78,7 @@ class RestClient
     protected function buildClient(): ClientInterface
     {
         return new GuzzleClient([
-            'headers' => [
-                'User-Agent' => $this->userAgent(),
-                'Accept'     => 'application/json',
-            ],
+            $this->requestHeader()
         ]);
     }
 
@@ -201,5 +198,18 @@ class RestClient
     protected function userAgent(): string
     {
         return 'PHP-KSQLClient/' . self::VERSION;
+    }
+
+    /**
+     * @return array
+     */
+    protected function requestHeader(): array
+    {
+        return [
+            'headers' => [
+                'User-Agent' => $this->userAgent(),
+                'Accept'     => \Istyle\KsqlClient\ClientInterface::RequestAccept,
+            ],
+        ];
     }
 }

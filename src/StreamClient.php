@@ -37,10 +37,7 @@ final class StreamClient extends RestClient
     protected function buildClient(): ClientInterface
     {
         return new GuzzleClient([
-            'headers' => [
-                'User-Agent' => $this->userAgent(),
-                'Accept'     => 'application/json',
-            ],
+            $this->requestHeader(),
             'stream'  => true,
         ]);
     }
