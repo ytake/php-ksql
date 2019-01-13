@@ -25,7 +25,7 @@ use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\UriNormalizer;
 use Istyle\KsqlClient\Exception\KsqlRestClientException;
 use Istyle\KsqlClient\Mapper\AbstractMapper;
-use Istyle\KsqlClient\Mapper\ErrorMapper;
+use Istyle\KsqlClient\Mapper\KsqlErrorMapper;
 use Istyle\KsqlClient\Query\QueryInterface;
 
 /**
@@ -152,8 +152,6 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
         } catch (\GuzzleHttp\Exception\GuzzleException $e) {
             throw new KsqlRestClientException($e->getMessage(), $e->getCode());
         }
-
-        return new ErrorMapper($response);
     }
 
     /**

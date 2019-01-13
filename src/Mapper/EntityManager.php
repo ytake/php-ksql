@@ -16,11 +16,12 @@ class EntityManager
     /** @var array */
     private $row = [];
 
-    /** @var ResultInterface[]
-     */
+    /** @var ResultInterface[] */
     private $map = [
-        'kafka_topics' => KafkaTopicMapper::class,
-        'streams'      => StreamsListMapper::class,
+        'kafka_topics'    => KafkaTopicMapper::class,
+        'streams'         => StreamsListMapper::class,
+        'generic_error'   => KsqlErrorMapper::class,
+        'statement_error' => KsqlStatementErrorMapper::class,
     ];
 
     /**

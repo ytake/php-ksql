@@ -17,11 +17,16 @@ declare(strict_types=1);
 
 namespace Istyle\KsqlClient\Entity;
 
+use function sprintf;
+
 /**
  * Class KsqlErrorMessage
  */
-class KsqlErrorMessage implements EntityInterface
+class KsqlErrorMessage extends AbstractKsql
 {
+    /** @var int */
+    protected $errorCode;
+
     /** @var string */
     protected $message;
 
@@ -29,11 +34,16 @@ class KsqlErrorMessage implements EntityInterface
     protected $stackTrace;
 
     /**
+     * @param int    $errorCode
      * @param string $message
      * @param array  $stackTrace
      */
-    public function __construct(string $message, array $stackTrace)
-    {
+    public function __construct(
+        int $errorCode,
+        string $message,
+        array $stackTrace
+    ) {
+        $this->errorCode = $errorCode;
         $this->message = $message;
         $this->stackTrace = $stackTrace;
     }
@@ -45,12 +55,28 @@ class KsqlErrorMessage implements EntityInterface
     {
         return $this->message;
     }
-    
+
     /**
      * @return array
      */
     public function getStackTrace(): array
     {
         return $this->stackTrace;
+    }
+
+    /**
+     * @return int
+     */
+    public function getErrorCode(): int
+    {
+        return $this->errorCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return sprintf("%s\n%s", $this->getMessage(), implode("\n", $this->getStackTrace()));
     }
 }

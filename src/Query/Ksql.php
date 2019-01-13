@@ -63,6 +63,7 @@ final class Ksql implements QueryInterface
     {
         return [
             'ksql' => $this->query,
+            "streamsProperties" => []
         ];
     }
 

@@ -17,25 +17,25 @@ declare(strict_types=1);
 
 namespace Istyle\KsqlClient\Mapper;
 
-use Istyle\KsqlClient\Entity\EntityInterface;
 use Istyle\KsqlClient\Entity\KsqlErrorMessage;
+use Istyle\KsqlClient\Entity\AbstractKsql;
 
 /**
- * Class ErrorResult
+ * Class KsqlErrorMapper
  */
-class ErrorMapper extends AbstractMapper
+class KsqlErrorMapper implements ResultInterface
 {
     /**
-     * @return EntityInterface|KsqlErrorMessage
+     * @param array $row
+     *
+     * @return AbstractKsql
      */
-    public function result(): EntityInterface
+    public function result(array $row): AbstractKsql
     {
-        $decode = \GuzzleHttp\json_decode(
-            $this->response->getBody()->getContents(), true
-        );
         return new KsqlErrorMessage(
-            $decode['message'] ?? '',
-            $decode['stackTrace'] ?? []
+            $row['error_code'],
+            $row['message'] ?? '',
+            $row['stackTrace'] ?? []
         );
     }
 }

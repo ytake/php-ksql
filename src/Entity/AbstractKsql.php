@@ -20,7 +20,7 @@ namespace Istyle\KsqlClient\Entity;
 /**
  * Class AbstractKsql
  */
-abstract class AbstractKsql
+abstract class AbstractKsql implements EntityInterface
 {
     /** @var string */
     protected $statementText;
