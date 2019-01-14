@@ -18,39 +18,26 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Entity;
 
 /**
- * Class FieldSchema
+ * Class KsqlEntity
  */
-final class FieldSchema
+abstract class KsqlEntity implements EntityInterface
 {
     /** @var string */
-    private $name;
-
-    /** @var string */
-    private $type;
+    private $statementText;
 
     /**
-     * @param string $name
-     * @param string $type
+     * @param string $statementText
      */
-    public function __construct(string $name, string $type)
+    public function __construct(string $statementText)
     {
-        $this->name = $name;
-        $this->type = $type;
+        $this->statementText = $statementText;
     }
 
     /**
      * @return string
      */
-    public function getName(): string
+    public function getStatementText(): string
     {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return $this->type;
+        return $this->statementText;
     }
 }

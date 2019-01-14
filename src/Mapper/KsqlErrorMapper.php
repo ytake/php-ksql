@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Mapper;
 
 use Istyle\KsqlClient\Entity\KsqlErrorMessage;
-use Istyle\KsqlClient\Entity\AbstractKsql;
+use Istyle\KsqlClient\Entity\KsqlEntity;
 
 /**
  * Class KsqlErrorMapper
@@ -26,16 +26,16 @@ use Istyle\KsqlClient\Entity\AbstractKsql;
 class KsqlErrorMapper implements ResultInterface
 {
     /**
-     * @param array $row
+     * @param array $rows
      *
-     * @return AbstractKsql
+     * @return KsqlEntity
      */
-    public function result(array $row): AbstractKsql
+    public function result(array $rows): KsqlEntity
     {
         return new KsqlErrorMessage(
-            $row['error_code'],
-            $row['message'] ?? '',
-            $row['stackTrace'] ?? []
+            $rows['error_code'],
+            $rows['message'] ?? '',
+            $rows['stackTrace'] ?? []
         );
     }
 }

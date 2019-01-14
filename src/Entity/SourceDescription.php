@@ -18,9 +18,9 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Entity;
 
 /**
- * Class Description
+ * Class SourceDescription
  */
-final class Description extends AbstractKsql
+final class SourceDescription
 {
     /** @var string */
     private $name;
@@ -31,7 +31,7 @@ final class Description extends AbstractKsql
     /** @var RunningQuery[] */
     private $writeQueries;
 
-    /** @var FieldSchema[] */
+    /** @var FieldInfo[] */
     private $schema;
 
     /** @var string */
@@ -59,24 +59,20 @@ final class Description extends AbstractKsql
     private $replication;
 
     /**
-     * Description constructor.
-     *
-     * @param string        $statementText
-     * @param string        $name
-     * @param array         $readQueries
-     * @param array         $writeQueries
-     * @param FieldSchema[] $schema
-     * @param string        $type
-     * @param string        $key
-     * @param string        $timestamp
-     * @param string        $statistics
-     * @param string        $errorStats
-     * @param bool          $extended
-     * @param int           $partitions
-     * @param int           $replication
+     * @param string      $name
+     * @param array       $readQueries
+     * @param array       $writeQueries
+     * @param FieldInfo[] $schema
+     * @param string      $type
+     * @param string      $key
+     * @param string      $timestamp
+     * @param string      $statistics
+     * @param string      $errorStats
+     * @param bool        $extended
+     * @param int         $partitions
+     * @param int         $replication
      */
     public function __construct(
-        string $statementText,
         string $name,
         array $readQueries,
         array $writeQueries,
@@ -90,7 +86,6 @@ final class Description extends AbstractKsql
         int $partitions,
         int $replication
     ) {
-        parent::__construct($statementText);
         $this->name = $name;
         $this->readQueries = $readQueries;
         $this->writeQueries = $writeQueries;
@@ -130,7 +125,7 @@ final class Description extends AbstractKsql
     }
 
     /**
-     * @return FieldSchema[]
+     * @return FieldInfo[]
      */
     public function getSchema(): array
     {

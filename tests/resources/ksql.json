@@ -1,8 +1,0 @@
-[
-  {
-    "queries": {
-      "statementText": "SHOW QUERIES;",
-      "queries": []
-    }
-  }
-]

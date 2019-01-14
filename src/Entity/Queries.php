@@ -20,7 +20,7 @@ namespace Istyle\KsqlClient\Entity;
 /**
  * Class Queries
  */
-final class Queries extends AbstractKsql
+final class Queries extends KsqlEntity
 {
     /** @var RunningQuery[] */
     private $queries;

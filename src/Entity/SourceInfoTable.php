@@ -18,32 +18,34 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Entity;
 
 /**
- * Class KafkaTopics
+ * Class SourceInfoTable
  */
-class KafkaTopics extends KsqlEntity
+class SourceInfoTable extends SourceInfo
 {
-    /** @var array */
-    private $kafkaTopicInfoList;
+    /** @var bool */
+    private $isWindowed = false;
 
     /**
-     * KafkaTopics constructor.
-     *
-     * @param string           $statementText
-     * @param KafkaTopicInfo[] $kafkaTopicInfoList
+     * @param string $name
+     * @param string $topic
+     * @param string $format
+     * @param bool   $isWindowed
      */
     public function __construct(
-        string $statementText,
-        array $kafkaTopicInfoList
+        string $name,
+        string $topic,
+        string $format,
+        bool $isWindowed
     ) {
-        parent::__construct($statementText);
-        $this->kafkaTopicInfoList = $kafkaTopicInfoList;
+        parent::__construct($name, $topic, $format);
+        $this->isWindowed = $isWindowed;
     }
 
     /**
-     * @return KafkaTopicInfo[]
+     * @return bool
      */
-    public function getKafkaTopicInfoList(): array
+    public function getIsWindowed(): bool
     {
-        return $this->kafkaTopicInfoList;
+        return $this->isWindowed;
     }
 }

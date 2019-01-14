@@ -20,11 +20,8 @@ namespace Istyle\KsqlClient\Entity;
 /**
  * Class SourceInfo
  */
-final class SourceInfo implements EntityInterface
+class SourceInfo implements EntityInterface
 {
-    /** @var string */
-    private $type;
-
     /** @var string */
     private $name;
 
@@ -35,29 +32,18 @@ final class SourceInfo implements EntityInterface
     private $format;
 
     /**
-     * @param string $type
      * @param string $name
      * @param string $topic
      * @param string $format
      */
     public function __construct(
-        string $type,
         string $name,
         string $topic,
         string $format
     ) {
-        $this->type = $type;
         $this->name = $name;
         $this->topic = $topic;
         $this->format = $format;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return $this->type;
     }
 
     /**

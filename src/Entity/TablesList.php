@@ -4,30 +4,30 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Entity;
 
 /**
- * Class StreamsList
+ * Class TablesList
  */
-final class StreamsList extends KsqlEntity
+final class TablesList extends KsqlEntity
 {
-    /** @var array */
-    private $sourceInfoList;
+    /** @var SourceInfoTable[] */
+    private $sourceInfoTable;
 
     /**
      * @param string $statementText
-     * @param SourceInfo[]  $sourceInfoList
+     * @param SourceInfoTable[]  $sourceInfoTable
      */
     public function __construct(
         string $statementText,
-        array $sourceInfoList
+        array $sourceInfoTable
     ) {
         parent::__construct($statementText);
-        $this->sourceInfoList = $sourceInfoList;
+        $this->sourceInfoTable = $sourceInfoTable;
     }
 
     /**
-     * @return SourceInfo[]
+     * @return SourceInfoTable[]
      */
     public function getSourceInfoList(): array
     {
-        return $this->sourceInfoList;
+        return $this->sourceInfoTable;
     }
 }

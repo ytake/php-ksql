@@ -25,7 +25,7 @@ use Istyle\KsqlClient\Mapper\KsqlMapper;
 /**
  * Class Ksql
  */
-final class Ksql implements QueryInterface
+class Ksql implements QueryInterface
 {
     /** @var string */
     protected $query;

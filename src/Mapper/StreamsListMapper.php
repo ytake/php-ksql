@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Istyle\KsqlClient\Mapper;
 
-use Istyle\KsqlClient\Entity\AbstractKsql;
+use Istyle\KsqlClient\Entity\KsqlEntity;
 use Istyle\KsqlClient\Entity\SourceInfo;
 use Istyle\KsqlClient\Entity\StreamsList;
 
@@ -13,21 +13,20 @@ use Istyle\KsqlClient\Entity\StreamsList;
 class StreamsListMapper implements ResultInterface
 {
     /**
-     * @param array $row
+     * @param array $rows
      *
-     * @return AbstractKsql
+     * @return KsqlEntity
      */
-    public function result(array $row): AbstractKsql
+    public function result(array $rows): KsqlEntity
     {
         $streams = [];
-        foreach ($row['streams'] as $stream) {
+        foreach ($rows['streams'] as $stream) {
             $streams[] = new SourceInfo(
-                $stream['type'],
                 $stream['name'],
                 $stream['topic'],
                 $stream['format']
             );
         }
-        return new StreamsList($row['statementText'], $streams);
+        return new StreamsList($rows['statementText'], $streams);
     }
 }

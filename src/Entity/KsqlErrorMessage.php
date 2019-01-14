@@ -22,7 +22,7 @@ use function sprintf;
 /**
  * Class KsqlErrorMessage
  */
-class KsqlErrorMessage extends AbstractKsql
+class KsqlErrorMessage extends KsqlEntity
 {
     /** @var int */
     protected $errorCode;

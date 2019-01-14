@@ -20,44 +20,31 @@ namespace Istyle\KsqlClient\Entity;
 /**
  * Class RunningQuery
  */
-final class RunningQuery implements EntityInterface
+final class RunningQuery extends KsqlEntity
 {
-    /** @var string */
-    protected $queryString;
-
-    /** @var array<string> */
+    /** @var string[] */
     protected $sinks = [];
 
-    /** @var string */
+    /** @var EntityQueryId */
     protected $id;
 
     /**
-     * RunningQuery constructor.
-     *
-     * @param string $queryString
-     * @param array  $sinks
-     * @param string $id
+     * @param string        $statementText
+     * @param string[]      $sinks
+     * @param EntityQueryId $id
      */
     public function __construct(
-        string $queryString,
+        string $statementText,
         array $sinks,
-        string $id
+        EntityQueryId $id
     ) {
-        $this->queryString = $queryString;
+        parent::__construct($statementText);
         $this->sinks = $sinks;
         $this->id = $id;
     }
 
     /**
-     * @return string
-     */
-    public function getQueryString(): string
-    {
-        return $this->queryString;
-    }
-
-    /**
-     * @return array
+     * @return string[]
      */
     public function getSinks(): array
     {
@@ -65,9 +52,9 @@ final class RunningQuery implements EntityInterface
     }
 
     /**
-     * @return string
+     * @return EntityQueryId
      */
-    public function getId(): string
+    public function getId(): EntityQueryId
     {
         return $this->id;
     }

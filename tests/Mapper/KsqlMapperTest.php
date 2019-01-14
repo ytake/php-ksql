@@ -4,7 +4,7 @@ declare(strict_types=1);
 use GuzzleHttp\Psr7\Response;
 use Istyle\KsqlClient\Mapper\KsqlMapper;
 use Istyle\KsqlClient\Entity\KsqlCollection;
-use Istyle\KsqlClient\Entity\Description;
+use Istyle\KsqlClient\Entity\SourceDescription;
 use Istyle\KsqlClient\Entity\RunningQuery;
 
 class KsqlMapperTest extends \PHPUnit\Framework\TestCase
@@ -15,8 +15,8 @@ class KsqlMapperTest extends \PHPUnit\Framework\TestCase
         /** @var KsqlCollection $result */
         $result = $mapper->result();
         $row = $result->getKsql()[0];
-        /** @var Description $row */
-        $this->assertInstanceOf(Description::class, $row);
+        /** @var SourceDescription $row */
+        $this->assertInstanceOf(SourceDescription::class, $row);
         $this->assertEmpty($row->getStatementText());
         $this->assertEmpty($row->getErrorStats());
         $this->assertSame('MESSAGE', $row->getKey());

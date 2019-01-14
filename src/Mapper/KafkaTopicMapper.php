@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Istyle\KsqlClient\Mapper;
 
-use Istyle\KsqlClient\Entity\AbstractKsql;
+use Istyle\KsqlClient\Entity\KsqlEntity;
 use Istyle\KsqlClient\Entity\KafkaTopicInfo;
 use Istyle\KsqlClient\Entity\KafkaTopics;
 
@@ -13,14 +13,14 @@ use Istyle\KsqlClient\Entity\KafkaTopics;
 class KafkaTopicMapper implements ResultInterface
 {
     /**
-     * @param array $row
+     * @param array $rows
      *
-     * @return AbstractKsql
+     * @return KsqlEntity
      */
-    public function result(array $row): AbstractKsql
+    public function result(array $rows): KsqlEntity
     {
         $topics = [];
-        foreach ($row['topics'] as $topic) {
+        foreach ($rows['topics'] as $topic) {
             $topics[] = new KafkaTopicInfo(
                 $topic['name'],
                 $topic['registered'],
@@ -29,6 +29,6 @@ class KafkaTopicMapper implements ResultInterface
                 $topic['consumerGroupCount']
             );
         }
-        return new KafkaTopics($row['statementText'], $topics);
+        return new KafkaTopics($rows['statementText'], $topics);
     }
 }

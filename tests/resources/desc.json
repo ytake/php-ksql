@@ -1,36 +1,95 @@
 [
   {
-    "description": {
-      "statementText": "",
-      "name": "MSGS",
+    "@type": "sourceDescription",
+    "statementText": "DESCRIBE users;",
+    "sourceDescription": {
+      "name": "USERS",
       "readQueries": [],
       "writeQueries": [],
-      "schema": [
+      "fields": [
         {
           "name": "ROWTIME",
-          "type": "BIGINT"
+          "schema": {
+            "type": "BIGINT",
+            "fields": null,
+            "memberSchema": null
+          }
         },
         {
           "name": "ROWKEY",
-          "type": "VARCHAR(STRING)"
+          "schema": {
+            "type": "STRING",
+            "fields": null,
+            "memberSchema": null
+          }
         },
         {
-          "name": "MESSAGE",
-          "type": "VARCHAR(STRING)"
+          "name": "REGISTERTIME",
+          "schema": {
+            "type": "BIGINT",
+            "fields": null,
+            "memberSchema": null
+          }
+        },
+        {
+          "name": "GENDER",
+          "schema": {
+            "type": "STRING",
+            "fields": null,
+            "memberSchema": null
+          }
+        },
+        {
+          "name": "REGIONID",
+          "schema": {
+            "type": "STRING",
+            "fields": null,
+            "memberSchema": null
+          }
+        },
+        {
+          "name": "USERID",
+          "schema": {
+            "type": "STRING",
+            "fields": null,
+            "memberSchema": null
+          }
+        },
+        {
+          "name": "INTERESTS",
+          "schema": {
+            "type": "ARRAY",
+            "fields": null,
+            "memberSchema": {
+              "type": "STRING",
+              "fields": null,
+              "memberSchema": null
+            }
+          }
+        },
+        {
+          "name": "CONTACTINFO",
+          "schema": {
+            "type": "MAP",
+            "fields": null,
+            "memberSchema": {
+              "type": "STRING",
+              "fields": null,
+              "memberSchema": null
+            }
+          }
         }
       ],
       "type": "TABLE",
-      "key": "MESSAGE",
+      "key": "USERID",
       "timestamp": "",
       "statistics": "",
       "errorStats": "",
       "extended": false,
-      "serdes": "JSON",
-      "kafkaTopic": "message.sender",
-      "topology": "",
-      "executionPlan": "",
-      "replication": 0,
-      "partitions": 0
+      "format": "JSON",
+      "topic": "users",
+      "partitions": 0,
+      "replication": 0
     }
   }
 ]

@@ -20,6 +20,9 @@ namespace Istyle\KsqlClient\Mapper;
 use Istyle\KsqlClient\Entity\EntityInterface;
 use Istyle\KsqlClient\Entity\KsqlCollection;
 
+use function GuzzleHttp\json_decode;
+use function array_key_exists;
+
 /**
  * Class KsqlResult
  */
@@ -30,7 +33,7 @@ class KsqlMapper extends AbstractMapper
      */
     public function result(): EntityInterface
     {
-        $decode = \GuzzleHttp\json_decode(
+        $decode = json_decode(
             $this->response->getBody()->getContents(), true
         );
         if(array_key_exists('@type', $decode)) {

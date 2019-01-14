@@ -18,26 +18,30 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Entity;
 
 /**
- * Class AbstractKsql
+ * Class Properties
  */
-abstract class AbstractKsql implements EntityInterface
+class Properties extends KsqlEntity
 {
-    /** @var string */
-    protected $statementText;
+    /** @var array */
+    private $properties;
 
     /**
      * @param string $statementText
+     * @param array  $properties
      */
-    public function __construct(string $statementText)
-    {
-        $this->statementText = $statementText;
+    public function __construct(
+        string $statementText,
+        array $properties = []
+    ) {
+        parent::__construct($statementText);
+        $this->properties = $properties;
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getStatementText(): string
+    public function getProperties(): array
     {
-        return $this->statementText;
+        return $this->properties;
     }
 }

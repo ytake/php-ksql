@@ -3,24 +3,24 @@ declare(strict_types=1);
 
 namespace Istyle\KsqlClient\Mapper;
 
-use Istyle\KsqlClient\Entity\AbstractKsql;
+use Istyle\KsqlClient\Entity\KsqlEntity;
 use Istyle\KsqlClient\Entity\KsqlStatementErrorMessage;
 
 final class KsqlStatementErrorMapper implements ResultInterface
 {
     /**
-     * @param array $row
+     * @param array $rows
      *
-     * @return AbstractKsql
+     * @return KsqlEntity
      */
-    public function result(array $row): AbstractKsql
+    public function result(array $rows): KsqlEntity
     {
         return new KsqlStatementErrorMessage(
-            $row['statementText'],
-            $row['error_code'],
-            $row['message'],
-            $row['stackTrace'],
-            $row['entities']
+            $rows['statementText'],
+            $rows['error_code'],
+            $rows['message'],
+            $rows['stackTrace'],
+            $rows['entities']
         );
     }
 }

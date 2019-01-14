@@ -15,35 +15,36 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Entity;
+namespace Istyle\KsqlClient\Mapper;
+
+use Istyle\KsqlClient\Entity\EntityQueryId;
+use Istyle\KsqlClient\Entity\KsqlEntity;
+use Istyle\KsqlClient\Entity\Queries;
+use Istyle\KsqlClient\Entity\RunningQuery;
+use Istyle\KsqlClient\Query\QueryId;
 
 /**
- * Class KafkaTopics
+ * Class QueriesMapper
  */
-class KafkaTopics extends KsqlEntity
+class QueriesMapper implements ResultInterface
 {
-    /** @var array */
-    private $kafkaTopicInfoList;
-
     /**
-     * KafkaTopics constructor.
+     * @param array $rows
      *
-     * @param string           $statementText
-     * @param KafkaTopicInfo[] $kafkaTopicInfoList
+     * @return KsqlEntity
      */
-    public function __construct(
-        string $statementText,
-        array $kafkaTopicInfoList
-    ) {
-        parent::__construct($statementText);
-        $this->kafkaTopicInfoList = $kafkaTopicInfoList;
-    }
-
-    /**
-     * @return KafkaTopicInfo[]
-     */
-    public function getKafkaTopicInfoList(): array
+    public function result(array $rows): KsqlEntity
     {
-        return $this->kafkaTopicInfoList;
+        $queries = [];
+        foreach ($rows['queries'] as $row) {
+            $queries[] = new RunningQuery(
+                $row['queryString'],
+                $row['sinks'],
+                new EntityQueryId(
+                    new QueryId($row['id'])
+                )
+            );
+        }
+        return new Queries($rows['statementText'], $queries);
     }
 }

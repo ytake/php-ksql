@@ -73,31 +73,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testShouldBeKsqlEntity(): void
-    {
-        $mock = new MockHandler([
-            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/ksql.json'))),
-        ]);
-        $client = new RestClient(
-            "http://localhost:8088",
-            [],
-            new Client(['handler' => HandlerStack::create($mock)])
-        );
-
-        $result = $client->requestQuery(new Ksql('SHOW QUERIES;'));
-        $this->assertInstanceOf(AbstractMapper::class, $result);
-        /** @var \Istyle\KsqlClient\Entity\KsqlCollection $entity */
-        $entity = $result->result();
-        $this->assertInstanceOf(
-            \Istyle\KsqlClient\Entity\KsqlCollection::class,
-            $entity
-        );
-        $this->assertContainsOnlyInstancesOf(
-            \Istyle\KsqlClient\Entity\AbstractKsql::class,
-            $entity->getKsql()
-        );
-    }
-
     public function testShouldBeDescKsqlEntity(): void
     {
         $mock = new MockHandler([
@@ -109,7 +84,7 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
             new Client(['handler' => HandlerStack::create($mock)])
         );
 
-        $result = $client->requestQuery(new Ksql('SHOW QUERIES;'));
+        $result = $client->requestQuery(new Ksql('DESCRIBE users;'));
         $this->assertInstanceOf(AbstractMapper::class, $result);
         /** @var \Istyle\KsqlClient\Entity\KsqlCollection $entity */
         $entity = $result->result();
@@ -118,7 +93,7 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
             $entity
         );
         $this->assertContainsOnlyInstancesOf(
-            \Istyle\KsqlClient\Entity\AbstractKsql::class,
+            \Istyle\KsqlClient\Entity\KsqlEntity::class,
             $entity->getKsql()
         );
     }
@@ -169,22 +144,8 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
             \Istyle\KsqlClient\Entity\KsqlStatementErrorMessage::class,
             $entity
         );
-        $entity->getMessage();
-        /*
-        $message = $entity->getKsql();
-        $this->assertContainsOnlyInstancesOf(
-            \Istyle\KsqlClient\Entity\KsqlStatementErrorMessage::class,
-            $message
-        );
-        $this->assertSame(
-            'SELECT NOW();',
-            $message[0]->getStatementText()
-        );
-        $this->assertSame(
-            "ServerError:io.confluent.ksql.parser.exception.ParseFailedException\r\nCaused by: null",
-            trim($message[0]->getErrorMessage()->getMessage())
-        );
-        */
+        $this->assertSame($entity->getMessage(), 'SELECT and PRINT queries must use the /query endpoint');
+        $this->assertSame(40002, $entity->getErrorCode());
     }
 
     public function testShouldReturnErrorResult(): void
@@ -251,6 +212,39 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('5.0.1', $entity->getVersion());
         $this->assertNotEmpty($entity->getKafkaClusterId());
         $this->assertNotEmpty($entity->getKsqlServiceId());
+    }
+
+    public function testShouldReturnTablesEntity(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/tables.json'))),
+        ]);
+        $client = new RestClient(
+            "http://localhost:8088",
+            [],
+            new Client(['handler' => HandlerStack::create($mock)])
+        );
+
+        $result = $client->requestQuery(
+            new \Istyle\KsqlClient\Query\Ksql('SHOW TABLES;')
+        );
+        $this->assertInstanceOf(AbstractMapper::class, $result);
+        /** @var \Istyle\KsqlClient\Entity\KsqlCollection $entity */
+        $entity = $result->result();
+        $this->assertInstanceOf(
+            \Istyle\KsqlClient\Entity\KsqlCollection::class,
+            $entity
+        );
+        /** @var \Istyle\KsqlClient\Entity\TablesList $table */
+        $table = $entity->getKsql()[0];
+        $this->assertInstanceOf(
+            \Istyle\KsqlClient\Entity\TablesList::class,
+            $table
+        );
+        $this->assertContainsOnlyInstancesOf(
+            \Istyle\KsqlClient\Entity\SourceInfoTable::class,
+            $table->getSourceInfoList()
+        );
     }
 
     public function testCanBeArrayForBasicAuth(): void
@@ -349,8 +343,70 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         $list = $topic->getSourceInfoList();
         $this->assertContainsOnly(\Istyle\KsqlClient\Entity\SourceInfo::class, $list);
         $this->assertCount(1, $list);
-        foreach($list as $row) {
+        foreach ($list as $row) {
             $this->assertSame($row->getType(), 'STREAM');
         }
+    }
+
+    public function testShouldReturnQueriesEntity(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/queries.json'))),
+        ]);
+        $client = new RestClient(
+            "http://localhost:8088",
+            [],
+            new Client(['handler' => HandlerStack::create($mock)])
+        );
+
+        $result = $client->requestQuery(
+            new \Istyle\KsqlClient\Query\Ksql('LIST QUERIES;')
+        );
+        $this->assertInstanceOf(AbstractMapper::class, $result);
+        /** @var \Istyle\KsqlClient\Entity\KsqlCollection $entity */
+        $entity = $result->result();
+        $this->assertInstanceOf(
+            \Istyle\KsqlClient\Entity\KsqlCollection::class,
+            $entity
+        );
+        /** @var \Istyle\KsqlClient\Entity\Queries $queries */
+        $queries = $entity->getKsql()[0];
+        $this->assertInstanceOf(
+            \Istyle\KsqlClient\Entity\Queries::class,
+            $queries
+        );
+        $this->assertContainsOnlyInstancesOf(
+            \Istyle\KsqlClient\Entity\RunningQuery::class,
+            $queries->getQueries()
+        );
+    }
+
+    public function testShouldReturnPropertiesEntity(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/properties.json'))),
+        ]);
+        $client = new RestClient(
+            "http://localhost:8088",
+            [],
+            new Client(['handler' => HandlerStack::create($mock)])
+        );
+
+        $result = $client->requestQuery(
+            new \Istyle\KsqlClient\Query\Ksql('LIST PROPERTIES;')
+        );
+        $this->assertInstanceOf(AbstractMapper::class, $result);
+        /** @var \Istyle\KsqlClient\Entity\KsqlCollection $entity */
+        $entity = $result->result();
+        $this->assertInstanceOf(
+            \Istyle\KsqlClient\Entity\KsqlCollection::class,
+            $entity
+        );
+        /** @var \Istyle\KsqlClient\Entity\Properties $properties */
+        $properties = $entity->getKsql()[0];
+        $this->assertInstanceOf(
+            \Istyle\KsqlClient\Entity\Properties::class,
+            $properties
+        );
     }
 }
