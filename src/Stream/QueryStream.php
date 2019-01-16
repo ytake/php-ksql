@@ -15,28 +15,40 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Query;
+namespace Istyle\KsqlClient\Stream;
 
-use Istyle\KsqlClient\StreamConsumable;
+use GuzzleHttp\Psr7\BufferStream;
+use GuzzleHttp\Psr7\Response;
+use Istyle\KsqlClient\Query\AbstractStreamQuery;
 
 /**
- * Class AbstractStreamQuery
+ * Class QueryStream
  */
-abstract class AbstractStreamQuery implements StreamQueryInterface
+class QueryStream extends BufferStream
 {
-    /** @var string */
-    protected $query;
-
-    /** @var StreamConsumable */
-    protected $callback;
+    /** @var AbstractStreamQuery */
+    private $callback;
 
     /**
-     * @param string           $query
-     * @param StreamConsumable $callback
+     * @param AbstractStreamQuery $callback
+     * @param int                 $hwm
      */
-    public function __construct(string $query, StreamConsumable $callback)
+    public function __construct(AbstractStreamQuery $callback, int $hwm = 16384)
     {
-        $this->query = $query;
+        parent::__construct($hwm);
         $this->callback = $callback;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function write($string)
+    {
+        $line = trim($string, "\r\n");
+        if (!empty($line)) {
+            $mapper = $this->callback->queryResult(new Response(200, [], $line));
+            $mapper->result();
+        }
+        return parent::write($string);
     }
 }

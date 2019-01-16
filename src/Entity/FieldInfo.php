@@ -17,10 +17,13 @@ declare(strict_types=1);
 
 namespace Istyle\KsqlClient\Entity;
 
+use function sprintf;
+use function spl_object_hash;
+
 /**
  * Class FieldInfo
  */
-final class FieldInfo
+final class FieldInfo implements EntityInterface
 {
     /** @var string */
     private $name;
@@ -52,5 +55,17 @@ final class FieldInfo
     public function getSchema(): ?SchemaInfo
     {
         return $this->schemaInfo;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return sprintf(
+            "FieldInfo{name='%s',schema=%s}",
+            $this->name,
+            !is_null($this->schemaInfo) ? spl_object_hash($this->schemaInfo) : ''
+        );
     }
 }

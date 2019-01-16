@@ -19,35 +19,42 @@ namespace Istyle\KsqlClient;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\RequestOptions;
 use Istyle\KsqlClient\Exception\StreamQueryException;
 use Istyle\KsqlClient\Query\AbstractStreamQuery;
 use Istyle\KsqlClient\Query\QueryInterface;
 use Istyle\KsqlClient\Mapper\AbstractMapper;
+use Istyle\KsqlClient\Stream\QueryStream;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class StreamClient
  */
-final class StreamClient extends RestClient
+class StreamClient extends RestClient
 {
     /**
-     * build GuzzleHttp Client
-     *
-     * @return ClientInterface
+     * {@inheritdoc}
      */
     protected function buildClient(): ClientInterface
     {
         return new GuzzleClient([
             $this->requestHeader(),
-            'stream'  => true,
+            RequestOptions::STREAM => true,
         ]);
     }
 
     /**
-     * @param QueryInterface $query
-     * @param int            $timeout
-     * @param bool           $debug
+     * @param AbstractStreamQuery $query
      *
-     * @return AbstractMapper
+     * @return QueryStream
+     */
+    protected function sinkStream(AbstractStreamQuery $query): QueryStream
+    {
+        return new QueryStream($query);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function requestQuery(
         QueryInterface $query,
@@ -55,6 +62,10 @@ final class StreamClient extends RestClient
         bool $debug = false
     ): AbstractMapper {
         if ($query instanceof AbstractStreamQuery) {
+            $stream = $this->sinkStream($query);
+            $this->setOptions([
+                RequestOptions::SINK => $stream,
+            ]);
             return parent::requestQuery($query, $timeout, $debug);
         }
         throw new StreamQueryException(

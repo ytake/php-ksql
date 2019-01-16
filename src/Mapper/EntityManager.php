@@ -7,7 +7,6 @@ use Istyle\KsqlClient\Entity\KsqlEntity;
 use Istyle\KsqlClient\Exception\UnknownJsonObjectsException;
 
 use function array_key_exists;
-use function strval;
 
 /**
  * Class EntityManager
@@ -27,6 +26,7 @@ class EntityManager
         'queries'           => QueriesMapper::class,
         'properties'        => PropertiesMapper::class,
         'sourceDescription' => SourceDescriptionMapper::class,
+        'queryDescription'  => QueryDescriptionMapper::class,
     ];
 
     /**

@@ -22,7 +22,7 @@ use function sprintf;
 /**
  * Class KsqlErrorMessage
  */
-class KsqlErrorMessage extends KsqlEntity
+class KsqlErrorMessage implements EntityInterface
 {
     /** @var int */
     protected $errorCode;
@@ -41,7 +41,7 @@ class KsqlErrorMessage extends KsqlEntity
     public function __construct(
         int $errorCode,
         string $message,
-        array $stackTrace
+        array $stackTrace = []
     ) {
         $this->errorCode = $errorCode;
         $this->message = $message;

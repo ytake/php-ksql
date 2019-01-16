@@ -10,6 +10,7 @@ use Istyle\KsqlClient\Query\{
     Ksql, Status
 };
 use Istyle\KsqlClient\RestClient;
+use Istyle\KsqlClient\Entity;
 
 /**
  * Class RestClientTest
@@ -96,6 +97,44 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
             \Istyle\KsqlClient\Entity\KsqlEntity::class,
             $entity->getKsql()
         );
+    }
+
+    public function testShouldBeQueryDescriptionKsqlEntity(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/query_desc.json'))),
+        ]);
+        $client = new RestClient(
+            "http://localhost:8088",
+            [],
+            new Client(['handler' => HandlerStack::create($mock)])
+        );
+
+        $result = $client->requestQuery(new Ksql('EXPLAIN CSAS_STREAM2_0;'));
+        $this->assertInstanceOf(AbstractMapper::class, $result);
+        /** @var \Istyle\KsqlClient\Entity\KsqlCollection $entity */
+        $entity = $result->result();
+        $this->assertInstanceOf(
+            \Istyle\KsqlClient\Entity\KsqlCollection::class,
+            $entity
+        );
+        $this->assertContainsOnlyInstancesOf(
+            \Istyle\KsqlClient\Entity\KsqlEntity::class,
+            $entity->getKsql()
+        );
+        /** @var Entity\QueryDescriptionEntity $result */
+        $result = $entity->getKsql()[0];
+        $this->assertInstanceOf(Entity\QueryDescriptionEntity::class, $result);
+        $description = $result->getQueryDescription();
+        $this->assertInstanceOf(
+            Entity\QueryDescription::class,
+            $description
+        );
+        $this->assertInstanceOf(
+            Entity\EntityQueryId::class,
+            $description->getEntityQueryId()
+        );
+        $this->assertSame('CSAS_STREAM2_0', $description->getEntityQueryId()->getId());
     }
 
     public function testShouldBeCommandStatusEntity(): void

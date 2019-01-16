@@ -15,28 +15,33 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Query;
-
-use Istyle\KsqlClient\StreamConsumable;
+namespace Istyle\KsqlClient\Entity;
 
 /**
- * Class AbstractStreamQuery
+ * Class QueryDescriptionEntity
  */
-abstract class AbstractStreamQuery implements StreamQueryInterface
+class QueryDescriptionEntity extends KsqlEntity
 {
-    /** @var string */
-    protected $query;
-
-    /** @var StreamConsumable */
-    protected $callback;
+    /** @var QueryDescription */
+    private $queryDescription;
 
     /**
-     * @param string           $query
-     * @param StreamConsumable $callback
+     * @param string           $statementText
+     * @param QueryDescription $queryDescription
      */
-    public function __construct(string $query, StreamConsumable $callback)
+    public function __construct(
+        string $statementText,
+        QueryDescription $queryDescription
+    ) {
+        parent::__construct($statementText);
+        $this->queryDescription = $queryDescription;
+    }
+
+    /**
+     * @return QueryDescription
+     */
+    public function getQueryDescription(): QueryDescription
     {
-        $this->query = $query;
-        $this->callback = $callback;
+        return $this->queryDescription;
     }
 }

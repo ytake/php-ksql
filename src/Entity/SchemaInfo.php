@@ -17,7 +17,10 @@ declare(strict_types=1);
 
 namespace Istyle\KsqlClient\Entity;
 
-class SchemaInfo
+/**
+ * Class SchemaInfo
+ */
+class SchemaInfo implements EntityInterface
 {
     /** @var string */
     private $type;
@@ -41,5 +44,29 @@ class SchemaInfo
         $this->type = $type;
         $this->fieldInfo = $fieldInfo;
         $this->schemaInfo = $schemaInfo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return FieldInfo[]|null
+     */
+    public function getFieldInfo(): ?array
+    {
+        return $this->fieldInfo;
+    }
+
+    /**
+     * @return SchemaInfo|null
+     */
+    public function getSchemaInfo(): ?SchemaInfo
+    {
+        return $this->schemaInfo;
     }
 }
