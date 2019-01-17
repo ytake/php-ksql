@@ -25,7 +25,7 @@ use Istyle\KsqlClient\Mapper\ResultInterface;
  */
 interface ClientInterface
 {
-    const RequestAccept = 'application/vnd.ksql.v1+json';
+    const REQUEST_ACCEPT = 'application/vnd.ksql.v1+json';
 
     /**
      * @param QueryInterface $query

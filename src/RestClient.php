@@ -237,7 +237,7 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
         return [
             RequestOptions::HEADERS => [
                 'User-Agent' => $this->userAgent(),
-                'Accept'     => \Istyle\KsqlClient\ClientInterface::RequestAccept,
+                'Accept'     => \Istyle\KsqlClient\ClientInterface::REQUEST_ACCEPT,
             ],
         ];
     }

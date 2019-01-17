@@ -65,7 +65,7 @@ class StreamClient extends RestClient
         return [
             RequestOptions::HEADERS => [
                 'User-Agent'   => $this->userAgent(),
-                'Accept'       => \Istyle\KsqlClient\ClientInterface::RequestAccept,
+                'Accept'       => \Istyle\KsqlClient\ClientInterface::REQUEST_ACCEPT,
                 'Content-Type' => 'application/json; charset=utf-8',
             ],
         ];
