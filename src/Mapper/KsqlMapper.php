@@ -36,7 +36,7 @@ class KsqlMapper extends AbstractMapper
         $decode = json_decode(
             $this->response->getBody()->getContents(), true
         );
-        if(array_key_exists('@type', $decode)) {
+        if (array_key_exists('@type', $decode)) {
             return (new EntityManager($decode))->map();
         }
         $collect = new KsqlCollection();
