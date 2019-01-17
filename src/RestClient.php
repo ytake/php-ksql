@@ -172,14 +172,14 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
     ): ResultInterface {
         $errorMessage['error_code'] = $statusCode;
         $errorMessage['message'] = "The server returned an unexpected error.";
-        if ($statusCode === 404) {
+        if ($statusCode === StatusCodeInterface::STATUS_NOT_FOUND) {
             $errorMessage['message'] = "Path not found. Path='" . $uri->getPath() . "'. "
                 . "Check your ksql http url to make sure you are connecting to a ksql server.";
         }
-        if ($statusCode === 401) {
+        if ($statusCode === StatusCodeInterface::STATUS_UNAUTHORIZED) {
             $errorMessage['message'] = "Could not authenticate successfully with the supplied credentials.";
         }
-        if ($statusCode === 403) {
+        if ($statusCode === StatusCodeInterface::STATUS_FORBIDDEN) {
             $errorMessage['message'] = "You are forbidden from using this cluster.";
         }
         return new KsqlErrorMapper($errorMessage);
