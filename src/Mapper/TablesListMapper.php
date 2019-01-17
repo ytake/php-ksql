@@ -28,6 +28,7 @@ class TablesListMapper implements ResultInterface
                 $row['isWindowed']
             );
         }
+
         return new TablesList($rows['statementText'], $tables);
     }
 }

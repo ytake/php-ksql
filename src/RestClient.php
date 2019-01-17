@@ -23,9 +23,12 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\UriNormalizer;
+use GuzzleHttp\RequestOptions;
 use Istyle\KsqlClient\Exception\KsqlRestClientException;
 use Istyle\KsqlClient\Mapper\AbstractMapper;
 use Istyle\KsqlClient\Query\QueryInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class RestClient
@@ -76,9 +79,9 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
      */
     protected function buildClient(): ClientInterface
     {
-        return new GuzzleClient([
+        return new GuzzleClient(
             $this->requestHeader()
-        ]);
+        );
     }
 
     /**
@@ -116,6 +119,23 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
 
     /**
      * @param QueryInterface $query
+     *
+     * @return RequestInterface
+     */
+    protected function normalizeRequest(QueryInterface $query): RequestInterface
+    {
+        $uri = new Uri($this->serverAddress);
+        $uri = $uri->withPath($query->uri());
+        $normalize = UriNormalizer::normalize(
+            $uri,
+            UriNormalizer::REMOVE_DUPLICATE_SLASHES
+        );
+
+        return new Request($query->httpMethod(), $normalize);
+    }
+
+    /**
+     * @param QueryInterface $query
      * @param int            $timeout
      * @param bool           $debug
      *
@@ -126,29 +146,12 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
         int $timeout = 500000,
         bool $debug = false
     ): AbstractMapper {
-        $uri = new Uri($this->serverAddress);
-        $uri = $uri->withPath($query->uri());
-        $normalize = UriNormalizer::normalize(
-            $uri,
-            UriNormalizer::REMOVE_DUPLICATE_SLASHES
-        );
-        $request = new Request($query->httpMethod(), $normalize);
+        $request = $this->normalizeRequest($query);
         try {
-            $options = $this->getOptions($query, $timeout, $debug);
-            if ($this->hasUserCredentials) {
-                $credentials = $this->getAuthCredentials();
-                $options = array_merge($options, [
-                    'auth' => [$credentials->getUserName(), $credentials->getPassword()],
-                ]);
-            }
-            $response = $this->client->send(
-                $request,
-                array_merge($options, $this->options)
-            );
+            $response = $this->sendRequest($query, $timeout, $debug, $request);
             if ($response->getStatusCode() == StatusCodeInterface::STATUS_OK) {
                 return $query->queryResult($response);
             }
-
         } catch (\GuzzleHttp\Exception\GuzzleException $e) {
             throw new KsqlRestClientException($e->getMessage(), $e->getCode());
         }
@@ -167,9 +170,9 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
         bool $debug = false
     ): array {
         return [
-            'timeout' => $timeout,
-            'body'    => json_encode($query->toArray()),
-            'debug'   => $debug,
+            RequestOptions::TIMEOUT => $timeout,
+            RequestOptions::BODY    => json_encode($query->toArray()),
+            RequestOptions::DEBUG   => $debug,
         ];
     }
 
@@ -204,10 +207,39 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
     protected function requestHeader(): array
     {
         return [
-            'headers' => [
+            RequestOptions::HEADERS => [
                 'User-Agent' => $this->userAgent(),
                 'Accept'     => \Istyle\KsqlClient\ClientInterface::RequestAccept,
             ],
         ];
+    }
+
+    /**
+     * @param QueryInterface   $query
+     * @param int              $timeout
+     * @param bool             $debug
+     * @param RequestInterface $request
+     *
+     * @return ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    protected function sendRequest(
+        QueryInterface $query,
+        int $timeout,
+        bool $debug,
+        RequestInterface $request
+    ): ResponseInterface {
+        $options = $this->getOptions($query, $timeout, $debug);
+        if ($this->hasUserCredentials) {
+            $credentials = $this->getAuthCredentials();
+            $options = array_merge($options, [
+                'auth' => [$credentials->getUserName(), $credentials->getPassword()],
+            ]);
+        }
+
+        return $this->client->send(
+            $request,
+            array_merge($options, $this->options)
+        );
     }
 }

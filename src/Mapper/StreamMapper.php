@@ -52,16 +52,19 @@ class StreamMapper extends AbstractMapper
                 $line = trim(\GuzzleHttp\Psr7\readline($stream));
                 if (!empty($line)) {
                     $decode = \GuzzleHttp\json_decode($line, true);
-                    $streamed[] = new StreamedRow(
+                    $row = new StreamedRow(
                         $decode['row']['columns'],
                         new KsqlErrorMessage(
                             0,
                             strval($decode['errorMessage'])
                         )
                     );
+                    call_user_func_array($this->callback, [$row]);
+                    $streamed[] = $row;
                 }
             }
         }
+
         return new StreamedRows($streamed);
     }
 }

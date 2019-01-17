@@ -24,8 +24,6 @@ use Istyle\KsqlClient\Exception\StreamQueryException;
 use Istyle\KsqlClient\Query\AbstractStreamQuery;
 use Istyle\KsqlClient\Query\QueryInterface;
 use Istyle\KsqlClient\Mapper\AbstractMapper;
-use Istyle\KsqlClient\Stream\QueryStream;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class StreamClient
@@ -37,20 +35,10 @@ class StreamClient extends RestClient
      */
     protected function buildClient(): ClientInterface
     {
-        return new GuzzleClient([
-            $this->requestHeader(),
-            RequestOptions::STREAM => true,
-        ]);
-    }
-
-    /**
-     * @param AbstractStreamQuery $query
-     *
-     * @return QueryStream
-     */
-    protected function sinkStream(AbstractStreamQuery $query): QueryStream
-    {
-        return new QueryStream($query);
+        return new GuzzleClient(
+            array_merge($this->requestHeader(), [
+                RequestOptions::STREAM => true,
+            ]));
     }
 
     /**
@@ -62,14 +50,24 @@ class StreamClient extends RestClient
         bool $debug = false
     ): AbstractMapper {
         if ($query instanceof AbstractStreamQuery) {
-            $stream = $this->sinkStream($query);
-            $this->setOptions([
-                RequestOptions::SINK => $stream,
-            ]);
             return parent::requestQuery($query, $timeout, $debug);
         }
         throw new StreamQueryException(
             "You must extends " . AbstractStreamQuery::class
         );
+    }
+
+    /**
+     * @return array
+     */
+    protected function requestHeader(): array
+    {
+        return [
+            RequestOptions::HEADERS => [
+                'User-Agent'   => $this->userAgent(),
+                'Accept'       => \Istyle\KsqlClient\ClientInterface::RequestAccept,
+                'Content-Type' => 'application/json; charset=utf-8',
+            ],
+        ];
     }
 }
