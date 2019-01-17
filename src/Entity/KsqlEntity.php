@@ -18,12 +18,12 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Entity;
 
 /**
- * Class AbstractKsql
+ * Class KsqlEntity
  */
-abstract class AbstractKsql
+abstract class KsqlEntity implements EntityInterface
 {
     /** @var string */
-    protected $statementText;
+    private $statementText;
 
     /**
      * @param string $statementText

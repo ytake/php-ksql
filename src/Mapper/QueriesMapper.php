@@ -18,24 +18,43 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Mapper;
 
 use Istyle\KsqlClient\Entity\EntityInterface;
-use Istyle\KsqlClient\Entity\KsqlErrorMessage;
+use Istyle\KsqlClient\Entity\EntityQueryId;
+use Istyle\KsqlClient\Entity\KsqlEntity;
+use Istyle\KsqlClient\Entity\Queries;
+use Istyle\KsqlClient\Entity\RunningQuery;
+use Istyle\KsqlClient\Query\QueryId;
 
 /**
- * Class ErrorResult
+ * Class QueriesMapper
  */
-class ErrorMapper extends AbstractMapper
+class QueriesMapper implements ResultInterface
 {
+    /** @var array */
+    protected $rows;
+
     /**
-     * @return EntityInterface|KsqlErrorMessage
+     * @param array $rows
+     */
+    public function __construct(array $rows)
+    {
+        $this->rows = $rows;
+    }
+
+    /**
+     * @return EntityInterface
      */
     public function result(): EntityInterface
     {
-        $decode = \GuzzleHttp\json_decode(
-            $this->response->getBody()->getContents(), true
-        );
-        return new KsqlErrorMessage(
-            $decode['message'] ?? '',
-            $decode['stackTrace'] ?? []
-        );
+        $queries = [];
+        foreach ($this->rows['queries'] as $row) {
+            $queries[] = new RunningQuery(
+                $row['queryString'],
+                $row['sinks'],
+                new EntityQueryId(
+                    new QueryId($row['id'])
+                )
+            );
+        }
+        return new Queries($this->rows['statementText'], $queries);
     }
 }

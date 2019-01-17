@@ -1,5 +1,7 @@
 {
   "KsqlServerInfo": {
-    "version": "4.1.0"
+    "version": "5.0.1",
+    "kafkaClusterId": "VAW2HC3-Rz2n0dBbjuzYgw",
+    "ksqlServiceId": "default_"
   }
 }

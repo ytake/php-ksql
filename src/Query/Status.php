@@ -19,7 +19,7 @@ namespace Istyle\KsqlClient\Query;
 
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Message\ResponseInterface;
-use Istyle\KsqlClient\Mapper\AbstractMapper;
+use Istyle\KsqlClient\Mapper\ResultInterface;
 use Istyle\KsqlClient\Mapper\StatusMapper;
 
 /**
@@ -52,11 +52,9 @@ final class Status implements QueryInterface
     }
 
     /**
-     * @param ResponseInterface $response
-     *
-     * @return AbstractMapper
+     * {@inheritdoc}
      */
-    public function queryResult(ResponseInterface $response): AbstractMapper
+    public function queryResult(ResponseInterface $response): ResultInterface
     {
         return new StatusMapper($response);
     }

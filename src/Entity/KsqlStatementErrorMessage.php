@@ -20,19 +20,31 @@ namespace Istyle\KsqlClient\Entity;
 /**
  * Class KsqlStatementErrorMessage
  */
-class KsqlStatementErrorMessage extends AbstractKsql
+class KsqlStatementErrorMessage extends KsqlErrorMessage
 {
-    /** @var KsqlErrorMessage */
-    private $errorMessage;
+    /** @var string */
+    protected $statementText;
+
+    /** @var array */
+    private $entities = [];
 
     /**
-     * @param string           $statementText
-     * @param KsqlErrorMessage $errorMessage
+     * @param string $statementText
+     * @param int    $errorCode
+     * @param string $message
+     * @param array  $stackTrace
+     * @param array  $entities
      */
-    public function __construct(string $statementText, KsqlErrorMessage $errorMessage)
-    {
-        parent::__construct($statementText);
-        $this->errorMessage = $errorMessage;
+    public function __construct(
+        string $statementText,
+        int $errorCode,
+        string $message,
+        array $stackTrace,
+        array $entities
+    ) {
+        $this->statementText = $statementText;
+        $this->entities = $entities;
+        parent::__construct($errorCode, $message, $stackTrace);
     }
 
     /**
@@ -44,10 +56,10 @@ class KsqlStatementErrorMessage extends AbstractKsql
     }
 
     /**
-     * @return KsqlErrorMessage
+     * @return array
      */
-    public function getErrorMessage(): KsqlErrorMessage
+    public function getEntities(): array
     {
-        return $this->errorMessage;
+        return $this->entities;
     }
 }

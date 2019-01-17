@@ -15,18 +15,22 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Entity;
+namespace Istyle\KsqlClient\Mapper;
+
+use Istyle\KsqlClient\Entity\EntityInterface;
+use Istyle\KsqlClient\Entity\KafkaTopicInfo;
+use Istyle\KsqlClient\Entity\KafkaTopics;
 
 /**
- * Class StreamedRow
+ * Class KafkaTopicMapper
  */
-final class StreamedRows implements EntityInterface
+class KafkaTopicMapper implements ResultInterface
 {
-    /** @var StreamedRow[] */
-    protected $rows = [];
+    /** @var array */
+    protected $rows;
 
     /**
-     * @param StreamedRow[] $rows
+     * @param array $rows
      */
     public function __construct(array $rows)
     {
@@ -34,10 +38,20 @@ final class StreamedRows implements EntityInterface
     }
 
     /**
-     * @return StreamedRow[]
+     * @return EntityInterface
      */
-    public function getRow(): array
+    public function result(): EntityInterface
     {
-        return $this->rows;
+        $topics = [];
+        foreach ($this->rows['topics'] as $topic) {
+            $topics[] = new KafkaTopicInfo(
+                $topic['name'],
+                $topic['registered'],
+                (is_array($topic['replicaInfo'])) ? $topic['replicaInfo'] : [$topic['replicaInfo']],
+                $topic['consumerCount'],
+                $topic['consumerGroupCount']
+            );
+        }
+        return new KafkaTopics($this->rows['statementText'], $topics);
     }
 }

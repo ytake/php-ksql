@@ -15,35 +15,17 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Entity;
+namespace Istyle\KsqlClient\Mapper;
+
+use Istyle\KsqlClient\Entity\EntityInterface;
 
 /**
- * Class KafkaTopics
+ * Interface ResultInterface
  */
-class KafkaTopics extends KsqlEntity
+interface ResultInterface
 {
-    /** @var array */
-    private $kafkaTopicInfoList;
-
     /**
-     * KafkaTopics constructor.
-     *
-     * @param string           $statementText
-     * @param KafkaTopicInfo[] $kafkaTopicInfoList
+     * @return EntityInterface
      */
-    public function __construct(
-        string $statementText,
-        array $kafkaTopicInfoList
-    ) {
-        parent::__construct($statementText);
-        $this->kafkaTopicInfoList = $kafkaTopicInfoList;
-    }
-
-    /**
-     * @return KafkaTopicInfo[]
-     */
-    public function getKafkaTopicInfoList(): array
-    {
-        return $this->kafkaTopicInfoList;
-    }
+    public function result(): EntityInterface;
 }

@@ -1,0 +1,15 @@
+[
+  {
+    "@type": "queries",
+    "statementText": "LIST QUERIES;",
+    "queries": [
+      {
+        "sinks": [
+          "STREAM2"
+        ],
+        "id": "CSAS_STREAM2_0",
+        "queryString": "CREATE STREAM stream2 \tWITH (kafka_topic='output-topic' , value_format='DELIMITED') \tAS SELECT * FROM stream1 WHERE LEN(message) > 2;"
+      }
+    ]
+  }
+]

@@ -23,17 +23,21 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\UriNormalizer;
+use GuzzleHttp\RequestOptions;
 use Istyle\KsqlClient\Exception\KsqlRestClientException;
-use Istyle\KsqlClient\Mapper\AbstractMapper;
-use Istyle\KsqlClient\Mapper\ErrorMapper;
+use Istyle\KsqlClient\Mapper\KsqlErrorMapper;
+use Istyle\KsqlClient\Mapper\ResultInterface;
 use Istyle\KsqlClient\Query\QueryInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Class RestClient
  */
-class RestClient
+class RestClient implements \Istyle\KsqlClient\ClientInterface
 {
-    const VERSION = '0.1.0';
+    const VERSION = '0.2.0';
 
     /** @var string */
     private $serverAddress;
@@ -77,12 +81,9 @@ class RestClient
      */
     protected function buildClient(): ClientInterface
     {
-        return new GuzzleClient([
-            'headers' => [
-                'User-Agent' => $this->userAgent(),
-                'Accept'     => 'application/json',
-            ],
-        ]);
+        return new GuzzleClient(
+            $this->requestHeader()
+        );
     }
 
     /**
@@ -120,43 +121,68 @@ class RestClient
 
     /**
      * @param QueryInterface $query
-     * @param int            $timeout
-     * @param bool           $debug
      *
-     * @return AbstractMapper
+     * @return RequestInterface
      */
-    public function requestQuery(
-        QueryInterface $query,
-        int $timeout = 500000,
-        bool $debug = false
-    ): AbstractMapper {
+    protected function normalizeRequest(QueryInterface $query): RequestInterface
+    {
         $uri = new Uri($this->serverAddress);
         $uri = $uri->withPath($query->uri());
         $normalize = UriNormalizer::normalize(
             $uri,
             UriNormalizer::REMOVE_DUPLICATE_SLASHES
         );
-        $request = new Request($query->httpMethod(), $normalize);
+
+        return new Request($query->httpMethod(), $normalize);
+    }
+
+    /**
+     * @param QueryInterface $query
+     * @param int            $timeout
+     * @param bool           $debug
+     *
+     * @return ResultInterface
+     */
+    public function requestQuery(
+        QueryInterface $query,
+        int $timeout = 500000,
+        bool $debug = false
+    ): ResultInterface {
+        $request = $this->normalizeRequest($query);
         try {
-            $options = $this->getOptions($query, $timeout, $debug);
-            if ($this->hasUserCredentials) {
-                $credentials = $this->getAuthCredentials();
-                $options = array_merge($options, [
-                    'auth' => [$credentials->getUserName(), $credentials->getPassword()],
-                ]);
-            }
-            $response = $this->client->send(
-                $request,
-                array_merge($options, $this->options)
-            );
+            $response = $this->sendRequest($query, $timeout, $debug, $request);
             if ($response->getStatusCode() == StatusCodeInterface::STATUS_OK) {
                 return $query->queryResult($response);
             }
         } catch (\GuzzleHttp\Exception\GuzzleException $e) {
             throw new KsqlRestClientException($e->getMessage(), $e->getCode());
         }
+        return $this->createErrorResult($request->getUri(), $response->getStatusCode());
+    }
 
-        return new ErrorMapper($response);
+    /**
+     * @param UriInterface $uri
+     * @param int          $statusCode
+     *
+     * @return ResultInterface
+     */
+    private function createErrorResult(
+        UriInterface $uri,
+        int $statusCode
+    ): ResultInterface {
+        $errorMessage['error_code'] = $statusCode;
+        $errorMessage['message'] = "The server returned an unexpected error.";
+        if ($statusCode === StatusCodeInterface::STATUS_NOT_FOUND) {
+            $errorMessage['message'] = "Path not found. Path='" . $uri->getPath() . "'. "
+                . "Check your ksql http url to make sure you are connecting to a ksql server.";
+        }
+        if ($statusCode === StatusCodeInterface::STATUS_UNAUTHORIZED) {
+            $errorMessage['message'] = "Could not authenticate successfully with the supplied credentials.";
+        }
+        if ($statusCode === StatusCodeInterface::STATUS_FORBIDDEN) {
+            $errorMessage['message'] = "You are forbidden from using this cluster.";
+        }
+        return new KsqlErrorMapper($errorMessage);
     }
 
     /**
@@ -172,9 +198,9 @@ class RestClient
         bool $debug = false
     ): array {
         return [
-            'timeout' => $timeout,
-            'body'    => json_encode($query->toArray()),
-            'debug'   => $debug,
+            RequestOptions::TIMEOUT => $timeout,
+            RequestOptions::BODY    => json_encode($query->toArray()),
+            RequestOptions::DEBUG   => $debug,
         ];
     }
 
@@ -201,5 +227,47 @@ class RestClient
     protected function userAgent(): string
     {
         return 'PHP-KSQLClient/' . self::VERSION;
+    }
+
+    /**
+     * @return array
+     */
+    protected function requestHeader(): array
+    {
+        return [
+            RequestOptions::HEADERS => [
+                'User-Agent' => $this->userAgent(),
+                'Accept'     => \Istyle\KsqlClient\ClientInterface::REQUEST_ACCEPT,
+            ],
+        ];
+    }
+
+    /**
+     * @param QueryInterface   $query
+     * @param int              $timeout
+     * @param bool             $debug
+     * @param RequestInterface $request
+     *
+     * @return ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    protected function sendRequest(
+        QueryInterface $query,
+        int $timeout,
+        bool $debug,
+        RequestInterface $request
+    ): ResponseInterface {
+        $options = $this->getOptions($query, $timeout, $debug);
+        if ($this->hasUserCredentials) {
+            $credentials = $this->getAuthCredentials();
+            $options = array_merge($options, [
+                'auth' => [$credentials->getUserName(), $credentials->getPassword()],
+            ]);
+        }
+
+        return $this->client->send(
+            $request,
+            array_merge($options, $this->options)
+        );
     }
 }

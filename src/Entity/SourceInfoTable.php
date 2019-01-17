@@ -18,39 +18,34 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Entity;
 
 /**
- * Class FieldSchema
+ * Class SourceInfoTable
  */
-final class FieldSchema
+final class SourceInfoTable extends SourceInfo
 {
-    /** @var string */
-    private $name;
-
-    /** @var string */
-    private $type;
+    /** @var bool */
+    private $isWindowed = false;
 
     /**
      * @param string $name
-     * @param string $type
+     * @param string $topic
+     * @param string $format
+     * @param bool   $isWindowed
      */
-    public function __construct(string $name, string $type)
-    {
-        $this->name = $name;
-        $this->type = $type;
+    public function __construct(
+        string $name,
+        string $topic,
+        string $format,
+        bool $isWindowed
+    ) {
+        parent::__construct($name, $topic, $format);
+        $this->isWindowed = $isWindowed;
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getName(): string
+    public function getIsWindowed(): bool
     {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return $this->type;
+        return $this->isWindowed;
     }
 }

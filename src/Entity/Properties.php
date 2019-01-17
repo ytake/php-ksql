@@ -18,32 +18,30 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Entity;
 
 /**
- * Class KafkaTopics
+ * Class Properties
  */
-class KafkaTopics extends KsqlEntity
+class Properties extends KsqlEntity
 {
     /** @var array */
-    private $kafkaTopicInfoList;
+    private $properties;
 
     /**
-     * KafkaTopics constructor.
-     *
-     * @param string           $statementText
-     * @param KafkaTopicInfo[] $kafkaTopicInfoList
+     * @param string $statementText
+     * @param array  $properties
      */
     public function __construct(
         string $statementText,
-        array $kafkaTopicInfoList
+        array $properties = []
     ) {
         parent::__construct($statementText);
-        $this->kafkaTopicInfoList = $kafkaTopicInfoList;
+        $this->properties = $properties;
     }
 
     /**
-     * @return KafkaTopicInfo[]
+     * @return array
      */
-    public function getKafkaTopicInfoList(): array
+    public function getProperties(): array
     {
-        return $this->kafkaTopicInfoList;
+        return $this->properties;
     }
 }

@@ -17,8 +17,8 @@ declare(strict_types=1);
 
 namespace Istyle\KsqlClient\Query;
 
+use Istyle\KsqlClient\Mapper\ResultInterface;
 use Psr\Http\Message\ResponseInterface;
-use Istyle\KsqlClient\Mapper\AbstractMapper;
 
 /**
  * Interface QueryInterface
@@ -45,7 +45,7 @@ interface QueryInterface
     /**
      * @param ResponseInterface $response
      *
-     * @return AbstractMapper
+     * @return ResultInterface
      */
-    public function queryResult(ResponseInterface $response);
+    public function queryResult(ResponseInterface $response): ResultInterface;
 }

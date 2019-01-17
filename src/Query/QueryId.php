@@ -15,35 +15,37 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Entity;
+namespace Istyle\KsqlClient\Query;
 
 /**
- * Class KafkaTopics
+ * Class QueryId
  */
-class KafkaTopics extends KsqlEntity
+final class QueryId
 {
-    /** @var array */
-    private $kafkaTopicInfoList;
+    /** @var string */
+    private $id;
 
     /**
-     * KafkaTopics constructor.
-     *
-     * @param string           $statementText
-     * @param KafkaTopicInfo[] $kafkaTopicInfoList
+     * @param string $id
      */
-    public function __construct(
-        string $statementText,
-        array $kafkaTopicInfoList
-    ) {
-        parent::__construct($statementText);
-        $this->kafkaTopicInfoList = $kafkaTopicInfoList;
+    public function __construct(string $id)
+    {
+        $this->id = $id;
     }
 
     /**
-     * @return KafkaTopicInfo[]
+     * @return string
      */
-    public function getKafkaTopicInfoList(): array
+    public function getId(): string
     {
-        return $this->kafkaTopicInfoList;
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->id;
     }
 }

@@ -18,13 +18,12 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Mapper;
 
 use Psr\Http\Message\ResponseInterface;
-use Istyle\KsqlClient\Entity\EntityInterface;
 
 /**
  * should use extends
  * Class AbstractMapper
  */
-abstract class AbstractMapper
+abstract class AbstractMapper implements ResultInterface
 {
     /** @var ResponseInterface */
     protected $response;
@@ -36,10 +35,4 @@ abstract class AbstractMapper
     {
         $this->response = $response;
     }
-
-    /**
-     * return Result Entity
-     * @return EntityInterface
-     */
-    abstract public function result(): EntityInterface;
 }

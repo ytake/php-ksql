@@ -19,6 +19,7 @@ namespace Istyle\KsqlClient\Query;
 
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Message\ResponseInterface;
+use Istyle\KsqlClient\Mapper\ResultInterface;
 use Istyle\KsqlClient\Mapper\ServerInfoMapper;
 
 /**
@@ -53,7 +54,7 @@ final class ServerInfo implements QueryInterface
     /**
      * {@inheritdoc}
      */
-    public function queryResult(ResponseInterface $response)
+    public function queryResult(ResponseInterface $response): ResultInterface
     {
         return new ServerInfoMapper($response);
     }

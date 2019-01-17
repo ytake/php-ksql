@@ -15,35 +15,43 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Entity;
+namespace Istyle\KsqlClient\Mapper;
+
+use Istyle\KsqlClient\Entity\EntityInterface;
+use Istyle\KsqlClient\Entity\SourceInfoTable;
+use Istyle\KsqlClient\Entity\TablesList;
 
 /**
- * Class KafkaTopics
+ * Class TablesListMapper
  */
-class KafkaTopics extends KsqlEntity
+class TablesListMapper implements ResultInterface
 {
     /** @var array */
-    private $kafkaTopicInfoList;
+    protected $rows;
 
     /**
-     * KafkaTopics constructor.
-     *
-     * @param string           $statementText
-     * @param KafkaTopicInfo[] $kafkaTopicInfoList
+     * @param array $rows
      */
-    public function __construct(
-        string $statementText,
-        array $kafkaTopicInfoList
-    ) {
-        parent::__construct($statementText);
-        $this->kafkaTopicInfoList = $kafkaTopicInfoList;
+    public function __construct(array $rows)
+    {
+        $this->rows = $rows;
     }
 
     /**
-     * @return KafkaTopicInfo[]
+     * @return EntityInterface
      */
-    public function getKafkaTopicInfoList(): array
+    public function result(): EntityInterface
     {
-        return $this->kafkaTopicInfoList;
+        $tables = [];
+        foreach ($this->rows['tables'] as $row) {
+            $tables[] = new SourceInfoTable(
+                $row['name'],
+                $row['topic'],
+                $row['format'],
+                $row['isWindowed']
+            );
+        }
+
+        return new TablesList($this->rows['statementText'], $tables);
     }
 }

@@ -15,35 +15,42 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Entity;
+namespace Istyle\KsqlClient\Mapper;
+
+use Istyle\KsqlClient\Entity\EntityInterface;
+use Istyle\KsqlClient\Entity\KsqlEntity;
+use Istyle\KsqlClient\Entity\SourceInfo;
+use Istyle\KsqlClient\Entity\StreamsList;
 
 /**
- * Class KafkaTopics
+ * Class StreamsListMapper
  */
-class KafkaTopics extends KsqlEntity
+class StreamsListMapper implements ResultInterface
 {
     /** @var array */
-    private $kafkaTopicInfoList;
+    protected $rows;
 
     /**
-     * KafkaTopics constructor.
-     *
-     * @param string           $statementText
-     * @param KafkaTopicInfo[] $kafkaTopicInfoList
+     * @param array $rows
      */
-    public function __construct(
-        string $statementText,
-        array $kafkaTopicInfoList
-    ) {
-        parent::__construct($statementText);
-        $this->kafkaTopicInfoList = $kafkaTopicInfoList;
+    public function __construct(array $rows)
+    {
+        $this->rows = $rows;
     }
 
     /**
-     * @return KafkaTopicInfo[]
+     * @return EntityInterface
      */
-    public function getKafkaTopicInfoList(): array
+    public function result(): EntityInterface
     {
-        return $this->kafkaTopicInfoList;
+        $streams = [];
+        foreach ($this->rows['streams'] as $stream) {
+            $streams[] = new SourceInfo(
+                $stream['name'],
+                $stream['topic'],
+                $stream['format']
+            );
+        }
+        return new StreamsList($this->rows['statementText'], $streams);
     }
 }

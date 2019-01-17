@@ -17,40 +17,55 @@ declare(strict_types=1);
 
 namespace Istyle\KsqlClient\Entity;
 
+use function sprintf;
+use function spl_object_hash;
+
 /**
- * Class CommandStatus
+ * Class FieldInfo
  */
-final class CommandStatus implements EntityInterface
+final class FieldInfo implements EntityInterface
 {
     /** @var string */
-    protected $message;
+    private $name;
 
-    /** @var string */
-    protected $status;
+    /** @var SchemaInfo|null */
+    private $schemaInfo;
 
     /**
-     * @param string $message
-     * @param string $status
+     * @param string          $name
+     * @param SchemaInfo|null $schemaInfo
      */
-    public function __construct(string $message, string $status)
+    public function __construct(string $name, ?SchemaInfo $schemaInfo)
     {
-        $this->message = $message;
-        $this->status = $status;
+        $this->name = $name;
+        $this->schemaInfo = $schemaInfo;
     }
 
     /**
      * @return string
      */
-    public function getMessage(): string
+    public function getName(): string
     {
-        return $this->message;
+        return $this->name;
+    }
+
+    /**
+     * @return SchemaInfo|null
+     */
+    public function getSchema(): ?SchemaInfo
+    {
+        return $this->schemaInfo;
     }
 
     /**
      * @return string
      */
-    public function getStatus(): string
+    public function __toString(): string
     {
-        return $this->status;
+        return sprintf(
+            "FieldInfo{name='%s',schema=%s}",
+            $this->name,
+            !is_null($this->schemaInfo) ? spl_object_hash($this->schemaInfo) : ''
+        );
     }
 }

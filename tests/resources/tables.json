@@ -1,0 +1,15 @@
+[
+  {
+    "@type": "tables",
+    "statementText": "SHOW TABLES;",
+    "tables": [
+      {
+        "type": "TABLE",
+        "name": "USERS",
+        "topic": "users",
+        "format": "JSON",
+        "isWindowed": false
+      }
+    ]
+  }
+]

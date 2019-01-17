@@ -31,8 +31,6 @@ abstract class AbstractStreamQuery implements StreamQueryInterface
     protected $callback;
 
     /**
-     * StreamQuery constructor.
-     *
      * @param string           $query
      * @param StreamConsumable $callback
      */

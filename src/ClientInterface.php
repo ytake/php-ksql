@@ -15,35 +15,28 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Entity;
+namespace Istyle\KsqlClient;
+
+use Istyle\KsqlClient\Query\QueryInterface;
+use Istyle\KsqlClient\Mapper\ResultInterface;
 
 /**
- * Class KafkaTopics
+ * Interface ClientInterface
  */
-class KafkaTopics extends KsqlEntity
+interface ClientInterface
 {
-    /** @var array */
-    private $kafkaTopicInfoList;
+    const REQUEST_ACCEPT = 'application/vnd.ksql.v1+json';
 
     /**
-     * KafkaTopics constructor.
+     * @param QueryInterface $query
+     * @param int            $timeout
+     * @param bool           $debug
      *
-     * @param string           $statementText
-     * @param KafkaTopicInfo[] $kafkaTopicInfoList
+     * @return ResultInterface
      */
-    public function __construct(
-        string $statementText,
-        array $kafkaTopicInfoList
-    ) {
-        parent::__construct($statementText);
-        $this->kafkaTopicInfoList = $kafkaTopicInfoList;
-    }
-
-    /**
-     * @return KafkaTopicInfo[]
-     */
-    public function getKafkaTopicInfoList(): array
-    {
-        return $this->kafkaTopicInfoList;
-    }
+    public function requestQuery(
+        QueryInterface $query,
+        int $timeout = 500000,
+        bool $debug = false
+    ): ResultInterface;
 }

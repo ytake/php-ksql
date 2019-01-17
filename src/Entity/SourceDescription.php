@@ -18,9 +18,9 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Entity;
 
 /**
- * Class Description
+ * Class SourceDescription
  */
-final class Description extends AbstractKsql
+final class SourceDescription implements EntityInterface
 {
     /** @var string */
     private $name;
@@ -31,8 +31,8 @@ final class Description extends AbstractKsql
     /** @var RunningQuery[] */
     private $writeQueries;
 
-    /** @var FieldSchema[] */
-    private $schema;
+    /** @var FieldInfo[] */
+    private $fields;
 
     /** @var string */
     private $type;
@@ -52,6 +52,12 @@ final class Description extends AbstractKsql
     /** @var bool */
     private $extended;
 
+    /** @var string */
+    private $format;
+
+    /** @var string */
+    private $topic;
+
     /** @var int */
     private $partitions;
 
@@ -59,48 +65,49 @@ final class Description extends AbstractKsql
     private $replication;
 
     /**
-     * Description constructor.
-     *
-     * @param string        $statementText
-     * @param string        $name
-     * @param array         $readQueries
-     * @param array         $writeQueries
-     * @param FieldSchema[] $schema
-     * @param string        $type
-     * @param string        $key
-     * @param string        $timestamp
-     * @param string        $statistics
-     * @param string        $errorStats
-     * @param bool          $extended
-     * @param int           $partitions
-     * @param int           $replication
+     * @param string $name
+     * @param array  $readQueries
+     * @param array  $writeQueries
+     * @param array  $fields
+     * @param string $type
+     * @param string $key
+     * @param string $timestamp
+     * @param string $statistics
+     * @param string $errorStats
+     * @param bool   $extended
+     * @param string $format
+     * @param string $topic
+     * @param int    $partitions
+     * @param int    $replication
      */
     public function __construct(
-        string $statementText,
         string $name,
         array $readQueries,
         array $writeQueries,
-        array $schema,
+        array $fields,
         string $type,
         string $key,
         string $timestamp,
         string $statistics,
         string $errorStats,
         bool $extended,
+        string $format,
+        string $topic,
         int $partitions,
         int $replication
     ) {
-        parent::__construct($statementText);
         $this->name = $name;
         $this->readQueries = $readQueries;
         $this->writeQueries = $writeQueries;
-        $this->schema = $schema;
+        $this->fields = $fields;
         $this->type = $type;
         $this->key = $key;
         $this->timestamp = $timestamp;
         $this->statistics = $statistics;
         $this->errorStats = $errorStats;
         $this->extended = $extended;
+        $this->format = $format;
+        $this->topic = $topic;
         $this->partitions = $partitions;
         $this->replication = $replication;
     }
@@ -130,11 +137,11 @@ final class Description extends AbstractKsql
     }
 
     /**
-     * @return FieldSchema[]
+     * @return FieldInfo[]
      */
-    public function getSchema(): array
+    public function getFields(): array
     {
-        return $this->schema;
+        return $this->fields;
     }
 
     /**
@@ -175,6 +182,22 @@ final class Description extends AbstractKsql
     public function getErrorStats(): string
     {
         return $this->errorStats;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormat(): string
+    {
+        return $this->format;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTopic(): string
+    {
+        return $this->topic;
     }
 
     /**

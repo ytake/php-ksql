@@ -15,35 +15,38 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Entity;
+namespace Istyle\KsqlClient\Mapper;
+
+use Istyle\KsqlClient\Entity\EntityInterface;
+use Istyle\KsqlClient\Entity\KsqlStatementErrorMessage;
 
 /**
- * Class KafkaTopics
+ * Class KsqlStatementErrorMapper
  */
-class KafkaTopics extends KsqlEntity
+final class KsqlStatementErrorMapper implements ResultInterface
 {
     /** @var array */
-    private $kafkaTopicInfoList;
+    protected $rows;
 
     /**
-     * KafkaTopics constructor.
-     *
-     * @param string           $statementText
-     * @param KafkaTopicInfo[] $kafkaTopicInfoList
+     * @param array $rows
      */
-    public function __construct(
-        string $statementText,
-        array $kafkaTopicInfoList
-    ) {
-        parent::__construct($statementText);
-        $this->kafkaTopicInfoList = $kafkaTopicInfoList;
+    public function __construct(array $rows)
+    {
+        $this->rows = $rows;
     }
 
     /**
-     * @return KafkaTopicInfo[]
+     * @return EntityInterface
      */
-    public function getKafkaTopicInfoList(): array
+    public function result(): EntityInterface
     {
-        return $this->kafkaTopicInfoList;
+        return new KsqlStatementErrorMessage(
+            $this->rows['statementText'],
+            $this->rows['error_code'],
+            $this->rows['message'],
+            $this->rows['stackTrace'],
+            $this->rows['entities']
+        );
     }
 }
