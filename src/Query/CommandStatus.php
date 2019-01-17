@@ -18,8 +18,8 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Query;
 
 use Fig\Http\Message\RequestMethodInterface;
+use Istyle\KsqlClient\Mapper\ResultInterface;
 use Psr\Http\Message\ResponseInterface;
-use Istyle\KsqlClient\Mapper\AbstractMapper;
 use Istyle\KsqlClient\Mapper\CommandStatusMapper;
 
 /**
@@ -65,9 +65,9 @@ final class CommandStatus implements QueryInterface
     /**
      * @param ResponseInterface $response
      *
-     * @return AbstractMapper
+     * @return ResultInterface
      */
-    public function queryResult(ResponseInterface $response): AbstractMapper
+    public function queryResult(ResponseInterface $response): ResultInterface
     {
         return new CommandStatusMapper($response);
     }

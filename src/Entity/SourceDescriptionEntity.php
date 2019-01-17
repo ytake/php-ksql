@@ -20,7 +20,7 @@ namespace Istyle\KsqlClient\Entity;
 /**
  * Class SourceDescriptionEntity
  */
-class SourceDescriptionEntity extends KsqlEntity
+final class SourceDescriptionEntity extends KsqlEntity
 {
     /** @var SourceDescription */
     private $sourceDescription;

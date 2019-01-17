@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace Istyle\KsqlClient\Mapper;
 
-use Istyle\KsqlClient\Entity\KsqlEntity;
+use Istyle\KsqlClient\Entity\EntityInterface;
 use Istyle\KsqlClient\Entity\Properties;
 
 /**
@@ -25,13 +25,22 @@ use Istyle\KsqlClient\Entity\Properties;
  */
 class PropertiesMapper implements ResultInterface
 {
+    /** @var array */
+    protected $rows;
+
     /**
      * @param array $rows
-     *
-     * @return KsqlEntity
      */
-    public function result(array $rows): KsqlEntity
+    public function __construct(array $rows)
     {
-        return new Properties($rows['statementText'], $rows['properties']);
+        $this->rows = $rows;
+    }
+
+    /**
+     * @return EntityInterface
+     */
+    public function result(): EntityInterface
+    {
+        return new Properties($this->rows['statementText'], $this->rows['properties']);
     }
 }

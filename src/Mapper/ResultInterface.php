@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace Istyle\KsqlClient\Mapper;
 
-use Istyle\KsqlClient\Entity\KsqlEntity;
+use Istyle\KsqlClient\Entity\EntityInterface;
 
 /**
  * Interface ResultInterface
@@ -25,9 +25,7 @@ use Istyle\KsqlClient\Entity\KsqlEntity;
 interface ResultInterface
 {
     /**
-     * @param array  $rows
-     *
-     * @return KsqlEntity
+     * @return EntityInterface
      */
-    public function result(array $rows): KsqlEntity;
+    public function result(): EntityInterface;
 }

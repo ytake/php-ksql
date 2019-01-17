@@ -20,7 +20,7 @@ namespace Istyle\KsqlClient\Entity;
 /**
  * Class SourceInfoTable
  */
-class SourceInfoTable extends SourceInfo
+final class SourceInfoTable extends SourceInfo
 {
     /** @var bool */
     private $isWindowed = false;

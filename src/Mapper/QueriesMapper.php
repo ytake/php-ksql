@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace Istyle\KsqlClient\Mapper;
 
+use Istyle\KsqlClient\Entity\EntityInterface;
 use Istyle\KsqlClient\Entity\EntityQueryId;
 use Istyle\KsqlClient\Entity\KsqlEntity;
 use Istyle\KsqlClient\Entity\Queries;
@@ -28,15 +29,24 @@ use Istyle\KsqlClient\Query\QueryId;
  */
 class QueriesMapper implements ResultInterface
 {
+    /** @var array */
+    protected $rows;
+
     /**
      * @param array $rows
-     *
-     * @return KsqlEntity
      */
-    public function result(array $rows): KsqlEntity
+    public function __construct(array $rows)
+    {
+        $this->rows = $rows;
+    }
+
+    /**
+     * @return EntityInterface
+     */
+    public function result(): EntityInterface
     {
         $queries = [];
-        foreach ($rows['queries'] as $row) {
+        foreach ($this->rows['queries'] as $row) {
             $queries[] = new RunningQuery(
                 $row['queryString'],
                 $row['sinks'],
@@ -45,6 +55,6 @@ class QueriesMapper implements ResultInterface
                 )
             );
         }
-        return new Queries($rows['statementText'], $queries);
+        return new Queries($this->rows['statementText'], $queries);
     }
 }

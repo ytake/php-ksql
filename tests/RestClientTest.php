@@ -5,6 +5,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Istyle\KsqlClient\Mapper\ResultInterface;
 use Istyle\KsqlClient\Mapper\AbstractMapper;
 use Istyle\KsqlClient\Query\{
     Ksql, Status
@@ -201,14 +202,14 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         $result = $client->requestQuery(
             new \Istyle\KsqlClient\Query\CommandStatus('MESSAGE_STREAM/create')
         );
-        $this->assertInstanceOf(AbstractMapper::class, $result);
+        $this->assertInstanceOf(ResultInterface::class, $result);
         /** @var \Istyle\KsqlClient\Entity\KsqlErrorMessage $entity */
         $entity = $result->result();
         $this->assertInstanceOf(
             \Istyle\KsqlClient\Entity\KsqlErrorMessage::class,
             $entity
         );
-        $this->assertSame('HTTP 405 Method Not Allowed', $entity->getMessage());
+        $this->assertSame('The server returned an unexpected error.', $entity->getMessage());
     }
 
     /**
@@ -383,7 +384,8 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         $this->assertContainsOnly(\Istyle\KsqlClient\Entity\SourceInfo::class, $list);
         $this->assertCount(1, $list);
         foreach ($list as $row) {
-            $this->assertSame($row->getType(), 'STREAM');
+            $this->assertSame($row->getTopic(), 'ksql-testing');
+            $this->assertSame($row->getName(), 'KSQLTESTING');
         }
     }
 
@@ -447,5 +449,23 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
             \Istyle\KsqlClient\Entity\Properties::class,
             $properties
         );
+    }
+
+    public function testShouldReturnKsqlErrorMessage(): void
+    {
+        $mock = new MockHandler([
+            new Response(201, [], file_get_contents(realpath(__DIR__ . '/resources/info.json'))),
+        ]);
+        $client = new RestClient(
+            "http://localhost:8088",
+            [],
+            new Client(['handler' => HandlerStack::create($mock)])
+        );
+        /** @var Entity\KsqlErrorMessage $result */
+        $result = $client->requestQuery(
+            new \Istyle\KsqlClient\Query\ServerInfo()
+        )->result();
+        $this->assertSame($result->getErrorCode(), 201);
+        $this->assertSame($result->getMessage(), 'The server returned an unexpected error.');
     }
 }

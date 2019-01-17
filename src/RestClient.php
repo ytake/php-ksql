@@ -25,10 +25,12 @@ use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\UriNormalizer;
 use GuzzleHttp\RequestOptions;
 use Istyle\KsqlClient\Exception\KsqlRestClientException;
-use Istyle\KsqlClient\Mapper\AbstractMapper;
+use Istyle\KsqlClient\Mapper\KsqlErrorMapper;
+use Istyle\KsqlClient\Mapper\ResultInterface;
 use Istyle\KsqlClient\Query\QueryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Class RestClient
@@ -139,13 +141,13 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
      * @param int            $timeout
      * @param bool           $debug
      *
-     * @return AbstractMapper
+     * @return ResultInterface
      */
     public function requestQuery(
         QueryInterface $query,
         int $timeout = 500000,
         bool $debug = false
-    ): AbstractMapper {
+    ): ResultInterface {
         $request = $this->normalizeRequest($query);
         try {
             $response = $this->sendRequest($query, $timeout, $debug, $request);
@@ -155,6 +157,32 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
         } catch (\GuzzleHttp\Exception\GuzzleException $e) {
             throw new KsqlRestClientException($e->getMessage(), $e->getCode());
         }
+        return $this->createErrorResult($request->getUri(), $response->getStatusCode());
+    }
+
+    /**
+     * @param UriInterface $uri
+     * @param int          $statusCode
+     *
+     * @return ResultInterface
+     */
+    private function createErrorResult(
+        UriInterface $uri,
+        int $statusCode
+    ): ResultInterface {
+        $errorMessage['error_code'] = $statusCode;
+        $errorMessage['message'] = "The server returned an unexpected error.";
+        if ($statusCode === 404) {
+            $errorMessage['message'] = "Path not found. Path='" . $uri->getPath() . "'. "
+                . "Check your ksql http url to make sure you are connecting to a ksql server.";
+        }
+        if ($statusCode === 401) {
+            $errorMessage['message'] = "Could not authenticate successfully with the supplied credentials.";
+        }
+        if ($statusCode === 403) {
+            $errorMessage['message'] = "You are forbidden from using this cluster.";
+        }
+        return new KsqlErrorMapper($errorMessage);
     }
 
     /**

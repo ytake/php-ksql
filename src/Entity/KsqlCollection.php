@@ -22,19 +22,19 @@ namespace Istyle\KsqlClient\Entity;
  */
 class KsqlCollection implements EntityInterface
 {
-    /** @var KsqlEntity[] */
+    /** @var EntityInterface[] */
     protected $ksql = [];
 
     /**
-     * @param KsqlEntity $ksql
+     * @param EntityInterface $ksql
      */
-    public function addKsql(KsqlEntity $ksql): void
+    public function addKsql(EntityInterface $ksql): void
     {
         $this->ksql[] = $ksql;
     }
 
     /**
-     * @return KsqlEntity[]
+     * @return EntityInterface[]
      */
     public function getKsql(): array
     {

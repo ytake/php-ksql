@@ -20,7 +20,7 @@ namespace Istyle\KsqlClient\Entity;
 /**
  * Class CommandStatus
  */
-class CommandStatus implements EntityInterface
+final class CommandStatus implements EntityInterface
 {
     /** @var string */
     protected $message;

@@ -19,7 +19,7 @@ namespace Istyle\KsqlClient\Query;
 
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Message\ResponseInterface;
-use Istyle\KsqlClient\Mapper\AbstractMapper;
+use Istyle\KsqlClient\Mapper\ResultInterface;
 use Istyle\KsqlClient\Mapper\KsqlMapper;
 
 /**
@@ -70,9 +70,9 @@ class Ksql implements QueryInterface
     /**
      * @param ResponseInterface $response
      *
-     * @return AbstractMapper
+     * @return ResultInterface
      */
-    public function queryResult(ResponseInterface $response): AbstractMapper
+    public function queryResult(ResponseInterface $response): ResultInterface
     {
         return new KsqlMapper($response);
     }

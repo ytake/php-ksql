@@ -20,7 +20,7 @@ namespace Istyle\KsqlClient\Entity;
 /**
  * Class StreamedRow
  */
-class StreamedRows implements EntityInterface
+final class StreamedRows implements EntityInterface
 {
     /** @var StreamedRow[] */
     protected $rows = [];

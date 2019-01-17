@@ -23,7 +23,7 @@ use GuzzleHttp\RequestOptions;
 use Istyle\KsqlClient\Exception\StreamQueryException;
 use Istyle\KsqlClient\Query\AbstractStreamQuery;
 use Istyle\KsqlClient\Query\QueryInterface;
-use Istyle\KsqlClient\Mapper\AbstractMapper;
+use Istyle\KsqlClient\Mapper\ResultInterface;
 
 /**
  * Class StreamClient
@@ -48,7 +48,7 @@ class StreamClient extends RestClient
         QueryInterface $query,
         int $timeout = 500000,
         bool $debug = false
-    ): AbstractMapper {
+    ): ResultInterface {
         if ($query instanceof AbstractStreamQuery) {
             return parent::requestQuery($query, $timeout, $debug);
         }
