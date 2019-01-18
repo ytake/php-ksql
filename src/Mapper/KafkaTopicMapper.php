@@ -24,7 +24,7 @@ use Istyle\KsqlClient\Entity\KafkaTopics;
 /**
  * Class KafkaTopicMapper
  */
-class KafkaTopicMapper implements ResultInterface
+final class KafkaTopicMapper implements ResultInterface
 {
     /** @var array */
     protected $rows;

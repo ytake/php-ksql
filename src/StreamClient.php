@@ -46,11 +46,12 @@ class StreamClient extends RestClient
      */
     public function requestQuery(
         QueryInterface $query,
+        array $streamsProperties = [],
         int $timeout = 500000,
         bool $debug = false
     ): ResultInterface {
         if ($query instanceof AbstractStreamQuery) {
-            return parent::requestQuery($query, $timeout, $debug);
+            return parent::requestQuery($query, $streamsProperties, $timeout, $debug);
         }
         throw new StreamQueryException(
             "You must extends " . AbstractStreamQuery::class

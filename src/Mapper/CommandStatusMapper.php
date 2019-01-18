@@ -23,7 +23,7 @@ use Istyle\KsqlClient\Entity\EntityInterface;
 /**
  * Class StatusCommandResult
  */
-class CommandStatusMapper extends AbstractMapper
+final class CommandStatusMapper extends AbstractMapper
 {
     /**
      * @return EntityInterface|CommandStatus

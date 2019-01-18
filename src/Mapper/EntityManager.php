@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace Istyle\KsqlClient\Mapper;
 
-use Istyle\KsqlClient\Entity\KsqlEntity;
 use Istyle\KsqlClient\Entity\EntityInterface;
 use Istyle\KsqlClient\Exception\UnknownJsonObjectsException;
 
@@ -26,7 +25,7 @@ use function array_key_exists;
 /**
  * Class EntityManager
  */
-class EntityManager
+final class EntityManager
 {
     /** @var array */
     private $row = [];
@@ -42,6 +41,7 @@ class EntityManager
         'properties'        => PropertiesMapper::class,
         'sourceDescription' => SourceDescriptionMapper::class,
         'queryDescription'  => QueryDescriptionMapper::class,
+        'currentStatus'     => CurrentStatusMapper::class,
     ];
 
     /**
@@ -61,6 +61,7 @@ class EntityManager
         if (array_key_exists($type, $this->map)) {
             /** @var ResultInterface $mapper */
             $mapper = new $this->map[$type]($this->row);
+
             return $mapper->result();
         }
         throw new UnknownJsonObjectsException('Unknown json objects.');

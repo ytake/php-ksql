@@ -29,6 +29,7 @@ interface ClientInterface
 
     /**
      * @param QueryInterface $query
+     * @param array          $streamsProperties
      * @param int            $timeout
      * @param bool           $debug
      *
@@ -36,6 +37,7 @@ interface ClientInterface
      */
     public function requestQuery(
         QueryInterface $query,
+        array $streamsProperties = [],
         int $timeout = 500000,
         bool $debug = false
     ): ResultInterface;

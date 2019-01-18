@@ -26,7 +26,7 @@ use function array_key_exists;
 /**
  * Class KsqlResult
  */
-class KsqlMapper extends AbstractMapper
+final class KsqlMapper extends AbstractMapper
 {
     /**
      * @return EntityInterface|KsqlCollection

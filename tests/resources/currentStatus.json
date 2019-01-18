@@ -1,0 +1,11 @@
+[
+  {
+    "@type": "currentStatus",
+    "statementText": "CREATE STREAM ksqltesting (message VARCHAR) WITH (KAFKA_TOPIC='ksql-testing',  VALUE_FORMAT='JSON');",
+    "commandId": "stream/KSQLTESTING/create",
+    "commandStatus": {
+      "status": "SUCCESS",
+      "message": "Stream created"
+    }
+  }
+]

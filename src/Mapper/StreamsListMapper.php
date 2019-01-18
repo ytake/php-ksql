@@ -18,14 +18,13 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Mapper;
 
 use Istyle\KsqlClient\Entity\EntityInterface;
-use Istyle\KsqlClient\Entity\KsqlEntity;
 use Istyle\KsqlClient\Entity\SourceInfo;
 use Istyle\KsqlClient\Entity\StreamsList;
 
 /**
  * Class StreamsListMapper
  */
-class StreamsListMapper implements ResultInterface
+final class StreamsListMapper implements ResultInterface
 {
     /** @var array */
     protected $rows;
