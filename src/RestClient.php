@@ -27,6 +27,7 @@ use GuzzleHttp\RequestOptions;
 use Istyle\KsqlClient\Exception\KsqlRestClientException;
 use Istyle\KsqlClient\Mapper\KsqlErrorMapper;
 use Istyle\KsqlClient\Mapper\ResultInterface;
+use Istyle\KsqlClient\Properties\LocalProperties;
 use Istyle\KsqlClient\Query\QueryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -54,8 +55,8 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
     /** @var array */
     private $options = [];
 
-    /** @var array */
-    private $properties = [];
+    /** @var LocalProperties */
+    private $properties;
 
     /**
      * RestClient constructor.
@@ -138,7 +139,7 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
      */
     public function requestQuery(
         QueryInterface $query,
-        array $streamsProperties = [],
+        ?LocalProperties $streamsProperties = null,
         int $timeout = 500000,
         bool $debug = false
     ): ResultInterface {
@@ -194,12 +195,13 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
         int $timeout = 500000,
         bool $debug = false
     ): array {
+        $properties = ($this->properties instanceof LocalProperties) ? $this->properties->toArray() : [];
         return [
             RequestOptions::TIMEOUT => $timeout,
             RequestOptions::BODY    => json_encode(
                 array_merge(
                     $query->toArray(), [
-                        'streamsProperties' => $this->properties,
+                        'streamsProperties' => $properties,
                     ]
                 )
             ),
@@ -267,7 +269,6 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
                 'auth' => [$credentials->getUserName(), $credentials->getPassword()],
             ]);
         }
-
         return $this->client->send(
             $request,
             array_merge($options, $this->options)

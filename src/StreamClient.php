@@ -24,6 +24,7 @@ use Istyle\KsqlClient\Exception\StreamQueryException;
 use Istyle\KsqlClient\Query\AbstractStreamQuery;
 use Istyle\KsqlClient\Query\QueryInterface;
 use Istyle\KsqlClient\Mapper\ResultInterface;
+use Istyle\KsqlClient\Properties\LocalProperties;
 
 /**
  * Class StreamClient
@@ -46,7 +47,7 @@ class StreamClient extends RestClient
      */
     public function requestQuery(
         QueryInterface $query,
-        array $streamsProperties = [],
+        ?LocalProperties $streamsProperties = null,
         int $timeout = 500000,
         bool $debug = false
     ): ResultInterface {

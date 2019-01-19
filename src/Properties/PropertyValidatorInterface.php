@@ -15,31 +15,18 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient;
-
-use Istyle\KsqlClient\Query\QueryInterface;
-use Istyle\KsqlClient\Mapper\ResultInterface;
-use Istyle\KsqlClient\Properties\LocalProperties;
+namespace Istyle\KsqlClient\Properties;
 
 /**
- * Interface ClientInterface
+ * Interface PropertyValidatorInterface
  */
-interface ClientInterface
+interface PropertyValidatorInterface
 {
-    const REQUEST_ACCEPT = 'application/vnd.ksql.v1+json';
-
     /**
-     * @param QueryInterface  $query
-     * @param LocalProperties $streamsProperties
-     * @param int             $timeout
-     * @param bool            $debug
+     * @param string $name
+     * @param mixed  $value
      *
-     * @return ResultInterface
+     * @return void
      */
-    public function requestQuery(
-        QueryInterface $query,
-        ?LocalProperties $streamsProperties = null,
-        int $timeout = 500000,
-        bool $debug = false
-    ): ResultInterface;
+    public function validate(string $name, $value): void;
 }

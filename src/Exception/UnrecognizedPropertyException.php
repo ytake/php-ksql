@@ -15,31 +15,11 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient;
-
-use Istyle\KsqlClient\Query\QueryInterface;
-use Istyle\KsqlClient\Mapper\ResultInterface;
-use Istyle\KsqlClient\Properties\LocalProperties;
+namespace Istyle\KsqlClient\Exception;
 
 /**
- * Interface ClientInterface
+ * Class UnrecognizedPropertyException
  */
-interface ClientInterface
+final class UnrecognizedPropertyException extends \RuntimeException
 {
-    const REQUEST_ACCEPT = 'application/vnd.ksql.v1+json';
-
-    /**
-     * @param QueryInterface  $query
-     * @param LocalProperties $streamsProperties
-     * @param int             $timeout
-     * @param bool            $debug
-     *
-     * @return ResultInterface
-     */
-    public function requestQuery(
-        QueryInterface $query,
-        ?LocalProperties $streamsProperties = null,
-        int $timeout = 500000,
-        bool $debug = false
-    ): ResultInterface;
 }

@@ -19,6 +19,7 @@ namespace Istyle\KsqlClient\Mapper;
 
 use Istyle\KsqlClient\Entity\EntityInterface;
 use Istyle\KsqlClient\Exception\UnknownJsonObjectsException;
+use Istyle\KsqlClient\Exception\UnrecognizedPropertyException;
 
 use function array_key_exists;
 
@@ -63,6 +64,9 @@ final class EntityManager
             $mapper = new $this->map[$type]($this->row);
 
             return $mapper->result();
+        }
+        if ($type !== '') {
+            throw new UnrecognizedPropertyException(sprintf('Unrecognized field %s.', $type));
         }
         throw new UnknownJsonObjectsException('Unknown json objects.');
     }

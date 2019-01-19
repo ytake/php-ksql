@@ -451,6 +451,61 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         )->result();
         $this->assertSame($result->getErrorCode(), 201);
         $this->assertSame($result->getMessage(), 'The server returned an unexpected error.');
+
+        $client = new RestClient(
+            "http://localhost:8088",
+            new Client([
+                'handler' => HandlerStack::create(new MockHandler([
+                    new Response(401, [], null),
+                ]))
+            ])
+        );
+        $client->setOptions(['http_errors' => false]);
+        /** @var Entity\KsqlErrorMessage $result */
+        $result = $client->requestQuery(
+            new \Istyle\KsqlClient\Query\ServerInfo()
+        )->result();
+        $this->assertSame($result->getErrorCode(), 401);
+        $this->assertSame(
+            $result->getMessage(),
+            'Could not authenticate successfully with the supplied credentials.'
+        );
+        $client = new RestClient(
+            "http://localhost:8088",
+            new Client([
+                'handler' => HandlerStack::create(new MockHandler([
+                    new Response(403, [], null),
+                ]))
+            ])
+        );
+        $client->setOptions(['http_errors' => false]);
+        /** @var Entity\KsqlErrorMessage $result */
+        $result = $client->requestQuery(
+            new \Istyle\KsqlClient\Query\ServerInfo()
+        )->result();
+        $this->assertSame($result->getErrorCode(), 403);
+        $this->assertSame(
+            $result->getMessage(),
+            'You are forbidden from using this cluster.'
+        );
+        $client = new RestClient(
+            "http://localhost:8088",
+            new Client([
+                'handler' => HandlerStack::create(new MockHandler([
+                    new Response(405, [], null),
+                ]))
+            ])
+        );
+        $client->setOptions(['http_errors' => false]);
+        /** @var Entity\KsqlErrorMessage $result */
+        $result = $client->requestQuery(
+            new \Istyle\KsqlClient\Query\ServerInfo()
+        )->result();
+        $this->assertSame($result->getErrorCode(), 405);
+        $this->assertSame(
+            $result->getMessage(),
+            'The server returned an unexpected error.'
+        );
     }
 
     public function testShouldReturnCurrentStatusEntity(): void
@@ -480,5 +535,7 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
             $commandStatus->getStatementText()
         );
         $this->assertInstanceOf(CommandId::class, $commandStatus->getCommandId());
+        $this->assertSame('Stream created', $commandStatus->getCommandStatus()->getMessage());
+        $this->assertSame('SUCCESS', $commandStatus->getCommandStatus()->getStatus());
     }
 }
