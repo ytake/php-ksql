@@ -47,12 +47,13 @@ $ composer require istyle-inc/php-ksql
 
 use Istyle\KsqlClient\RestClient;
 use Istyle\KsqlClient\Query\CommandStatus;
+use Istyle\KsqlClient\Computation\CommandId;
 
 $client = new RestClient(
     "http://localhost:8088"
 );
 $result = $client->requestQuery(
-    new CommandStatus('MESSAGE_STREAM/create')
+    new CommandStatus(CommandId::fromString('stream/MESSAGE_STREAM/create'))
 )->result();
 
 ```

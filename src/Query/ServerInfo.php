@@ -58,4 +58,12 @@ final class ServerInfo implements QueryInterface
     {
         return new ServerInfoMapper($response);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasProperties(): bool
+    {
+        return false;
+    }
 }

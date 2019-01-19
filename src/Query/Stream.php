@@ -63,4 +63,12 @@ final class Stream extends AbstractStreamQuery
 
         return $stream;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasProperties(): bool
+    {
+        return true;
+    }
 }
