@@ -18,7 +18,6 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Mapper;
 
 use Istyle\KsqlClient\Entity\EntityInterface;
-use Istyle\KsqlClient\Entity\KsqlEntity;
 use Istyle\KsqlClient\Entity\QueryDescription;
 use Istyle\KsqlClient\Entity\QueryDescriptionEntity;
 use Istyle\KsqlClient\Entity\EntityQueryId;

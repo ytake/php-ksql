@@ -12,6 +12,7 @@ use Istyle\KsqlClient\Query\{
 };
 use Istyle\KsqlClient\RestClient;
 use Istyle\KsqlClient\Entity;
+use Istyle\KsqlClient\Computation\CommandId;
 
 /**
  * Class RestClientTest
@@ -39,7 +40,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
         $client->setOptions([
@@ -57,7 +57,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
 
@@ -82,7 +81,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
 
@@ -107,7 +105,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
 
@@ -145,7 +142,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
 
@@ -170,7 +166,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
 
@@ -195,7 +190,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
 
@@ -222,7 +216,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
         $client->requestQuery(
@@ -237,7 +230,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
 
@@ -261,7 +253,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
 
@@ -292,7 +283,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         $mock = new MockHandler([new Response()]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
         $client->setAuthCredentials(
@@ -306,7 +296,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         $mock = new MockHandler([new Response()]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
         $client->requestQuery(new \Istyle\KsqlClient\Query\ServerInfo());
@@ -322,7 +311,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
 
@@ -362,7 +350,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
 
@@ -396,7 +383,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
 
@@ -429,7 +415,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
 
@@ -458,7 +443,6 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new RestClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
         /** @var Entity\KsqlErrorMessage $result */
@@ -467,5 +451,91 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         )->result();
         $this->assertSame($result->getErrorCode(), 201);
         $this->assertSame($result->getMessage(), 'The server returned an unexpected error.');
+
+        $client = new RestClient(
+            "http://localhost:8088",
+            new Client([
+                'handler' => HandlerStack::create(new MockHandler([
+                    new Response(401, [], null),
+                ]))
+            ])
+        );
+        $client->setOptions(['http_errors' => false]);
+        /** @var Entity\KsqlErrorMessage $result */
+        $result = $client->requestQuery(
+            new \Istyle\KsqlClient\Query\ServerInfo()
+        )->result();
+        $this->assertSame($result->getErrorCode(), 401);
+        $this->assertSame(
+            $result->getMessage(),
+            'Could not authenticate successfully with the supplied credentials.'
+        );
+        $client = new RestClient(
+            "http://localhost:8088",
+            new Client([
+                'handler' => HandlerStack::create(new MockHandler([
+                    new Response(403, [], null),
+                ]))
+            ])
+        );
+        $client->setOptions(['http_errors' => false]);
+        /** @var Entity\KsqlErrorMessage $result */
+        $result = $client->requestQuery(
+            new \Istyle\KsqlClient\Query\ServerInfo()
+        )->result();
+        $this->assertSame($result->getErrorCode(), 403);
+        $this->assertSame(
+            $result->getMessage(),
+            'You are forbidden from using this cluster.'
+        );
+        $client = new RestClient(
+            "http://localhost:8088",
+            new Client([
+                'handler' => HandlerStack::create(new MockHandler([
+                    new Response(405, [], null),
+                ]))
+            ])
+        );
+        $client->setOptions(['http_errors' => false]);
+        /** @var Entity\KsqlErrorMessage $result */
+        $result = $client->requestQuery(
+            new \Istyle\KsqlClient\Query\ServerInfo()
+        )->result();
+        $this->assertSame($result->getErrorCode(), 405);
+        $this->assertSame(
+            $result->getMessage(),
+            'The server returned an unexpected error.'
+        );
+    }
+
+    public function testShouldReturnCurrentStatusEntity(): void
+    {
+        $mock = new MockHandler([
+            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/currentStatus.json'))),
+        ]);
+        $client = new RestClient(
+            "http://localhost:8088",
+            new Client(['handler' => HandlerStack::create($mock)])
+        );
+        $result = $client->requestQuery(
+            new \Istyle\KsqlClient\Query\Ksql(
+                "CREATE STREAM ksqltesting (message VARCHAR) WITH (KAFKA_TOPIC='ksql-testing',  VALUE_FORMAT='JSON');"
+            )
+        )->result();
+        /** @var Entity\KsqlCollection $result */
+        $this->assertInstanceOf(
+            \Istyle\KsqlClient\Entity\KsqlCollection::class,
+            $result
+        );
+        /** @var Entity\CommandStatusEntity $commandStatus */
+        $commandStatus = $result->getKsql()[0];
+        $this->assertSame(-1, $commandStatus->getCommandSequenceNumber());
+        $this->assertSame(
+            "CREATE STREAM ksqltesting (message VARCHAR) WITH (KAFKA_TOPIC='ksql-testing',  VALUE_FORMAT='JSON');",
+            $commandStatus->getStatementText()
+        );
+        $this->assertInstanceOf(CommandId::class, $commandStatus->getCommandId());
+        $this->assertSame('Stream created', $commandStatus->getCommandStatus()->getMessage());
+        $this->assertSame('SUCCESS', $commandStatus->getCommandStatus()->getStatus());
     }
 }

@@ -27,6 +27,7 @@ use GuzzleHttp\RequestOptions;
 use Istyle\KsqlClient\Exception\KsqlRestClientException;
 use Istyle\KsqlClient\Mapper\KsqlErrorMapper;
 use Istyle\KsqlClient\Mapper\ResultInterface;
+use Istyle\KsqlClient\Properties\LocalProperties;
 use Istyle\KsqlClient\Query\QueryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -42,9 +43,6 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
     /** @var string */
     private $serverAddress;
 
-    /** @var array<string, string> */
-    private $properties = [];
-
     /** @var ClientInterface */
     private $client;
 
@@ -57,20 +55,20 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
     /** @var array */
     private $options = [];
 
+    /** @var LocalProperties */
+    private $properties;
+
     /**
      * RestClient constructor.
      *
      * @param string               $serverAddress
-     * @param array                $properties
      * @param ClientInterface|null $client
      */
     public function __construct(
         string $serverAddress,
-        array $properties = [],
         ClientInterface $client = null
     ) {
         $this->serverAddress = $serverAddress;
-        $this->properties = $properties;
         $this->client = (is_null($client)) ? $this->buildClient() : $client;
     }
 
@@ -137,18 +135,16 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
     }
 
     /**
-     * @param QueryInterface $query
-     * @param int            $timeout
-     * @param bool           $debug
-     *
-     * @return ResultInterface
+     * {@inheritdoc}
      */
     public function requestQuery(
         QueryInterface $query,
+        ?LocalProperties $streamsProperties = null,
         int $timeout = 500000,
         bool $debug = false
     ): ResultInterface {
         $request = $this->normalizeRequest($query);
+        $this->properties = $streamsProperties;
         try {
             $response = $this->sendRequest($query, $timeout, $debug, $request);
             if ($response->getStatusCode() == StatusCodeInterface::STATUS_OK) {
@@ -157,6 +153,7 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
         } catch (\GuzzleHttp\Exception\GuzzleException $e) {
             throw new KsqlRestClientException($e->getMessage(), $e->getCode());
         }
+
         return $this->createErrorResult($request->getUri(), $response->getStatusCode());
     }
 
@@ -182,6 +179,7 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
         if ($statusCode === StatusCodeInterface::STATUS_FORBIDDEN) {
             $errorMessage['message'] = "You are forbidden from using this cluster.";
         }
+
         return new KsqlErrorMapper($errorMessage);
     }
 
@@ -197,9 +195,16 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
         int $timeout = 500000,
         bool $debug = false
     ): array {
+        $properties = ($this->properties instanceof LocalProperties) ? $this->properties->toArray() : [];
         return [
             RequestOptions::TIMEOUT => $timeout,
-            RequestOptions::BODY    => json_encode($query->toArray()),
+            RequestOptions::BODY    => json_encode(
+                array_merge(
+                    $query->toArray(), [
+                        'streamsProperties' => $properties,
+                    ]
+                )
+            ),
             RequestOptions::DEBUG   => $debug,
         ];
     }
@@ -264,7 +269,6 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
                 'auth' => [$credentials->getUserName(), $credentials->getPassword()],
             ]);
         }
-
         return $this->client->send(
             $request,
             array_merge($options, $this->options)

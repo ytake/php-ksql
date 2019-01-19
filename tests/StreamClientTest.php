@@ -26,7 +26,6 @@ class StreamClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new StreamClient(
             "http://localhost:8088",
-            [],
             new Client(['handler' => HandlerStack::create($mock)])
         );
         $client->requestQuery(new Status());
@@ -39,7 +38,6 @@ class StreamClientTest extends \PHPUnit\Framework\TestCase
         ]);
         $client = new StreamClient(
             "http://localhost:8088",
-            [],
             new Client([
                 'handler' => HandlerStack::create($mock),
                 'stream'  => true,

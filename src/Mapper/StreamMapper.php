@@ -27,7 +27,7 @@ use Istyle\KsqlClient\StreamConsumable;
 /**
  * Class StreamResult
  */
-class StreamMapper extends AbstractMapper
+final class StreamMapper extends AbstractMapper
 {
     /** @var StreamConsumable */
     protected $callback;

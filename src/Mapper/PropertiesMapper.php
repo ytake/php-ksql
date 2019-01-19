@@ -23,7 +23,7 @@ use Istyle\KsqlClient\Entity\Properties;
 /**
  * Class PropertiesMapper
  */
-class PropertiesMapper implements ResultInterface
+final class PropertiesMapper implements ResultInterface
 {
     /** @var array */
     protected $rows;

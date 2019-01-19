@@ -15,36 +15,18 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Mapper;
-
-use Istyle\KsqlClient\Entity\EntityInterface;
-use Istyle\KsqlClient\Entity\KsqlErrorMessage;
+namespace Istyle\KsqlClient\Properties;
 
 /**
- * Class KsqlErrorMapper
+ * Interface PropertyValidatorInterface
  */
-final class KsqlErrorMapper implements ResultInterface
+interface PropertyValidatorInterface
 {
-    /** @var array */
-    protected $rows;
-
     /**
-     * @param array $rows
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @return void
      */
-    public function __construct(array $rows)
-    {
-        $this->rows = $rows;
-    }
-
-    /**
-     * @return EntityInterface
-     */
-    public function result(): EntityInterface
-    {
-        return new KsqlErrorMessage(
-            $this->rows['error_code'],
-            $this->rows['message'] ?? '',
-            $this->rows['stackTrace'] ?? []
-        );
-    }
+    public function validate(string $name, $value): void;
 }

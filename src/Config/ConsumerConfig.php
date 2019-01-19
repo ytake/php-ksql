@@ -15,36 +15,12 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Mapper;
-
-use Istyle\KsqlClient\Entity\EntityInterface;
-use Istyle\KsqlClient\Entity\KsqlErrorMessage;
+namespace Istyle\KsqlClient\Config;
 
 /**
- * Class KsqlErrorMapper
+ * Class ConsumerConfig
  */
-final class KsqlErrorMapper implements ResultInterface
+final class ConsumerConfig
 {
-    /** @var array */
-    protected $rows;
-
-    /**
-     * @param array $rows
-     */
-    public function __construct(array $rows)
-    {
-        $this->rows = $rows;
-    }
-
-    /**
-     * @return EntityInterface
-     */
-    public function result(): EntityInterface
-    {
-        return new KsqlErrorMessage(
-            $this->rows['error_code'],
-            $this->rows['message'] ?? '',
-            $this->rows['stackTrace'] ?? []
-        );
-    }
+    const AUTO_OFFSET_RESET_CONFIG = 'auto.offset.reset';
 }

@@ -17,13 +17,17 @@ declare(strict_types=1);
 
 namespace Istyle\KsqlClient\Mapper;
 
+use Istyle\KsqlClient\Computation\CommandId;
+use Istyle\KsqlClient\Entity\CommandStatus;
+use Istyle\KsqlClient\Entity\CommandStatusEntity;
 use Istyle\KsqlClient\Entity\EntityInterface;
-use Istyle\KsqlClient\Entity\KsqlErrorMessage;
+
+use function intval;
 
 /**
- * Class KsqlErrorMapper
+ * Class CurrentStatusMapper
  */
-final class KsqlErrorMapper implements ResultInterface
+final class CurrentStatusMapper implements ResultInterface
 {
     /** @var array */
     protected $rows;
@@ -37,14 +41,20 @@ final class KsqlErrorMapper implements ResultInterface
     }
 
     /**
-     * @return EntityInterface
+     * {@inheritdoc}
      */
     public function result(): EntityInterface
     {
-        return new KsqlErrorMessage(
-            $this->rows['error_code'],
-            $this->rows['message'] ?? '',
-            $this->rows['stackTrace'] ?? []
+        $commandStatus = $this->rows['commandStatus'];
+
+        return new CommandStatusEntity(
+            $this->rows['statementText'],
+            CommandId::fromString($this->rows['commandId']),
+            new CommandStatus(
+                $commandStatus['message'],
+                $commandStatus['status']
+            ),
+            isset($this->rows['commandSequenceNumber']) ? intval($this->rows['commandSequenceNumber']) : - 1
         );
     }
 }

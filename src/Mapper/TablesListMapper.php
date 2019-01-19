@@ -24,7 +24,7 @@ use Istyle\KsqlClient\Entity\TablesList;
 /**
  * Class TablesListMapper
  */
-class TablesListMapper implements ResultInterface
+final class TablesListMapper implements ResultInterface
 {
     /** @var array */
     protected $rows;

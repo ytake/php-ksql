@@ -19,7 +19,6 @@ namespace Istyle\KsqlClient\Mapper;
 
 use Istyle\KsqlClient\Entity\EntityInterface;
 use Istyle\KsqlClient\Entity\EntityQueryId;
-use Istyle\KsqlClient\Entity\KsqlEntity;
 use Istyle\KsqlClient\Entity\Queries;
 use Istyle\KsqlClient\Entity\RunningQuery;
 use Istyle\KsqlClient\Query\QueryId;
@@ -27,7 +26,7 @@ use Istyle\KsqlClient\Query\QueryId;
 /**
  * Class QueriesMapper
  */
-class QueriesMapper implements ResultInterface
+final class QueriesMapper implements ResultInterface
 {
     /** @var array */
     protected $rows;
