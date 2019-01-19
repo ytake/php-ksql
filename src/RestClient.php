@@ -38,7 +38,7 @@ use Psr\Http\Message\UriInterface;
  */
 class RestClient implements \Istyle\KsqlClient\ClientInterface
 {
-    const VERSION = '0.2.0';
+    const VERSION = '1.0.0';
 
     /** @var string */
     private $serverAddress;
@@ -195,16 +195,14 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
         int $timeout = 500000,
         bool $debug = false
     ): array {
-        $properties = ($this->properties instanceof LocalProperties) ? $this->properties->toArray() : [];
+        $requestBody = $query->toArray();
+        if ($query->hasProperties()) {
+            $properties = ($this->properties instanceof LocalProperties) ? $this->properties->toArray() : new \stdClass();
+            $requestBody = array_merge($query->toArray(), ['streamsProperties' => $properties]);
+        }
         return [
             RequestOptions::TIMEOUT => $timeout,
-            RequestOptions::BODY    => json_encode(
-                array_merge(
-                    $query->toArray(), [
-                        'streamsProperties' => $properties,
-                    ]
-                )
-            ),
+            RequestOptions::BODY    => json_encode($requestBody),
             RequestOptions::DEBUG   => $debug,
         ];
     }
@@ -241,8 +239,9 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
     {
         return [
             RequestOptions::HEADERS => [
-                'User-Agent' => $this->userAgent(),
-                'Accept'     => \Istyle\KsqlClient\ClientInterface::REQUEST_ACCEPT,
+                'User-Agent'   => $this->userAgent(),
+                'Accept'       => \Istyle\KsqlClient\ClientInterface::REQUEST_ACCEPT,
+                'Content-Type' => 'application/json; charset=utf-8',
             ],
         ];
     }

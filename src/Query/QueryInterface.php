@@ -48,4 +48,11 @@ interface QueryInterface
      * @return ResultInterface
      */
     public function queryResult(ResponseInterface $response): ResultInterface;
+
+    /**
+     * Property overrides to run the statements with.
+     * for /ksql, /query
+     * @return bool
+     */
+    public function hasProperties(): bool;
 }

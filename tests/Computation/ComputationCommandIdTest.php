@@ -16,6 +16,7 @@ final class ComputationCommandIdTest extends TestCase
         $this->assertSame('create', $commandId->getAction());
         $this->assertSame('stream', $commandId->getType());
         $this->assertSame('KSQLTESTING', $commandId->getEntity());
+        $this->assertSame('stream/KSQLTESTING/create', \strval($commandId));
     }
 
     /**

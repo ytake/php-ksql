@@ -76,4 +76,12 @@ class Ksql implements QueryInterface
     {
         return new KsqlMapper($response);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasProperties(): bool
+    {
+        return true;
+    }
 }

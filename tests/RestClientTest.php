@@ -13,6 +13,8 @@ use Istyle\KsqlClient\Query\{
 use Istyle\KsqlClient\RestClient;
 use Istyle\KsqlClient\Entity;
 use Istyle\KsqlClient\Computation\CommandId;
+use Istyle\KsqlClient\Properties\LocalProperties;
+use Istyle\KsqlClient\Properties\LocalPropertyValidator;
 
 /**
  * Class RestClientTest
@@ -133,6 +135,18 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
             $description->getEntityQueryId()
         );
         $this->assertSame('CSAS_STREAM2_0', $description->getEntityQueryId()->getId());
+        $this->assertNotCount(0, $description->getSinks());
+        $this->assertContainsOnlyInstancesOf(
+            Entity\FieldInfo::class, $description->getFields()
+        );
+        $this->assertNotEmpty($description->getExecutionPlan());
+        $this->assertCount(0, $description->getOverriddenProperties());
+        $this->assertNotCount(0, $description->getSources());
+        $this->assertSame(
+            "CREATE STREAM stream2 	WITH (kafka_topic='output-topic' , value_format='DELIMITED') 	AS SELECT * FROM stream1 WHERE LEN(message) > 2;",
+            $description->getStatementText()
+        );
+        $this->assertNotEmpty($description->getTopology());
     }
 
     public function testShouldBeCommandStatusEntity(): void
@@ -145,9 +159,16 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
             new Client(['handler' => HandlerStack::create($mock)])
         );
 
+        $properties = new LocalProperties(["ksql.streams.auto.offset.reset" => "earliest"],
+            new LocalPropertyValidator());
+
         $result = $client->requestQuery(
-            new \Istyle\KsqlClient\Query\CommandStatus('MESSAGE_STREAM/create')
+            new \Istyle\KsqlClient\Query\CommandStatus(
+                CommandId::fromString('a/MESSAGE_STREAM/create')
+            ),
+            $properties
         );
+
         $this->assertInstanceOf(AbstractMapper::class, $result);
         /** @var \Istyle\KsqlClient\Entity\CommandStatus $entity */
         $entity = $result->result();
@@ -194,7 +215,9 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         );
 
         $result = $client->requestQuery(
-            new \Istyle\KsqlClient\Query\CommandStatus('MESSAGE_STREAM/create')
+            new \Istyle\KsqlClient\Query\CommandStatus(
+                CommandId::fromString('testing/MESSAGE_STREAM/create')
+            )
         );
         $this->assertInstanceOf(ResultInterface::class, $result);
         /** @var \Istyle\KsqlClient\Entity\KsqlErrorMessage $entity */
@@ -219,7 +242,9 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
             new Client(['handler' => HandlerStack::create($mock)])
         );
         $client->requestQuery(
-            new \Istyle\KsqlClient\Query\CommandStatus('MESSAGE_STREAM/create')
+            new \Istyle\KsqlClient\Query\CommandStatus(
+                CommandId::fromString('testing/MESSAGE_STREAM/create')
+            )
         )->result();
     }
 
@@ -406,6 +431,10 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
             \Istyle\KsqlClient\Entity\RunningQuery::class,
             $queries->getQueries()
         );
+        /** @var \Istyle\KsqlClient\Entity\RunningQuery $query */
+        $query = $queries->getQueries()[0];
+        $this->assertSame('CSAS_STREAM2_0', $query->getId()->getId());
+        $this->assertNotCount(0, $query->getSinks());
     }
 
     public function testShouldReturnPropertiesEntity(): void

@@ -58,4 +58,12 @@ final class Status implements QueryInterface
     {
         return new StatusMapper($response);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasProperties(): bool
+    {
+        return false;
+    }
 }

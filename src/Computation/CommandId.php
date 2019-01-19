@@ -19,6 +19,7 @@ namespace Istyle\KsqlClient\Computation;
 
 use InvalidArgumentException;
 use function explode;
+use function sprintf;
 
 /**
  * Class CommandId
@@ -86,5 +87,18 @@ final class CommandId
     public function getAction(): string
     {
         return $this->action;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return sprintf(
+            "%s/%s/%s",
+            strtolower($this->type),
+            $this->entity,
+            strtolower($this->action)
+        );
     }
 }

@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace Istyle\KsqlClient\Query;
 
 use Fig\Http\Message\RequestMethodInterface;
+use Istyle\KsqlClient\Computation\CommandId;
 use Istyle\KsqlClient\Mapper\ResultInterface;
 use Psr\Http\Message\ResponseInterface;
 use Istyle\KsqlClient\Mapper\CommandStatusMapper;
@@ -27,13 +28,13 @@ use Istyle\KsqlClient\Mapper\CommandStatusMapper;
  */
 final class CommandStatus implements QueryInterface
 {
-    /** @var string */
+    /** @var CommandId */
     protected $commandId;
 
     /**
-     * @param string $commandId
+     * @param CommandId $commandId
      */
-    public function __construct(string $commandId)
+    public function __construct(CommandId $commandId)
     {
         $this->commandId = $commandId;
     }
@@ -70,5 +71,13 @@ final class CommandStatus implements QueryInterface
     public function queryResult(ResponseInterface $response): ResultInterface
     {
         return new CommandStatusMapper($response);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasProperties(): bool
+    {
+        return false;
     }
 }
