@@ -1,0 +1,96 @@
+[
+  {
+    "@type": "sourceDescription",
+    "statementText": "describe extended user_lottery_V_STREAM_hgame_orders__CLEAR;",
+    "sourceDescription": {
+      "name": "USER_LOTTERY_V_STREAM_HGAME_ORDERS__CLEAR",
+      "readQueries": [
+        {
+          "sinks": [
+            "USER_LOTTERY_T_STREAM_HGAME_ORDERS__N1"
+          ],
+          "id": "CSAS_USER_LOTTERY_T_STREAM_HGAME_ORDERS__N1_1",
+          "queryString": "CREATE STREAM user_lottery_T_STREAM_hgame_orders__N1 \nWITH (VALUE_FORMAT = 'JSON', TIMESTAMP = 'actiontime') AS SELECT\nDATA -> ordertypeid AS ordertypeid,\nDATA -> actiontime AS actiontime,\nDATA -> fromuserid AS fromuserid,\nDATA -> amount AS amount\nFROM user_lottery_V_STREAM_hgame_orders__CLEAR;"
+        }
+      ],
+      "writeQueries": [],
+      "fields": [
+        {
+          "name": "ROWTIME",
+          "schema": {
+            "type": "BIGINT",
+            "fields": null,
+            "memberSchema": null
+          }
+        },
+        {
+          "name": "ROWKEY",
+          "schema": {
+            "type": "STRING",
+            "fields": null,
+            "memberSchema": null
+          }
+        },
+        {
+          "name": "TYPE",
+          "schema": {
+            "type": "STRING",
+            "fields": null,
+            "memberSchema": null
+          }
+        },
+        {
+          "name": "DATA",
+          "schema": {
+            "type": "STRUCT",
+            "fields": [
+              {
+                "name": "ordertypeid",
+                "schema": {
+                  "type": "INTEGER",
+                  "fields": null,
+                  "memberSchema": null
+                }
+              },
+              {
+                "name": "actiontime",
+                "schema": {
+                  "type": "BIGINT",
+                  "fields": null,
+                  "memberSchema": null
+                }
+              },
+              {
+                "name": "fromuserid",
+                "schema": {
+                  "type": "BIGINT",
+                  "fields": null,
+                  "memberSchema": null
+                }
+              },
+              {
+                "name": "amount",
+                "schema": {
+                  "type": "DOUBLE",
+                  "fields": null,
+                  "memberSchema": null
+                }
+              }
+            ],
+            "memberSchema": null
+          }
+        }
+      ],
+      "type": "STREAM",
+      "key": "",
+      "timestamp": "",
+      "statistics": "consumer-messages-per-sec: 0 consumer-total-bytes: 220778 consumer-total-messages: 284 last-message: 2019-03-29T08:55:27.647Z",
+      "errorStats": "",
+      "extended": true,
+      "format": "JSON",
+      "topic": "mw_hgame_orders",
+      "partitions": 16,
+      "replication": 3
+    }
+  }
+]
