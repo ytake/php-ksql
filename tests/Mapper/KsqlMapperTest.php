@@ -7,7 +7,7 @@ use Istyle\KsqlClient\Entity\KsqlCollection;
 use Istyle\KsqlClient\Entity\SourceDescriptionEntity;
 use Istyle\KsqlClient\Entity\RunningQuery;
 
-class KsqlMapperTest extends \PHPUnit\Framework\TestCase
+final class KsqlMapperTest extends \PHPUnit\Framework\TestCase
 {
     public function testShouldReturnDescriptionEntity(): void
     {

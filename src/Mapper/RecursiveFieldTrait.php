@@ -34,15 +34,7 @@ trait RecursiveFieldTrait
     {
         $fields = [];
         foreach ($rows as $row) {
-            $schema = $row['schema'];
-            $fields[] = new FieldInfo(
-                $row['name'],
-                new SchemaInfo(
-                    $schema['type'],
-                    $this->recursiveFields($schema['fields']),
-                    $this->recursiveSchemaInfo($schema['memberSchema'])
-                )
-            );
+            $fields[] = $this->generateSchemaInfo($row);
         }
         return $fields;
     }
@@ -57,11 +49,16 @@ trait RecursiveFieldTrait
         if (!is_null($rows)) {
             $fields = [];
             foreach ($rows as $row) {
-                if (!is_null($row['memberSchema'])) {
-                    $fields[] = new FieldInfo(
-                        $row['name'],
-                        $this->recursiveSchemaInfo($row['memberSchema'] ?? [])
-                    );
+                if (!is_null($row['schema'])) {
+                    $fields[] = $this->generateSchemaInfo($row);
+                }
+                if (isset($row['memberSchema'])) {
+                    if (!is_null($row['memberSchema'])) {
+                        $fields[] = new FieldInfo(
+                            $row['name'],
+                            $this->recursiveSchemaInfo($row['memberSchema'] ?? [])
+                        );
+                    }
                 }
             }
             return $fields;
@@ -80,5 +77,23 @@ trait RecursiveFieldTrait
             return null;
         }
         return new SchemaInfo($rows['type'], $this->recursiveFields($rows['fields']), $rows['memberSchema']);
+    }
+
+    /**
+     * @param array $row
+     *
+     * @return FieldInfo
+     */
+    private function generateSchemaInfo(array $row): FieldInfo
+    {
+        $schema = $row['schema'];
+        return new FieldInfo(
+            $row['name'],
+            new SchemaInfo(
+                $schema['type'],
+                $this->recursiveFields($schema['fields']),
+                $this->recursiveSchemaInfo($schema['memberSchema'])
+            )
+        );
     }
 }
