@@ -2,14 +2,14 @@
 
 Apache kafka / Confluent KSQL REST Client for php
 
-[![Build Status](http://img.shields.io/travis/Ytake-inc/php-ksql/master.svg?style=flat-square)](https://travis-ci.org/Ytake-inc/php-ksql)
-[![Coverage Status](http://img.shields.io/coveralls/Ytake-inc/php-ksql/master.svg?style=flat-square)](https://coveralls.io/github/Ytake-inc/php-ksql?branch=master)
-[![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/Ytake-inc/php-ksql.svg?style=flat-square)](https://scrutinizer-ci.com/g/Ytake-inc/php-ksql/?branch=master)
+[![Build Status](http://img.shields.io/travis/ytake/php-ksql/master.svg?style=flat-square)](https://travis-ci.org/ytake/php-ksql)
+[![Coverage Status](http://img.shields.io/coveralls/ytake/php-ksql/master.svg?style=flat-square)](https://coveralls.io/github/ytake/php-ksql?branch=master)
+[![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/ytake/php-ksql.svg?style=flat-square)](https://scrutinizer-ci.com/g/ytake/php-ksql/?branch=master)
 [![StyleCI](https://styleci.io/repos/131283937/shield?branch=master)](https://styleci.io/repos/131283937)
 
-[![License](http://img.shields.io/packagist/l/Ytake-inc/php-ksql.svg?style=flat-square)](https://packagist.org/packages/Ytake-inc/php-ksql)
-[![Latest Version](http://img.shields.io/packagist/v/Ytake-inc/php-ksql.svg?style=flat-square)](https://packagist.org/packages/Ytake-inc/php-ksql)
-[![Total Downloads](http://img.shields.io/packagist/dt/Ytake-inc/php-ksql.svg?style=flat-square)](https://packagist.org/packages/Ytake-inc/php-ksql)
+[![License](http://img.shields.io/packagist/l/ytake/php-ksql.svg?style=flat-square)](https://packagist.org/packages/ytake/php-ksql)
+[![Latest Version](http://img.shields.io/packagist/v/ytake/php-ksql.svg?style=flat-square)](https://packagist.org/packages/ytake/php-ksql)
+[![Total Downloads](http://img.shields.io/packagist/dt/ytake/php-ksql.svg?style=flat-square)](https://packagist.org/packages/ytake/php-ksql)
 
 ## What is KSQL
 
