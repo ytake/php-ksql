@@ -15,14 +15,14 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Mapper;
+namespace Ytake\KsqlClient\Mapper;
 
-use Istyle\KsqlClient\Entity\EntityInterface;
-use Istyle\KsqlClient\Entity\SourceDescription;
-use Istyle\KsqlClient\Entity\SourceDescriptionEntity;
-use Istyle\KsqlClient\Entity\RunningQuery;
-use Istyle\KsqlClient\Entity\EntityQueryId;
-use Istyle\KsqlClient\Query\QueryId;
+use Ytake\KsqlClient\Entity\EntityInterface;
+use Ytake\KsqlClient\Entity\SourceDescription;
+use Ytake\KsqlClient\Entity\SourceDescriptionEntity;
+use Ytake\KsqlClient\Entity\RunningQuery;
+use Ytake\KsqlClient\Entity\EntityQueryId;
+use Ytake\KsqlClient\Query\QueryId;
 
 /**
  * Class SourceDescriptionMapper

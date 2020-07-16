@@ -15,16 +15,16 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient;
+namespace Ytake\KsqlClient;
 
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
-use Istyle\KsqlClient\Exception\StreamQueryException;
-use Istyle\KsqlClient\Query\AbstractStreamQuery;
-use Istyle\KsqlClient\Query\QueryInterface;
-use Istyle\KsqlClient\Mapper\ResultInterface;
-use Istyle\KsqlClient\Properties\LocalProperties;
+use Ytake\KsqlClient\Exception\StreamQueryException;
+use Ytake\KsqlClient\Query\AbstractStreamQuery;
+use Ytake\KsqlClient\Query\QueryInterface;
+use Ytake\KsqlClient\Mapper\ResultInterface;
+use Ytake\KsqlClient\Properties\LocalProperties;
 
 /**
  * Class StreamClient

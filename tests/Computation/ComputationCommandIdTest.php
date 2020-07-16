@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use Istyle\KsqlClient\Computation\CommandId;
+use Ytake\KsqlClient\Computation\CommandId;
 
 /**
  * Class ComputationCommandIdTest

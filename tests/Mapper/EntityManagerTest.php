@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use Istyle\KsqlClient\Mapper\EntityManager;
-use Istyle\KsqlClient\Entity\EntityInterface;
+use Ytake\KsqlClient\Mapper\EntityManager;
+use Ytake\KsqlClient\Entity\EntityInterface;
 
 final class EntityManagerTest extends TestCase
 {
@@ -34,7 +34,7 @@ final class EntityManagerTest extends TestCase
     }
 
     /**
-     * @expectedException Istyle\KsqlClient\Exception\UnrecognizedPropertyException
+     * @expectedException Ytake\KsqlClient\Exception\UnrecognizedPropertyException
      * @expectedExceptionMessage Unrecognized field akka.
      */
     public function testShouldShouldThrowUnrecognizedPropertyException(): void
@@ -51,7 +51,7 @@ final class EntityManagerTest extends TestCase
     }
 
     /**
-     * @expectedException Istyle\KsqlClient\Exception\UnknownJsonObjectsException
+     * @expectedException Ytake\KsqlClient\Exception\UnknownJsonObjectsException
      * @expectedExceptionMessage Unknown json objects.
      */
     public function testShouldShouldThrowUnknownJsonObjectsException(): void

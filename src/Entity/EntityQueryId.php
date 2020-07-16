@@ -15,9 +15,9 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Entity;
+namespace Ytake\KsqlClient\Entity;
 
-use Istyle\KsqlClient\Query\QueryId;
+use Ytake\KsqlClient\Query\QueryId;
 
 /**
  * Class EntityQueryId

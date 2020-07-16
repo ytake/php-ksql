@@ -15,9 +15,9 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Query;
+namespace Ytake\KsqlClient\Query;
 
-use Istyle\KsqlClient\Mapper\ResultInterface;
+use Ytake\KsqlClient\Mapper\ResultInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**

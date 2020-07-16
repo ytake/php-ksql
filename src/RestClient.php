@@ -15,7 +15,7 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient;
+namespace Ytake\KsqlClient;
 
 use Fig\Http\Message\StatusCodeInterface;
 use GuzzleHttp\Client as GuzzleClient;
@@ -24,11 +24,11 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\UriNormalizer;
 use GuzzleHttp\RequestOptions;
-use Istyle\KsqlClient\Exception\KsqlRestClientException;
-use Istyle\KsqlClient\Mapper\KsqlErrorMapper;
-use Istyle\KsqlClient\Mapper\ResultInterface;
-use Istyle\KsqlClient\Properties\LocalProperties;
-use Istyle\KsqlClient\Query\QueryInterface;
+use Ytake\KsqlClient\Exception\KsqlRestClientException;
+use Ytake\KsqlClient\Mapper\KsqlErrorMapper;
+use Ytake\KsqlClient\Mapper\ResultInterface;
+use Ytake\KsqlClient\Properties\LocalProperties;
+use Ytake\KsqlClient\Query\QueryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
@@ -36,7 +36,7 @@ use Psr\Http\Message\UriInterface;
 /**
  * Class RestClient
  */
-class RestClient implements \Istyle\KsqlClient\ClientInterface
+class RestClient implements \Ytake\KsqlClient\ClientInterface
 {
     const VERSION = '1.0.0';
 
@@ -240,7 +240,7 @@ class RestClient implements \Istyle\KsqlClient\ClientInterface
         return [
             RequestOptions::HEADERS => [
                 'User-Agent'   => $this->userAgent(),
-                'Accept'       => \Istyle\KsqlClient\ClientInterface::REQUEST_ACCEPT,
+                'Accept'       => \Ytake\KsqlClient\ClientInterface::REQUEST_ACCEPT,
                 'Content-Type' => 'application/json; charset=utf-8',
             ],
         ];

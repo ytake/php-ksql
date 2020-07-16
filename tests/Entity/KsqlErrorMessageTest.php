@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use Istyle\KsqlClient\Entity\KsqlErrorMessage;
+use Ytake\KsqlClient\Entity\KsqlErrorMessage;
 
 
 final class KsqlErrorMessageTest extends \PHPUnit\Framework\TestCase

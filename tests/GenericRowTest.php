@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use Istyle\KsqlClient\GenericRow;
+use Ytake\KsqlClient\GenericRow;
 
 class GenericRowTest extends \PHPUnit\Framework\TestCase
 {

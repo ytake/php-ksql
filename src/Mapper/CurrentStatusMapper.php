@@ -15,12 +15,12 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Mapper;
+namespace Ytake\KsqlClient\Mapper;
 
-use Istyle\KsqlClient\Computation\CommandId;
-use Istyle\KsqlClient\Entity\CommandStatus;
-use Istyle\KsqlClient\Entity\CommandStatusEntity;
-use Istyle\KsqlClient\Entity\EntityInterface;
+use Ytake\KsqlClient\Computation\CommandId;
+use Ytake\KsqlClient\Entity\CommandStatus;
+use Ytake\KsqlClient\Entity\CommandStatusEntity;
+use Ytake\KsqlClient\Entity\EntityInterface;
 
 use function intval;
 

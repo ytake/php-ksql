@@ -15,11 +15,11 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient;
+namespace Ytake\KsqlClient;
 
-use Istyle\KsqlClient\Query\QueryInterface;
-use Istyle\KsqlClient\Mapper\ResultInterface;
-use Istyle\KsqlClient\Properties\LocalProperties;
+use Ytake\KsqlClient\Query\QueryInterface;
+use Ytake\KsqlClient\Mapper\ResultInterface;
+use Ytake\KsqlClient\Properties\LocalProperties;
 
 /**
  * Interface ClientInterface

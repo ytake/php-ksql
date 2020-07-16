@@ -15,9 +15,9 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient;
+namespace Ytake\KsqlClient;
 
-use Istyle\KsqlClient\Entity\StreamedRow;
+use Ytake\KsqlClient\Entity\StreamedRow;
 
 /**
  * Interface StreamConsumable

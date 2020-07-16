@@ -6,18 +6,18 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Assert;
-use Istyle\KsqlClient\Entity\StreamedRow;
-use Istyle\KsqlClient\Entity\StreamedRows;
-use Istyle\KsqlClient\Query\{
+use Ytake\KsqlClient\Entity\StreamedRow;
+use Ytake\KsqlClient\Entity\StreamedRows;
+use Ytake\KsqlClient\Query\{
     Status, Stream
 };
-use Istyle\KsqlClient\StreamClient;
-use Istyle\KsqlClient\StreamConsumable;
+use Ytake\KsqlClient\StreamClient;
+use Ytake\KsqlClient\StreamConsumable;
 
 class StreamClientTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @expectedException \Istyle\KsqlClient\Exception\StreamQueryException
+     * @expectedException \Ytake\KsqlClient\Exception\StreamQueryException
      */
     public function testShouldThrowStreamQueryException(): void
     {

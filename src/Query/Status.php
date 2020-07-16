@@ -15,12 +15,12 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Query;
+namespace Ytake\KsqlClient\Query;
 
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Message\ResponseInterface;
-use Istyle\KsqlClient\Mapper\ResultInterface;
-use Istyle\KsqlClient\Mapper\StatusMapper;
+use Ytake\KsqlClient\Mapper\ResultInterface;
+use Ytake\KsqlClient\Mapper\StatusMapper;
 
 /**
  * Class Status

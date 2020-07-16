@@ -15,9 +15,9 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Mapper;
+namespace Ytake\KsqlClient\Mapper;
 
-use Istyle\KsqlClient\Entity\EntityInterface;
+use Ytake\KsqlClient\Entity\EntityInterface;
 
 /**
  * Interface ResultInterface

@@ -2,10 +2,10 @@
 declare(strict_types=1);
 
 use GuzzleHttp\Psr7\Response;
-use Istyle\KsqlClient\Mapper\KsqlMapper;
-use Istyle\KsqlClient\Entity\FieldInfo;
-use Istyle\KsqlClient\Entity\SourceDescriptionEntity;
-use Istyle\KsqlClient\Entity\SchemaInfo;
+use Ytake\KsqlClient\Mapper\KsqlMapper;
+use Ytake\KsqlClient\Entity\FieldInfo;
+use Ytake\KsqlClient\Entity\SourceDescriptionEntity;
+use Ytake\KsqlClient\Entity\SchemaInfo;
 
 final class SourceDescriptionTest extends \PHPUnit\Framework\TestCase
 {

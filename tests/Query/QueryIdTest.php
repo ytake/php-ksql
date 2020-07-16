@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use Istyle\KsqlClient\Query\QueryId;
+use Ytake\KsqlClient\Query\QueryId;
 
 final class QueryIdTest extends TestCase
 {

@@ -2,10 +2,10 @@
 declare(strict_types=1);
 
 use GuzzleHttp\Psr7\Response;
-use Istyle\KsqlClient\Mapper\KsqlMapper;
-use Istyle\KsqlClient\Entity\KsqlCollection;
-use Istyle\KsqlClient\Entity\SourceDescriptionEntity;
-use Istyle\KsqlClient\Entity\RunningQuery;
+use Ytake\KsqlClient\Mapper\KsqlMapper;
+use Ytake\KsqlClient\Entity\KsqlCollection;
+use Ytake\KsqlClient\Entity\SourceDescriptionEntity;
+use Ytake\KsqlClient\Entity\RunningQuery;
 
 final class KsqlMapperTest extends \PHPUnit\Framework\TestCase
 {

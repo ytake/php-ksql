@@ -15,14 +15,14 @@ declare(strict_types=1);
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-namespace Istyle\KsqlClient\Mapper;
+namespace Ytake\KsqlClient\Mapper;
 
 use GuzzleHttp\Psr7\Stream;
-use Istyle\KsqlClient\Entity\EntityInterface;
-use Istyle\KsqlClient\Entity\KsqlErrorMessage;
-use Istyle\KsqlClient\Entity\StreamedRow;
-use Istyle\KsqlClient\Entity\StreamedRows;
-use Istyle\KsqlClient\StreamConsumable;
+use Ytake\KsqlClient\Entity\EntityInterface;
+use Ytake\KsqlClient\Entity\KsqlErrorMessage;
+use Ytake\KsqlClient\Entity\StreamedRow;
+use Ytake\KsqlClient\Entity\StreamedRows;
+use Ytake\KsqlClient\StreamConsumable;
 
 /**
  * Class StreamResult

@@ -1,24 +1,24 @@
 {
-  "name": "istyle-inc/php-ksql",
+  "name": "ytake/php-ksql",
   "description": "KSQL is the streaming SQL engine for Apache Kafka. REST Client for php",
   "minimum-stability": "stable",
   "keywords": [
     "kafka",
     "ksql"
   ],
-  "license": "BSD-3-Clause",
+  "license": "MIT",
   "authors": [
     {
       "name": "yuuki takezawa",
-      "email": "takezaway@istyle.co.jp"
+      "email": "yuuki.takezawa@comnect.jp.net"
     }
   ],
   "require": {
     "php": "^7.1",
     "ext-curl": "*",
     "ext-json": "*",
-    "guzzlehttp/guzzle": "^6.3.3",
-    "fig/http-message-util": "^1.1"
+    "guzzlehttp/guzzle": "^6.5.5",
+    "fig/http-message-util": "^1.1.4"
   },
   "require-dev": {
     "phpunit/phpunit": "^7.1.4",
@@ -32,7 +32,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Istyle\\KsqlClient\\": "src/"
+      "Ytake\\KsqlClient\\": "src/"
     }
   },
   "scripts": {

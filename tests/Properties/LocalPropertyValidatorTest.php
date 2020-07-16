@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use Istyle\KsqlClient\Properties\LocalPropertyValidator;
-use Istyle\KsqlClient\Config\ConsumerConfig;
+use Ytake\KsqlClient\Properties\LocalPropertyValidator;
+use Ytake\KsqlClient\Config\ConsumerConfig;
 
 /**
  * Class LocalPropertyValidatorTest

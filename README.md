@@ -1,15 +1,15 @@
-# Istyle\KsqlClient [istyle-inc/php-ksql]
+# Ytake\KsqlClient [ytake/php-ksql]
 
 Apache kafka / Confluent KSQL REST Client for php
 
-[![Build Status](http://img.shields.io/travis/istyle-inc/php-ksql/master.svg?style=flat-square)](https://travis-ci.org/istyle-inc/php-ksql)
-[![Coverage Status](http://img.shields.io/coveralls/istyle-inc/php-ksql/master.svg?style=flat-square)](https://coveralls.io/github/istyle-inc/php-ksql?branch=master)
-[![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/istyle-inc/php-ksql.svg?style=flat-square)](https://scrutinizer-ci.com/g/istyle-inc/php-ksql/?branch=master)
+[![Build Status](http://img.shields.io/travis/Ytake-inc/php-ksql/master.svg?style=flat-square)](https://travis-ci.org/Ytake-inc/php-ksql)
+[![Coverage Status](http://img.shields.io/coveralls/Ytake-inc/php-ksql/master.svg?style=flat-square)](https://coveralls.io/github/Ytake-inc/php-ksql?branch=master)
+[![Scrutinizer Code Quality](http://img.shields.io/scrutinizer/g/Ytake-inc/php-ksql.svg?style=flat-square)](https://scrutinizer-ci.com/g/Ytake-inc/php-ksql/?branch=master)
 [![StyleCI](https://styleci.io/repos/131283937/shield?branch=master)](https://styleci.io/repos/131283937)
 
-[![License](http://img.shields.io/packagist/l/istyle-inc/php-ksql.svg?style=flat-square)](https://packagist.org/packages/istyle-inc/php-ksql)
-[![Latest Version](http://img.shields.io/packagist/v/istyle-inc/php-ksql.svg?style=flat-square)](https://packagist.org/packages/istyle-inc/php-ksql)
-[![Total Downloads](http://img.shields.io/packagist/dt/istyle-inc/php-ksql.svg?style=flat-square)](https://packagist.org/packages/istyle-inc/php-ksql)
+[![License](http://img.shields.io/packagist/l/Ytake-inc/php-ksql.svg?style=flat-square)](https://packagist.org/packages/Ytake-inc/php-ksql)
+[![Latest Version](http://img.shields.io/packagist/v/Ytake-inc/php-ksql.svg?style=flat-square)](https://packagist.org/packages/Ytake-inc/php-ksql)
+[![Total Downloads](http://img.shields.io/packagist/dt/Ytake-inc/php-ksql.svg?style=flat-square)](https://packagist.org/packages/Ytake-inc/php-ksql)
 
 ## What is KSQL
 
@@ -23,7 +23,7 @@ KSQL is the streaming SQL engine for Apache Kafka.
 required >= PHP 7.1
 
 ```bash
-$ composer require istyle-inc/php-ksql
+$ composer require Ytake-inc/php-ksql
 ```
 
 ## Usage
@@ -32,11 +32,11 @@ $ composer require istyle-inc/php-ksql
 
 | class |
 |-------------------------------------|
-| Istyle\KsqlClient\Query\CommandStatus |
-| Istyle\KsqlClient\Query\Status |
-| Istyle\KsqlClient\Query\ServerInfo |
-| Istyle\KsqlClient\Query\Ksql |
-| Istyle\KsqlClient\Query\Stream (for stream) |
+| Ytake\KsqlClient\Query\CommandStatus |
+| Ytake\KsqlClient\Query\Status |
+| Ytake\KsqlClient\Query\ServerInfo |
+| Ytake\KsqlClient\Query\Ksql |
+| Ytake\KsqlClient\Query\Stream (for stream) |
 
 [Syntax Reference](https://docs.confluent.io/current/ksql/docs/syntax-reference.html)
 
@@ -45,9 +45,9 @@ $ composer require istyle-inc/php-ksql
 ```php
 <?php
 
-use Istyle\KsqlClient\RestClient;
-use Istyle\KsqlClient\Query\CommandStatus;
-use Istyle\KsqlClient\Computation\CommandId;
+use Ytake\KsqlClient\RestClient;
+use Ytake\KsqlClient\Query\CommandStatus;
+use Ytake\KsqlClient\Computation\CommandId;
 
 $client = new RestClient(
     "http://localhost:8088"
@@ -63,8 +63,8 @@ $result = $client->requestQuery(
 ```php
 <?php
 
-use Istyle\KsqlClient\RestClient;
-use Istyle\KsqlClient\Query\Status;
+use Ytake\KsqlClient\RestClient;
+use Ytake\KsqlClient\Query\Status;
 
 $client = new RestClient(
     "http://localhost:8088"
@@ -78,8 +78,8 @@ $result = $client->requestQuery(new Status())->result();
 ```php
 <?php
 
-use Istyle\KsqlClient\RestClient;
-use Istyle\KsqlClient\Query\ServerInfo;
+use Ytake\KsqlClient\RestClient;
+use Ytake\KsqlClient\Query\ServerInfo;
 
 $client = new RestClient(
     "http://localhost:8088"
@@ -93,8 +93,8 @@ $result = $client->requestQuery(new ServerInfo())->result();
 ```php
 <?php
 
-use Istyle\KsqlClient\RestClient;
-use Istyle\KsqlClient\Query\Ksql;
+use Ytake\KsqlClient\RestClient;
+use Ytake\KsqlClient\Query\Ksql;
 
 $client = new RestClient(
     "http://localhost:8088"
@@ -110,10 +110,10 @@ $result = $client->requestQuery(
 ```php
 <?php
 
-use Istyle\KsqlClient\StreamClient;
-use Istyle\KsqlClient\Query\Stream;
-use Istyle\KsqlClient\StreamConsumable;
-use Istyle\KsqlClient\Entity\StreamedRow;
+use Ytake\KsqlClient\StreamClient;
+use Ytake\KsqlClient\Query\Stream;
+use Ytake\KsqlClient\StreamConsumable;
+use Ytake\KsqlClient\Entity\StreamedRow;
 
 $client = new StreamClient(
     "http://localhost:8088"
