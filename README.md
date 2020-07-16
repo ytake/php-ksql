@@ -23,7 +23,7 @@ KSQL is the streaming SQL engine for Apache Kafka.
 required >= PHP 7.1
 
 ```bash
-$ composer require Ytake-inc/php-ksql
+$ composer require ytake/php-ksql
 ```
 
 ## Usage
