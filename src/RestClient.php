@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -20,55 +21,57 @@ namespace Ytake\KsqlClient;
 use Fig\Http\Message\StatusCodeInterface;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\UriNormalizer;
 use GuzzleHttp\RequestOptions;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
+use stdClass;
 use Ytake\KsqlClient\Exception\KsqlRestClientException;
 use Ytake\KsqlClient\Mapper\KsqlErrorMapper;
 use Ytake\KsqlClient\Mapper\ResultInterface;
 use Ytake\KsqlClient\Properties\LocalProperties;
 use Ytake\KsqlClient\Query\QueryInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\UriInterface;
+
+use function array_merge;
+use function is_null;
+use function json_encode;
 
 /**
- * Class RestClient
+ * KSQL REST API Client
  */
 class RestClient implements \Ytake\KsqlClient\ClientInterface
 {
-    const VERSION = '1.0.0';
-
-    /** @var string */
-    private $serverAddress;
+    const VERSION = '3.0.0';
 
     /** @var ClientInterface */
-    private $client;
+    private ClientInterface $client;
 
     /** @var bool */
-    private $hasUserCredentials = false;
+    private bool $hasUserCredentials = false;
 
-    /** @var AuthCredential */
-    private $authCredential;
+    /** @var AuthCredential|null */
+    private ?AuthCredential $authCredential = null;
 
     /** @var array */
-    private $options = [];
+    private array $options = [];
 
-    /** @var LocalProperties */
-    private $properties;
+    /** @var LocalProperties|null */
+    private ?LocalProperties $properties = null;
 
     /**
      * RestClient constructor.
      *
-     * @param string               $serverAddress
+     * @param string $serverAddress
      * @param ClientInterface|null $client
      */
     public function __construct(
-        string $serverAddress,
+        private string $serverAddress,
         ClientInterface $client = null
     ) {
-        $this->serverAddress = $serverAddress;
         $this->client = (is_null($client)) ? $this->buildClient() : $client;
     }
 
@@ -87,8 +90,9 @@ class RestClient implements \Ytake\KsqlClient\ClientInterface
     /**
      * @param AuthCredential $authCredential
      */
-    public function setAuthCredentials(AuthCredential $authCredential): void
-    {
+    public function setAuthCredentials(
+        AuthCredential $authCredential
+    ): void {
         $this->authCredential = $authCredential;
         $this->hasUserCredentials = true;
     }
@@ -112,8 +116,9 @@ class RestClient implements \Ytake\KsqlClient\ClientInterface
     /**
      * @param string $serverAddress
      */
-    public function setServerAddress(string $serverAddress): void
-    {
+    public function setServerAddress(
+        string $serverAddress
+    ): void {
         $this->serverAddress = $serverAddress;
     }
 
@@ -122,15 +127,15 @@ class RestClient implements \Ytake\KsqlClient\ClientInterface
      *
      * @return RequestInterface
      */
-    protected function normalizeRequest(QueryInterface $query): RequestInterface
-    {
+    protected function normalizeRequest(
+        QueryInterface $query
+    ): RequestInterface {
         $uri = new Uri($this->serverAddress);
         $uri = $uri->withPath($query->uri());
         $normalize = UriNormalizer::normalize(
             $uri,
             UriNormalizer::REMOVE_DUPLICATE_SLASHES
         );
-
         return new Request($query->httpMethod(), $normalize);
     }
 
@@ -150,7 +155,7 @@ class RestClient implements \Ytake\KsqlClient\ClientInterface
             if ($response->getStatusCode() == StatusCodeInterface::STATUS_OK) {
                 return $query->queryResult($response);
             }
-        } catch (\GuzzleHttp\Exception\GuzzleException $e) {
+        } catch (GuzzleException $e) {
             throw new KsqlRestClientException($e->getMessage(), $e->getCode());
         }
 
@@ -159,7 +164,7 @@ class RestClient implements \Ytake\KsqlClient\ClientInterface
 
     /**
      * @param UriInterface $uri
-     * @param int          $statusCode
+     * @param int $statusCode
      *
      * @return ResultInterface
      */
@@ -185,8 +190,8 @@ class RestClient implements \Ytake\KsqlClient\ClientInterface
 
     /**
      * @param QueryInterface $query
-     * @param int            $timeout
-     * @param bool           $debug
+     * @param int $timeout
+     * @param bool $debug
      *
      * @return array
      */
@@ -197,21 +202,23 @@ class RestClient implements \Ytake\KsqlClient\ClientInterface
     ): array {
         $requestBody = $query->toArray();
         if ($query->hasProperties()) {
-            $properties = ($this->properties instanceof LocalProperties) ? $this->properties->toArray() : new \stdClass();
+            $properties = ($this->properties instanceof LocalProperties) ? $this->properties->toArray() : new stdClass(
+            );
             $requestBody = array_merge($query->toArray(), ['streamsProperties' => $properties]);
         }
         return [
             RequestOptions::TIMEOUT => $timeout,
-            RequestOptions::BODY    => json_encode($requestBody),
-            RequestOptions::DEBUG   => $debug,
+            RequestOptions::BODY => json_encode($requestBody),
+            RequestOptions::DEBUG => $debug,
         ];
     }
 
     /**
      * @param array $options
      */
-    public function setOptions(array $options): void
-    {
+    public function setOptions(
+        array $options
+    ): void {
         $this->options = $options;
     }
 
@@ -239,21 +246,21 @@ class RestClient implements \Ytake\KsqlClient\ClientInterface
     {
         return [
             RequestOptions::HEADERS => [
-                'User-Agent'   => $this->userAgent(),
-                'Accept'       => \Ytake\KsqlClient\ClientInterface::REQUEST_ACCEPT,
+                'User-Agent' => $this->userAgent(),
+                'Accept' => \Ytake\KsqlClient\ClientInterface::REQUEST_ACCEPT,
                 'Content-Type' => 'application/json; charset=utf-8',
             ],
         ];
     }
 
     /**
-     * @param QueryInterface   $query
-     * @param int              $timeout
-     * @param bool             $debug
+     * @param QueryInterface $query
+     * @param int $timeout
+     * @param bool $debug
      * @param RequestInterface $request
      *
      * @return ResponseInterface
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     protected function sendRequest(
         QueryInterface $query,
@@ -264,9 +271,12 @@ class RestClient implements \Ytake\KsqlClient\ClientInterface
         $options = $this->getOptions($query, $timeout, $debug);
         if ($this->hasUserCredentials) {
             $credentials = $this->getAuthCredentials();
-            $options = array_merge($options, [
-                'auth' => [$credentials->getUserName(), $credentials->getPassword()],
-            ]);
+            $options = array_merge(
+                $options,
+                [
+                    'auth' => [$credentials->getUserName(), $credentials->getPassword()],
+                ]
+            );
         }
         return $this->client->send(
             $request,

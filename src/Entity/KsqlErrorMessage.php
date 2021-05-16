@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -17,6 +18,7 @@ declare(strict_types=1);
 
 namespace Ytake\KsqlClient\Entity;
 
+use function implode;
 use function sprintf;
 
 /**
@@ -24,28 +26,16 @@ use function sprintf;
  */
 class KsqlErrorMessage extends KsqlEntity
 {
-    /** @var int */
-    protected $errorCode;
-
-    /** @var string */
-    protected $message;
-
-    /** @var array */
-    protected $stackTrace;
-
     /**
-     * @param int    $errorCode
+     * @param int $errorCode
      * @param string $message
-     * @param array  $stackTrace
+     * @param array $stackTrace
      */
     public function __construct(
-        int $errorCode,
-        string $message,
-        array $stackTrace = []
+        protected int $errorCode,
+        protected string $message,
+        protected array $stackTrace = []
     ) {
-        $this->errorCode = $errorCode;
-        $this->message = $message;
-        $this->stackTrace = $stackTrace;
     }
 
     /**

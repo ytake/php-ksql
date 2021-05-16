@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -21,20 +22,19 @@ use Ytake\KsqlClient\Entity\EntityInterface;
 use Ytake\KsqlClient\Entity\KafkaTopicInfo;
 use Ytake\KsqlClient\Entity\KafkaTopics;
 
+use function is_array;
+
 /**
  * Class KafkaTopicMapper
  */
 final class KafkaTopicMapper implements ResultInterface
 {
-    /** @var array */
-    protected $rows;
-
     /**
      * @param array $rows
      */
-    public function __construct(array $rows)
-    {
-        $this->rows = $rows;
+    public function __construct(
+        private array $rows
+    ) {
     }
 
     /**

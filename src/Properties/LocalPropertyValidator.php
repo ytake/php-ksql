@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -19,16 +20,18 @@ namespace Ytake\KsqlClient\Properties;
 
 use InvalidArgumentException;
 use Ytake\KsqlClient\Config\ConsumerConfig;
-use function strtolower;
+
 use function array_merge;
+use function sprintf;
+use function strtolower;
 
 /**
  * Class LocalPropertyValidator
  */
 class LocalPropertyValidator implements PropertyValidatorInterface
 {
-    /** @var array */
-    private $immProperties = [
+    /** @var string[] */
+    private array $immProperties = [
         'bootstrap.servers',
         'ksql.extension.dir',
         'ksql.query.persistent.active.limit'
@@ -37,16 +40,19 @@ class LocalPropertyValidator implements PropertyValidatorInterface
     /**
      * @param array $immProperties
      */
-    public function __construct(array $immProperties = [])
-    {
+    public function __construct(
+        array $immProperties = []
+    ) {
         $this->immProperties = array_merge($this->immProperties, $immProperties);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function validate(string $name, $value): void
-    {
+    public function validate(
+        string $name,
+        mixed $value
+    ): void {
         foreach ($this->immProperties as $property) {
             if ($name === $property) {
                 throw new InvalidArgumentException(

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -20,6 +21,8 @@ namespace Ytake\KsqlClient\Mapper;
 use Ytake\KsqlClient\Entity\FieldInfo;
 use Ytake\KsqlClient\Entity\SchemaInfo;
 
+use function is_null;
+
 /**
  * Trait RecursiveFieldTrait
  */
@@ -30,8 +33,9 @@ trait RecursiveFieldTrait
      *
      * @return array|null
      */
-    private function parentFields(array $rows): ?array
-    {
+    private function parentFields(
+        array $rows
+    ): ?array {
         $fields = [];
         foreach ($rows as $row) {
             $fields[] = $this->generateSchemaInfo($row);
@@ -44,8 +48,9 @@ trait RecursiveFieldTrait
      *
      * @return FieldInfo|null
      */
-    private function recursiveFields(?array $rows): ?array
-    {
+    private function recursiveFields(
+        ?array $rows
+    ): ?array {
         if (!is_null($rows)) {
             $fields = [];
             foreach ($rows as $row) {

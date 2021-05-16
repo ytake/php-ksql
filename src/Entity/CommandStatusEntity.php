@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -24,31 +25,19 @@ use Ytake\KsqlClient\Computation\CommandId;
  */
 final class CommandStatusEntity extends KsqlEntity
 {
-    /** @var CommandId */
-    private $commandId;
-
-    /** @var CommandStatus */
-    private $commandStatus;
-
-    /** @var int */
-    private $commandSequenceNumber;
-
     /**
-     * @param string        $statementText
-     * @param CommandId     $commandId
+     * @param string $statementText
+     * @param CommandId $commandId
      * @param CommandStatus $commandStatus
-     * @param int           $commandSequenceNumber
+     * @param int $commandSequenceNumber
      */
     public function __construct(
         string $statementText,
-        CommandId $commandId,
-        CommandStatus $commandStatus,
-        int $commandSequenceNumber = - 1
+        private CommandId $commandId,
+        private CommandStatus $commandStatus,
+        private int $commandSequenceNumber = -1
     ) {
         parent::__construct($statementText);
-        $this->commandId = $commandId;
-        $this->commandStatus = $commandStatus;
-        $this->commandSequenceNumber = $commandSequenceNumber;
     }
 
     /**

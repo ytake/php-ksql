@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -56,8 +57,9 @@ final class Stream extends AbstractStreamQuery
     /**
      * {@inheritdoc}
      */
-    public function queryResult(ResponseInterface $response): ResultInterface
-    {
+    public function queryResult(
+        ResponseInterface $response
+    ): ResultInterface {
         $stream = new StreamMapper($response);
         $stream->setCallback($this->callback);
 

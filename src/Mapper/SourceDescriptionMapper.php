@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -18,10 +19,10 @@ declare(strict_types=1);
 namespace Ytake\KsqlClient\Mapper;
 
 use Ytake\KsqlClient\Entity\EntityInterface;
+use Ytake\KsqlClient\Entity\EntityQueryId;
+use Ytake\KsqlClient\Entity\RunningQuery;
 use Ytake\KsqlClient\Entity\SourceDescription;
 use Ytake\KsqlClient\Entity\SourceDescriptionEntity;
-use Ytake\KsqlClient\Entity\RunningQuery;
-use Ytake\KsqlClient\Entity\EntityQueryId;
 use Ytake\KsqlClient\Query\QueryId;
 
 /**
@@ -31,15 +32,12 @@ final class SourceDescriptionMapper implements ResultInterface
 {
     use RecursiveFieldTrait;
 
-    /** @var array */
-    protected $rows;
-
     /**
      * @param array $rows
      */
-    public function __construct(array $rows)
-    {
-        $this->rows = $rows;
+    public function __construct(
+        private array $rows
+    ) {
     }
 
     /**

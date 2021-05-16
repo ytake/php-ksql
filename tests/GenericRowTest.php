@@ -1,9 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
+namespace Tests;
+
+use PHPUnit\Framework\TestCase;
 use Ytake\KsqlClient\GenericRow;
 
-class GenericRowTest extends \PHPUnit\Framework\TestCase
+final class GenericRowTest extends TestCase
 {
     public function testShouldBe(): void
     {

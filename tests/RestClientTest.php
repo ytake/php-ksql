@@ -1,25 +1,28 @@
 <?php
+
 declare(strict_types=1);
+
+namespace Tests;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Ytake\KsqlClient\Mapper\ResultInterface;
-use Ytake\KsqlClient\Mapper\AbstractMapper;
-use Ytake\KsqlClient\Query\{
-    Ksql, Status
-};
-use Ytake\KsqlClient\RestClient;
-use Ytake\KsqlClient\Entity;
+use PHPUnit\Framework\TestCase;
 use Ytake\KsqlClient\Computation\CommandId;
+use Ytake\KsqlClient\Entity;
+use Ytake\KsqlClient\Exception\KsqlRestClientException;
+use Ytake\KsqlClient\Mapper\AbstractMapper;
+use Ytake\KsqlClient\Mapper\ResultInterface;
 use Ytake\KsqlClient\Properties\LocalProperties;
 use Ytake\KsqlClient\Properties\LocalPropertyValidator;
+use Ytake\KsqlClient\Query\{Ksql, Status};
+use Ytake\KsqlClient\RestClient;
 
-/**
- * Class RestClientTest
- */
-class RestClientTest extends \PHPUnit\Framework\TestCase
+use function file_get_contents;
+use function realpath;
+
+final class RestClientTest extends TestCase
 {
     public function testShouldReturnRestClientInstance(): void
     {
@@ -37,26 +40,32 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
 
     public function testCanAppendArrayForClientOption(): void
     {
-        $mock = new MockHandler([
-            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/status.json'))),
-        ]);
+        $mock = new MockHandler(
+            [
+                new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/status.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])
         );
-        $client->setOptions([
-            'headers'        => ['Accept-Encoding' => 'gzip'],
-            'decode_content' => false,
-        ]);
+        $client->setOptions(
+            [
+                'headers' => ['Accept-Encoding' => 'gzip'],
+                'decode_content' => false,
+            ]
+        );
         $client->requestQuery(new Status());
         $this->assertSame(['gzip'], $mock->getLastRequest()->getHeader('accept-encoding'));
     }
 
     public function testShouldBeCommandStatusesEntity(): void
     {
-        $mock = new MockHandler([
-            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/status.json'))),
-        ]);
+        $mock = new MockHandler(
+            [
+                new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/status.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])
@@ -78,9 +87,11 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldBeDescKsqlEntity(): void
     {
-        $mock = new MockHandler([
-            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/desc.json'))),
-        ]);
+        $mock = new MockHandler(
+            [
+                new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/desc.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])
@@ -102,9 +113,11 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldBeQueryDescriptionKsqlEntity(): void
     {
-        $mock = new MockHandler([
-            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/query_desc.json'))),
-        ]);
+        $mock = new MockHandler(
+            [
+                new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/query_desc.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])
@@ -137,7 +150,8 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('CSAS_STREAM2_0', $description->getEntityQueryId()->getId());
         $this->assertNotCount(0, $description->getSinks());
         $this->assertContainsOnlyInstancesOf(
-            Entity\FieldInfo::class, $description->getFields()
+            Entity\FieldInfo::class,
+            $description->getFields()
         );
         $this->assertNotEmpty($description->getExecutionPlan());
         $this->assertCount(0, $description->getOverriddenProperties());
@@ -151,16 +165,20 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldBeCommandStatusEntity(): void
     {
-        $mock = new MockHandler([
-            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/single_status.json'))),
-        ]);
+        $mock = new MockHandler(
+            [
+                new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/single_status.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])
         );
 
-        $properties = new LocalProperties(["ksql.streams.auto.offset.reset" => "earliest"],
-            new LocalPropertyValidator());
+        $properties = new LocalProperties(
+            ["ksql.streams.auto.offset.reset" => "earliest"],
+            new LocalPropertyValidator()
+        );
 
         $result = $client->requestQuery(
             new \Ytake\KsqlClient\Query\CommandStatus(
@@ -182,9 +200,11 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldBeErrorMessageEntity(): void
     {
-        $mock = new MockHandler([
-            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/statement_error.json'))),
-        ]);
+        $mock = new MockHandler(
+            [
+                new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/statement_error.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])
@@ -206,9 +226,11 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldReturnErrorResult(): void
     {
-        $mock = new MockHandler([
-            new Response(201, [], file_get_contents(realpath(__DIR__ . '/resources/generic_error.json'))),
-        ]);
+        $mock = new MockHandler(
+            [
+                new Response(201, [], file_get_contents(realpath(__DIR__ . '/resources/generic_error.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])
@@ -229,14 +251,14 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('The server returned an unexpected error.', $entity->getMessage());
     }
 
-    /**
-     * @expectedException \Ytake\KsqlClient\Exception\KsqlRestClientException
-     */
     public function testShouldThrowClientException(): void
     {
-        $mock = new MockHandler([
-            new Response(405, [], file_get_contents(realpath(__DIR__ . '/resources/generic_error.json'))),
-        ]);
+        $this->expectException(KsqlRestClientException::class);
+        $mock = new MockHandler(
+            [
+                new Response(405, [], file_get_contents(realpath(__DIR__ . '/resources/generic_error.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])
@@ -250,9 +272,11 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldReturnServerInfoEntity(): void
     {
-        $mock = new MockHandler([
-            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/info.json'))),
-        ]);
+        $mock = new MockHandler(
+            [
+                new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/info.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])
@@ -273,9 +297,11 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldReturnTablesEntity(): void
     {
-        $mock = new MockHandler([
-            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/tables.json'))),
-        ]);
+        $mock = new MockHandler(
+            [
+                new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/tables.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])
@@ -331,9 +357,11 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldReturnKafkaTopics(): void
     {
-        $mock = new MockHandler([
-            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/kafka_topics.json'))),
-        ]);
+        $mock = new MockHandler(
+            [
+                new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/kafka_topics.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])
@@ -370,9 +398,11 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldReturnStreamsList(): void
     {
-        $mock = new MockHandler([
-            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/streamslist.json'))),
-        ]);
+        $mock = new MockHandler(
+            [
+                new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/streamslist.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])
@@ -403,9 +433,11 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldReturnQueriesEntity(): void
     {
-        $mock = new MockHandler([
-            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/queries.json'))),
-        ]);
+        $mock = new MockHandler(
+            [
+                new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/queries.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])
@@ -439,9 +471,11 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldReturnPropertiesEntity(): void
     {
-        $mock = new MockHandler([
-            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/properties.json'))),
-        ]);
+        $mock = new MockHandler(
+            [
+                new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/properties.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])
@@ -467,9 +501,11 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldReturnKsqlErrorMessage(): void
     {
-        $mock = new MockHandler([
-            new Response(201, [], file_get_contents(realpath(__DIR__ . '/resources/info.json'))),
-        ]);
+        $mock = new MockHandler(
+            [
+                new Response(201, [], file_get_contents(realpath(__DIR__ . '/resources/info.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])
@@ -483,11 +519,17 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
 
         $client = new RestClient(
             "http://localhost:8088",
-            new Client([
-                'handler' => HandlerStack::create(new MockHandler([
-                    new Response(401, [], null),
-                ]))
-            ])
+            new Client(
+                [
+                    'handler' => HandlerStack::create(
+                        new MockHandler(
+                            [
+                                new Response(401, [], null),
+                            ]
+                        )
+                    )
+                ]
+            )
         );
         $client->setOptions(['http_errors' => false]);
         /** @var Entity\KsqlErrorMessage $result */
@@ -501,11 +543,17 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         );
         $client = new RestClient(
             "http://localhost:8088",
-            new Client([
-                'handler' => HandlerStack::create(new MockHandler([
-                    new Response(403, [], null),
-                ]))
-            ])
+            new Client(
+                [
+                    'handler' => HandlerStack::create(
+                        new MockHandler(
+                            [
+                                new Response(403, [], null),
+                            ]
+                        )
+                    )
+                ]
+            )
         );
         $client->setOptions(['http_errors' => false]);
         /** @var Entity\KsqlErrorMessage $result */
@@ -519,11 +567,17 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
         );
         $client = new RestClient(
             "http://localhost:8088",
-            new Client([
-                'handler' => HandlerStack::create(new MockHandler([
-                    new Response(405, [], null),
-                ]))
-            ])
+            new Client(
+                [
+                    'handler' => HandlerStack::create(
+                        new MockHandler(
+                            [
+                                new Response(405, [], null),
+                            ]
+                        )
+                    )
+                ]
+            )
         );
         $client->setOptions(['http_errors' => false]);
         /** @var Entity\KsqlErrorMessage $result */
@@ -539,9 +593,11 @@ class RestClientTest extends \PHPUnit\Framework\TestCase
 
     public function testShouldReturnCurrentStatusEntity(): void
     {
-        $mock = new MockHandler([
-            new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/currentStatus.json'))),
-        ]);
+        $mock = new MockHandler(
+            [
+                new Response(200, [], file_get_contents(realpath(__DIR__ . '/resources/currentStatus.json'))),
+            ]
+        );
         $client = new RestClient(
             "http://localhost:8088",
             new Client(['handler' => HandlerStack::create($mock)])

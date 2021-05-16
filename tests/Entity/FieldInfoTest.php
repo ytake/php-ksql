@@ -1,13 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
+namespace Tests\Entity;
+
+use PHPUnit\Framework\TestCase;
 use Ytake\KsqlClient\Entity\FieldInfo;
 use Ytake\KsqlClient\Entity\SchemaInfo;
 
-/**
- * Class FieldInfoTest
- */
-final class FieldInfoTest extends \PHPUnit\Framework\TestCase
+final class FieldInfoTest extends TestCase
 {
     public function testShouldBeExpectedInstance(): void
     {

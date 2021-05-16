@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,16 +23,12 @@ namespace Ytake\KsqlClient\Entity;
  */
 abstract class KsqlEntity implements EntityInterface
 {
-    /** @var string */
-    private $statementText;
-
     /**
      * @param string $statementText
      */
-    public function __construct(string $statementText)
-    {
-        $this->statementText = $statementText;
-    }
+    public function __construct(
+        private string $statementText
+    ) {}
 
     /**
      * @return string

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,15 +23,12 @@ namespace Ytake\KsqlClient;
  */
 final class GenericRow
 {
-    /** @var array */
-    private $columns = [];
-
     /**
      * @param array $columns
      */
-    public function __construct(array $columns)
-    {
-        $this->columns = $columns;
+    public function __construct(
+        private array $columns
+    ) {
     }
 
     /**
@@ -46,7 +44,7 @@ final class GenericRow
      *
      * @return array|mixed|null
      */
-    public function getColumnValue(int $index)
+    public function getColumnValue(int $index): mixed
     {
         return $this->columns[$index] ?? null;
     }

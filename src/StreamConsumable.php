@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -29,5 +30,7 @@ interface StreamConsumable
      *
      * @return mixed
      */
-    public function __invoke(StreamedRow $row);
+    public function __invoke(
+        StreamedRow $row
+    );
 }

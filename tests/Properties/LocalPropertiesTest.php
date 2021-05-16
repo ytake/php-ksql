@@ -1,5 +1,8 @@
 <?php
+
 declare(strict_types=1);
+
+namespace Tests\Properties;
 
 use PHPUnit\Framework\TestCase;
 use Ytake\KsqlClient\Properties\LocalProperties;
@@ -8,9 +11,9 @@ use Ytake\KsqlClient\Properties\LocalPropertyValidator;
 final class LocalPropertiesTest extends TestCase
 {
     /** @var LocalProperties */
-    private $properties;
+    private LocalProperties $properties;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->properties = new LocalProperties(
             [

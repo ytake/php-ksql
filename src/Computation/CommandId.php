@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -18,36 +19,27 @@ declare(strict_types=1);
 namespace Ytake\KsqlClient\Computation;
 
 use InvalidArgumentException;
+
+use function count;
 use function explode;
 use function sprintf;
+use function strtolower;
 
 /**
  * Class CommandId
  */
 final class CommandId
 {
-    /** @var string */
-    private $type;
-
-    /** @var string */
-    private $entity;
-
-    /** @var string */
-    private $action;
-
     /**
      * @param string $type
      * @param string $entity
      * @param string $action
      */
     public function __construct(
-        string $type,
-        string $entity,
-        string $action
+        private string $type,
+        private string $entity,
+        private string $action
     ) {
-        $this->type = $type;
-        $this->entity = $entity;
-        $this->action = $action;
     }
 
     /**
@@ -55,13 +47,15 @@ final class CommandId
      *
      * @return CommandId
      */
-    public static function fromString(string $fromString): CommandId
-    {
+    public static function fromString(
+        string $fromString
+    ): CommandId {
         $split = explode('/', $fromString);
         if (count($split) != 3) {
-            throw new InvalidArgumentException("Expected a string of the form <type>/<entity>/<action>");
+            throw new InvalidArgumentException(
+                "Expected a string of the form <type>/<entity>/<action>"
+            );
         }
-
         return new CommandId($split[0], $split[1], $split[2]);
     }
 

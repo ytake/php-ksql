@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,94 +23,38 @@ namespace Ytake\KsqlClient\Entity;
  */
 final class SourceDescription implements EntityInterface
 {
-    /** @var string */
-    private $name;
-
-    /** @var RunningQuery[] */
-    private $readQueries;
-
-    /** @var RunningQuery[] */
-    private $writeQueries;
-
-    /** @var FieldInfo[] */
-    private $fields;
-
-    /** @var string */
-    private $type;
-
-    /** @var string */
-    private $key;
-
-    /** @var string */
-    private $timestamp;
-
-    /** @var string */
-    private $statistics;
-
-    /** @var string */
-    private $errorStats;
-
-    /** @var bool */
-    private $extended;
-
-    /** @var string */
-    private $format;
-
-    /** @var string */
-    private $topic;
-
-    /** @var int */
-    private $partitions;
-
-    /** @var int */
-    private $replication;
-
     /**
      * @param string $name
-     * @param array  $readQueries
-     * @param array  $writeQueries
-     * @param array  $fields
+     * @param array $readQueries
+     * @param array $writeQueries
+     * @param array $fields
      * @param string $type
      * @param string $key
      * @param string $timestamp
      * @param string $statistics
      * @param string $errorStats
-     * @param bool   $extended
+     * @param bool $extended
      * @param string $format
      * @param string $topic
-     * @param int    $partitions
-     * @param int    $replication
+     * @param int $partitions
+     * @param int $replication
      */
     public function __construct(
-        string $name,
-        array $readQueries,
-        array $writeQueries,
-        array $fields,
-        string $type,
-        string $key,
-        string $timestamp,
-        string $statistics,
-        string $errorStats,
-        bool $extended,
-        string $format,
-        string $topic,
-        int $partitions,
-        int $replication
+        private string $name,
+        private array $readQueries,
+        private array $writeQueries,
+        private array $fields,
+        private string $type,
+        private string $key,
+        private string $timestamp,
+        private string $statistics,
+        private string $errorStats,
+        private bool $extended,
+        private string $format,
+        private string $topic,
+        private int $partitions,
+        private int $replication
     ) {
-        $this->name = $name;
-        $this->readQueries = $readQueries;
-        $this->writeQueries = $writeQueries;
-        $this->fields = $fields;
-        $this->type = $type;
-        $this->key = $key;
-        $this->timestamp = $timestamp;
-        $this->statistics = $statistics;
-        $this->errorStats = $errorStats;
-        $this->extended = $extended;
-        $this->format = $format;
-        $this->topic = $topic;
-        $this->partitions = $partitions;
-        $this->replication = $replication;
     }
 
     /**

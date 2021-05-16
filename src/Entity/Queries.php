@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,17 +23,15 @@ namespace Ytake\KsqlClient\Entity;
  */
 final class Queries extends KsqlEntity
 {
-    /** @var RunningQuery[] */
-    private $queries;
-
     /**
      * @param string $statementText
-     * @param array  $queries
+     * @param array $queries
      */
-    public function __construct(string $statementText, array $queries)
-    {
+    public function __construct(
+        string $statementText,
+        private array $queries
+    ) {
         parent::__construct($statementText);
-        $this->queries = $queries;
     }
 
     /**

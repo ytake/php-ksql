@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -17,9 +18,9 @@ declare(strict_types=1);
 
 namespace Ytake\KsqlClient;
 
-use Ytake\KsqlClient\Query\QueryInterface;
 use Ytake\KsqlClient\Mapper\ResultInterface;
 use Ytake\KsqlClient\Properties\LocalProperties;
+use Ytake\KsqlClient\Query\QueryInterface;
 
 /**
  * Interface ClientInterface
@@ -29,10 +30,10 @@ interface ClientInterface
     const REQUEST_ACCEPT = 'application/vnd.ksql.v1+json';
 
     /**
-     * @param QueryInterface  $query
+     * @param QueryInterface $query
      * @param LocalProperties $streamsProperties
-     * @param int             $timeout
-     * @param bool            $debug
+     * @param int $timeout
+     * @param bool $debug
      *
      * @return ResultInterface
      */

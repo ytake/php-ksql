@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -23,20 +24,14 @@ namespace Ytake\KsqlClient;
  */
 final class AuthCredential
 {
-    /** @var string */
-    private $userName;
-
-    /** @var string */
-    private $password;
-
     /**
      * @param string $userName
      * @param string $password
      */
-    public function __construct(string $userName, string $password)
-    {
-        $this->userName = $userName;
-        $this->password = $password;
+    public function __construct(
+        private string $userName,
+        private string $password
+    ) {
     }
 
     /**

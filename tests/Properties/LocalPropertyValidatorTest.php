@@ -1,28 +1,27 @@
 <?php
+
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use Ytake\KsqlClient\Properties\LocalPropertyValidator;
-use Ytake\KsqlClient\Config\ConsumerConfig;
+namespace Tests\Properties;
 
-/**
- * Class LocalPropertyValidatorTest
- */
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
+use Ytake\KsqlClient\Config\ConsumerConfig;
+use Ytake\KsqlClient\Properties\LocalPropertyValidator;
+
 final class LocalPropertyValidatorTest extends TestCase
 {
     /** @var LocalPropertyValidator */
-    private $validator;
+    private LocalPropertyValidator $validator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->validator = new LocalPropertyValidator(["immutable-1", "immutable-2"]);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testShouldThrowException(): void
     {
+        $this->expectException(InvalidArgumentException::class);
         $this->validator->validate("immutable-2", "anything");
     }
 
@@ -31,11 +30,9 @@ final class LocalPropertyValidatorTest extends TestCase
         $this->assertNull($this->validator->validate("mutable-1", "anything"));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testShouldThrowOnNoneOffsetReset(): void
     {
+        $this->expectException(InvalidArgumentException::class);
         $this->validator->validate(ConsumerConfig::AUTO_OFFSET_RESET_CONFIG, "none");
     }
 

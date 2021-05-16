@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -23,13 +24,14 @@ namespace Ytake\KsqlClient\Entity;
 final class CommandStatuses implements EntityInterface
 {
     /** @var CommandStatus[] */
-    private $statuses = [];
+    private array $statuses = [];
 
     /**
      * @param CommandStatus $status
      */
-    public function addCommandStatus(CommandStatus $status): void
-    {
+    public function addCommandStatus(
+        CommandStatus $status
+    ): void {
         $this->statuses[] = $status;
     }
 

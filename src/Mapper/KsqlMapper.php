@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -17,10 +18,10 @@ declare(strict_types=1);
 
 namespace Ytake\KsqlClient\Mapper;
 
+use GuzzleHttp\Utils;
 use Ytake\KsqlClient\Entity\EntityInterface;
 use Ytake\KsqlClient\Entity\KsqlCollection;
 
-use function GuzzleHttp\json_decode;
 use function array_key_exists;
 
 /**
@@ -29,12 +30,13 @@ use function array_key_exists;
 final class KsqlMapper extends AbstractMapper
 {
     /**
-     * @return EntityInterface|KsqlCollection
+     * @return EntityInterface
      */
     public function result(): EntityInterface
     {
-        $decode = json_decode(
-            $this->response->getBody()->getContents(), true
+        $decode = Utils::jsonDecode(
+            $this->response->getBody()->getContents(),
+            true
         );
         if (array_key_exists('@type', $decode)) {
             return (new EntityManager($decode))->map();
@@ -44,7 +46,6 @@ final class KsqlMapper extends AbstractMapper
             $em = new EntityManager($row);
             $collect->addKsql($em->map());
         }
-
         return $collect;
     }
 }

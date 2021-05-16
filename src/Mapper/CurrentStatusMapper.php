@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -29,15 +30,12 @@ use function intval;
  */
 final class CurrentStatusMapper implements ResultInterface
 {
-    /** @var array */
-    protected $rows;
-
     /**
      * @param array $rows
      */
-    public function __construct(array $rows)
-    {
-        $this->rows = $rows;
+    public function __construct(
+        private array $rows
+    ) {
     }
 
     /**
@@ -54,7 +52,7 @@ final class CurrentStatusMapper implements ResultInterface
                 $commandStatus['message'],
                 $commandStatus['status']
             ),
-            isset($this->rows['commandSequenceNumber']) ? intval($this->rows['commandSequenceNumber']) : - 1
+            isset($this->rows['commandSequenceNumber']) ? intval($this->rows['commandSequenceNumber']) : -1
         );
     }
 }

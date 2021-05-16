@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -26,16 +27,12 @@ use Ytake\KsqlClient\Entity\TablesList;
  */
 final class TablesListMapper implements ResultInterface
 {
-    /** @var array */
-    protected $rows;
-
     /**
      * @param array $rows
      */
-    public function __construct(array $rows)
-    {
-        $this->rows = $rows;
-    }
+    public function __construct(
+        protected array $rows
+    ) {}
 
     /**
      * @return EntityInterface
@@ -51,7 +48,6 @@ final class TablesListMapper implements ResultInterface
                 $row['isWindowed']
             );
         }
-
         return new TablesList($this->rows['statementText'], $tables);
     }
 }

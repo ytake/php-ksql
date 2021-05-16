@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,28 +23,20 @@ namespace Ytake\KsqlClient\Entity;
  */
 class KsqlStatementErrorMessage extends KsqlErrorMessage
 {
-    /** @var string */
-    protected $statementText;
-
-    /** @var array */
-    private $entities = [];
-
     /**
      * @param string $statementText
-     * @param int    $errorCode
+     * @param int $errorCode
      * @param string $message
-     * @param array  $stackTrace
-     * @param array  $entities
+     * @param array $stackTrace
+     * @param array $entities
      */
     public function __construct(
-        string $statementText,
+        private string $statementText,
         int $errorCode,
         string $message,
         array $stackTrace,
-        array $entities
+        private array $entities
     ) {
-        $this->statementText = $statementText;
-        $this->entities = $entities;
         parent::__construct($errorCode, $message, $stackTrace);
     }
 

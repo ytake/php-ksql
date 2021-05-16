@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -17,6 +18,7 @@ declare(strict_types=1);
 
 namespace Ytake\KsqlClient\Mapper;
 
+use GuzzleHttp\Utils;
 use Ytake\KsqlClient\Entity\EntityInterface;
 use Ytake\KsqlClient\Entity\ServerInfo;
 
@@ -26,12 +28,13 @@ use Ytake\KsqlClient\Entity\ServerInfo;
 final class ServerInfoMapper extends AbstractMapper
 {
     /**
-     * @return EntityInterface|ServerInfo
+     * @return EntityInterface
      */
     public function result(): EntityInterface
     {
-        $decode = \GuzzleHttp\json_decode(
-            $this->response->getBody()->getContents(), true
+        $decode = Utils::jsonDecode(
+            $this->response->getBody()->getContents(),
+            true
         );
         $serverInfo = $decode['KsqlServerInfo'];
 

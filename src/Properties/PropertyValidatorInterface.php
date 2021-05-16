@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -24,9 +25,12 @@ interface PropertyValidatorInterface
 {
     /**
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return void
      */
-    public function validate(string $name, $value): void;
+    public function validate(
+        string $name,
+        mixed $value
+    ): void;
 }

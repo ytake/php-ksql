@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,40 +23,20 @@ namespace Ytake\KsqlClient\Entity;
  */
 class KafkaTopicInfo implements EntityInterface
 {
-    /** @var string */
-    private $name;
-
-    /** @var string */
-    private $registered;
-
-    /** @var array<int> */
-    private $replicaInfo;
-
-    /** @var int */
-    private $consumerCount;
-
-    /** @var int */
-    private $consumerGroupCount;
-
     /**
-     * @param string     $name
-     * @param bool       $registered
+     * @param string $name
+     * @param bool $registered
      * @param array<int> $replicaInfo
-     * @param int        $consumerCount
-     * @param int        $consumerGroupCount
+     * @param int $consumerCount
+     * @param int $consumerGroupCount
      */
     public function __construct(
-        string $name,
-        bool $registered,
-        array $replicaInfo,
-        int $consumerCount,
-        int $consumerGroupCount
+        private string $name,
+        private bool $registered,
+        private array $replicaInfo,
+        private int $consumerCount,
+        private int $consumerGroupCount
     ) {
-        $this->name = $name;
-        $this->registered = $registered;
-        $this->replicaInfo = $replicaInfo;
-        $this->consumerCount = $consumerCount;
-        $this->consumerGroupCount = $consumerGroupCount;
     }
 
     /**
