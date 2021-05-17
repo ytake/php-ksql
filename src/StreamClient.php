@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -21,13 +22,15 @@ use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
 use Ytake\KsqlClient\Exception\StreamQueryException;
-use Ytake\KsqlClient\Query\AbstractStreamQuery;
-use Ytake\KsqlClient\Query\QueryInterface;
 use Ytake\KsqlClient\Mapper\ResultInterface;
 use Ytake\KsqlClient\Properties\LocalProperties;
+use Ytake\KsqlClient\Query\AbstractStreamQuery;
+use Ytake\KsqlClient\Query\QueryInterface;
+
+use function array_merge;
 
 /**
- * Class StreamClient
+ * KSQL Stream API Client
  */
 class StreamClient extends RestClient
 {
@@ -37,9 +40,13 @@ class StreamClient extends RestClient
     protected function buildClient(): ClientInterface
     {
         return new GuzzleClient(
-            array_merge($this->requestHeader(), [
-                RequestOptions::STREAM => true,
-            ]));
+            array_merge(
+                $this->requestHeader(),
+                [
+                    RequestOptions::STREAM => true,
+                ]
+            )
+        );
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -24,20 +25,14 @@ use Ytake\KsqlClient\GenericRow;
  */
 final class StreamedRow implements EntityInterface
 {
-    /** @var array */
-    private $rows = [];
-
-    /** @var KsqlErrorMessage */
-    private $ksqlErrorMessage;
-
     /**
-     * @param array            $rows
+     * @param array $rows
      * @param KsqlErrorMessage $ksqlErrorMessage
      */
-    public function __construct(array $rows, KsqlErrorMessage $ksqlErrorMessage)
-    {
-        $this->rows = $rows;
-        $this->ksqlErrorMessage = $ksqlErrorMessage;
+    public function __construct(
+        private array $rows,
+        private KsqlErrorMessage $ksqlErrorMessage
+    ) {
     }
 
     /**

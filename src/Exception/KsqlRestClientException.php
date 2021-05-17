@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -17,9 +18,11 @@ declare(strict_types=1);
 
 namespace Ytake\KsqlClient\Exception;
 
+use RuntimeException;
+
 /**
  * Class KsqlRestClientException
  */
-final class KsqlRestClientException extends \RuntimeException
+final class KsqlRestClientException extends RuntimeException
 {
 }

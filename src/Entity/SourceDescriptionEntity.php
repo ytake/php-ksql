@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,19 +23,15 @@ namespace Ytake\KsqlClient\Entity;
  */
 final class SourceDescriptionEntity extends KsqlEntity
 {
-    /** @var SourceDescription */
-    private $sourceDescription;
-
     /**
-     * @param string            $statementText
+     * @param string $statementText
      * @param SourceDescription $sourceDescription
      */
     public function __construct(
         string $statementText,
-        SourceDescription $sourceDescription
+        private SourceDescription $sourceDescription
     ) {
         parent::__construct($statementText);
-        $this->sourceDescription = $sourceDescription;
     }
 
     /**

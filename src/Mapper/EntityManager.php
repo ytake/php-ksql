@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -28,29 +29,26 @@ use function array_key_exists;
  */
 final class EntityManager
 {
-    /** @var array */
-    private $row = [];
-
-    /** @var ResultInterface[] */
-    private $map = [
-        'kafka_topics'      => KafkaTopicMapper::class,
-        'streams'           => StreamsListMapper::class,
-        'generic_error'     => KsqlErrorMapper::class,
-        'statement_error'   => KsqlStatementErrorMapper::class,
-        'tables'            => TablesListMapper::class,
-        'queries'           => QueriesMapper::class,
-        'properties'        => PropertiesMapper::class,
+    /** @var array<string, ResultInterface> */
+    private array $map = [
+        'kafka_topics' => KafkaTopicMapper::class,
+        'streams' => StreamsListMapper::class,
+        'generic_error' => KsqlErrorMapper::class,
+        'statement_error' => KsqlStatementErrorMapper::class,
+        'tables' => TablesListMapper::class,
+        'queries' => QueriesMapper::class,
+        'properties' => PropertiesMapper::class,
         'sourceDescription' => SourceDescriptionMapper::class,
-        'queryDescription'  => QueryDescriptionMapper::class,
-        'currentStatus'     => CurrentStatusMapper::class,
+        'queryDescription' => QueryDescriptionMapper::class,
+        'currentStatus' => CurrentStatusMapper::class,
     ];
 
     /**
      * @param array $row
      */
-    public function __construct(array $row)
-    {
-        $this->row = $row;
+    public function __construct(
+        private array $row
+    ) {
     }
 
     /**

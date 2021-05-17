@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -27,12 +28,13 @@ use Ytake\KsqlClient\Entity\EntityInterface;
 final class StatusMapper extends AbstractMapper
 {
     /**
-     * @return EntityInterface|CommandStatuses
+     * @return EntityInterface
      */
     public function result(): EntityInterface
     {
         $decode = \GuzzleHttp\json_decode(
-            $this->response->getBody()->getContents(), true
+            $this->response->getBody()->getContents(),
+            true
         );
         $statuses = new CommandStatuses();
         foreach ($decode['commandStatuses'] as $commandId => $status) {

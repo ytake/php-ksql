@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,20 +23,14 @@ namespace Ytake\KsqlClient\Properties;
  */
 class LocalProperties
 {
-    /** @var array */
-    private $props = [];
-
-    /** @var PropertyValidatorInterface */
-    private $validator;
-
     /**
-     * @param array                      $props
+     * @param array $props
      * @param PropertyValidatorInterface $validator
      */
-    public function __construct(array $props, PropertyValidatorInterface $validator)
-    {
-        $this->props = $props;
-        $this->validator = $validator;
+    public function __construct(
+        private array $props,
+        private PropertyValidatorInterface $validator
+    ) {
     }
 
     /**
@@ -53,7 +48,7 @@ class LocalProperties
      *
      * @return mixed
      */
-    public function get(string $property)
+    public function get(string $property): mixed
     {
         if (isset($this->props[$property])) {
             return $this->props[$property];

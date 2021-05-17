@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,28 +23,16 @@ namespace Ytake\KsqlClient\Entity;
  */
 final class ServerInfo implements EntityInterface
 {
-    /** @var string */
-    private $version;
-
-    /** @var string */
-    private $kafkaClusterId;
-
-    /** @var string */
-    private $ksqlServiceId;
-
     /**
      * @param string $version
      * @param string $kafkaClusterId
      * @param string $ksqlServiceId
      */
     public function __construct(
-        string $version,
-        string $kafkaClusterId,
-        string $ksqlServiceId
+        private string $version,
+        private string $kafkaClusterId,
+        private string $ksqlServiceId
     ) {
-        $this->version = $version;
-        $this->kafkaClusterId = $kafkaClusterId;
-        $this->ksqlServiceId = $ksqlServiceId;
     }
 
     /**

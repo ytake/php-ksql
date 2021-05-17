@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,19 +23,15 @@ namespace Ytake\KsqlClient\Entity;
  */
 class Properties extends KsqlEntity
 {
-    /** @var array */
-    private $properties;
-
     /**
      * @param string $statementText
-     * @param array  $properties
+     * @param array $properties
      */
     public function __construct(
         string $statementText,
-        array $properties = []
+        private array $properties = []
     ) {
         parent::__construct($statementText);
-        $this->properties = $properties;
     }
 
     /**

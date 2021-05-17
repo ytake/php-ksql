@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -25,15 +26,12 @@ use Ytake\KsqlClient\Entity\Properties;
  */
 final class PropertiesMapper implements ResultInterface
 {
-    /** @var array */
-    protected $rows;
-
     /**
      * @param array $rows
      */
-    public function __construct(array $rows)
-    {
-        $this->rows = $rows;
+    public function __construct(
+        private array $rows
+    ) {
     }
 
     /**
@@ -41,6 +39,9 @@ final class PropertiesMapper implements ResultInterface
      */
     public function result(): EntityInterface
     {
-        return new Properties($this->rows['statementText'], $this->rows['properties']);
+        return new Properties(
+            $this->rows['statementText'],
+            $this->rows['properties']
+        );
     }
 }

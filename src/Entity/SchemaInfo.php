@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,28 +23,16 @@ namespace Ytake\KsqlClient\Entity;
  */
 class SchemaInfo implements EntityInterface
 {
-    /** @var string */
-    private $type;
-
-    /** @var FieldInfo[]|null */
-    private $fieldInfo;
-
-    /** @var SchemaInfo|null */
-    private $schemaInfo;
-
     /**
-     * @param string           $type
+     * @param string $type
      * @param FieldInfo[]|null $fieldInfo
-     * @param SchemaInfo|null  $schemaInfo
+     * @param SchemaInfo|null $schemaInfo
      */
     public function __construct(
-        string $type,
-        ?array $fieldInfo,
-        ?SchemaInfo $schemaInfo
+        private string $type,
+        private ?array $fieldInfo,
+        private ?SchemaInfo $schemaInfo
     ) {
-        $this->type = $type;
-        $this->fieldInfo = $fieldInfo;
-        $this->schemaInfo = $schemaInfo;
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,23 +23,19 @@ namespace Ytake\KsqlClient\Entity;
  */
 final class SourceInfoTable extends SourceInfo
 {
-    /** @var bool */
-    private $isWindowed = false;
-
     /**
      * @param string $name
      * @param string $topic
      * @param string $format
-     * @param bool   $isWindowed
+     * @param bool $isWindowed
      */
     public function __construct(
         string $name,
         string $topic,
         string $format,
-        bool $isWindowed
+        private bool $isWindowed
     ) {
         parent::__construct($name, $topic, $format);
-        $this->isWindowed = $isWindowed;
     }
 
     /**

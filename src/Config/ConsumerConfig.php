@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,5 +23,5 @@ namespace Ytake\KsqlClient\Config;
  */
 final class ConsumerConfig
 {
-    const AUTO_OFFSET_RESET_CONFIG = 'auto.offset.reset';
+    public const AUTO_OFFSET_RESET_CONFIG = 'auto.offset.reset';
 }

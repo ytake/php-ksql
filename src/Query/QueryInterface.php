@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -17,8 +18,8 @@ declare(strict_types=1);
 
 namespace Ytake\KsqlClient\Query;
 
-use Ytake\KsqlClient\Mapper\ResultInterface;
 use Psr\Http\Message\ResponseInterface;
+use Ytake\KsqlClient\Mapper\ResultInterface;
 
 /**
  * Interface QueryInterface
@@ -47,7 +48,9 @@ interface QueryInterface
      *
      * @return ResultInterface
      */
-    public function queryResult(ResponseInterface $response): ResultInterface;
+    public function queryResult(
+        ResponseInterface $response
+    ): ResultInterface;
 
     /**
      * Property overrides to run the statements with.

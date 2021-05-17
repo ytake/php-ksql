@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -24,14 +25,15 @@ use Ytake\KsqlClient\Query\QueryId;
  */
 final class EntityQueryId
 {
-    /** @var QueryId */
-    private $id;
+    /** @var string */
+    private string $id;
 
     /**
      * @param QueryId $id
      */
-    public function __construct(QueryId $id)
-    {
+    public function __construct(
+        QueryId $id
+    ) {
         $this->id = $id->getId();
     }
 

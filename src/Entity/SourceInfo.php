@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,28 +23,16 @@ namespace Ytake\KsqlClient\Entity;
  */
 class SourceInfo implements EntityInterface
 {
-    /** @var string */
-    private $name;
-
-    /** @var string */
-    private $topic;
-
-    /** @var string */
-    private $format;
-
     /**
      * @param string $name
      * @param string $topic
      * @param string $format
      */
     public function __construct(
-        string $name,
-        string $topic,
-        string $format
+        private string $name,
+        private string $topic,
+        private string $format
     ) {
-        $this->name = $name;
-        $this->topic = $topic;
-        $this->format = $format;
     }
 
     /**

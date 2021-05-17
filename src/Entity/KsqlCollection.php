@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -23,13 +24,14 @@ namespace Ytake\KsqlClient\Entity;
 class KsqlCollection implements EntityInterface
 {
     /** @var EntityInterface[] */
-    protected $ksql = [];
+    protected array $ksql = [];
 
     /**
      * @param EntityInterface $ksql
      */
-    public function addKsql(EntityInterface $ksql): void
-    {
+    public function addKsql(
+        EntityInterface $ksql
+    ): void {
         $this->ksql[] = $ksql;
     }
 

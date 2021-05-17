@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -25,15 +26,12 @@ use Ytake\KsqlClient\Entity\KsqlErrorMessage;
  */
 final class KsqlErrorMapper implements ResultInterface
 {
-    /** @var array */
-    protected $rows;
-
     /**
      * @param array $rows
      */
-    public function __construct(array $rows)
-    {
-        $this->rows = $rows;
+    public function __construct(
+        private array $rows
+    ) {
     }
 
     /**

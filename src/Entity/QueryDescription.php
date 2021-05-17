@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,59 +23,26 @@ namespace Ytake\KsqlClient\Entity;
  */
 final class QueryDescription implements EntityInterface
 {
-    /** @var EntityQueryId */
-    private $entityQueryId;
-
-    /** @var string */
-    private $statementText;
-
-    /** @var array */
-    private $fields;
-
-    /** @var array */
-    private $sources;
-
-    /** @var array */
-    private $sinks;
-
-    /** @var string */
-    private $topology;
-
-    /** @var string */
-    private $executionPlan;
-
-    /** @var array */
-    private $overriddenProperties;
-
     /**
      * @param EntityQueryId $entityQueryId
-     * @param string        $statementText
-     * @param array         $fields
-     * @param array         $sources
-     * @param array         $sinks
-     * @param string        $topology
-     * @param string        $executionPlan
-     * @param array         $overriddenProperties
+     * @param string $statementText
+     * @param array $fields
+     * @param array $sources
+     * @param array $sinks
+     * @param string $topology
+     * @param string $executionPlan
+     * @param array $overriddenProperties
      */
     public function __construct(
-        EntityQueryId $entityQueryId,
-        string $statementText,
-        array $fields,
-        array $sources,
-        array $sinks,
-        string $topology,
-        string $executionPlan,
-        array $overriddenProperties
-    ) {
-        $this->entityQueryId = $entityQueryId;
-        $this->statementText = $statementText;
-        $this->fields = $fields;
-        $this->sources = $sources;
-        $this->sinks = $sinks;
-        $this->topology = $topology;
-        $this->executionPlan = $executionPlan;
-        $this->overriddenProperties = $overriddenProperties;
-    }
+        private EntityQueryId $entityQueryId,
+        private string $statementText,
+        private array $fields,
+        private array $sources,
+        private array $sinks,
+        private string $topology,
+        private string $executionPlan,
+        private array $overriddenProperties
+    ) {}
 
     /**
      * @return EntityQueryId

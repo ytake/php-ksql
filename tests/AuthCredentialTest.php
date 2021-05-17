@@ -1,9 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
+namespace Tests;
+
+use PHPUnit\Framework\TestCase;
 use Ytake\KsqlClient\AuthCredential;
 
-class AuthCredentialTest extends \PHPUnit\Framework\TestCase
+final class AuthCredentialTest extends TestCase
 {
     public function testShouldReturnAuthCredential(): void
     {

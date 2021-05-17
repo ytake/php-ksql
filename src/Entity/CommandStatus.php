@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,20 +23,14 @@ namespace Ytake\KsqlClient\Entity;
  */
 final class CommandStatus implements EntityInterface
 {
-    /** @var string */
-    protected $message;
-
-    /** @var string */
-    protected $status;
-
     /**
      * @param string $message
      * @param string $status
      */
-    public function __construct(string $message, string $status)
-    {
-        $this->message = $message;
-        $this->status = $status;
+    public function __construct(
+        private string $message,
+        private string $status
+    ) {
     }
 
     /**

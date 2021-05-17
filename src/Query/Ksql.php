@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -19,25 +20,22 @@ namespace Ytake\KsqlClient\Query;
 
 use Fig\Http\Message\RequestMethodInterface;
 use Psr\Http\Message\ResponseInterface;
-use Ytake\KsqlClient\Mapper\ResultInterface;
 use Ytake\KsqlClient\Mapper\KsqlMapper;
+use Ytake\KsqlClient\Mapper\ResultInterface;
 
 /**
  * Class Ksql
  */
 class Ksql implements QueryInterface
 {
-    /** @var string */
-    protected $query;
-
     /**
      * Ksql constructor.
      *
      * @param string $query
      */
-    public function __construct(string $query)
-    {
-        $this->query = $query;
+    public function __construct(
+        protected string $query
+    ) {
     }
 
     /**
@@ -72,8 +70,9 @@ class Ksql implements QueryInterface
      *
      * @return ResultInterface
      */
-    public function queryResult(ResponseInterface $response): ResultInterface
-    {
+    public function queryResult(
+        ResponseInterface $response
+    ): ResultInterface {
         return new KsqlMapper($response);
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,19 +23,15 @@ namespace Ytake\KsqlClient\Entity;
  */
 final class StreamsList extends KsqlEntity
 {
-    /** @var array */
-    private $sourceInfoList;
-
     /**
      * @param string $statementText
-     * @param SourceInfo[]  $sourceInfoList
+     * @param SourceInfo[] $sourceInfoList
      */
     public function __construct(
         string $statementText,
-        array $sourceInfoList
+        private array $sourceInfoList
     ) {
         parent::__construct($statementText);
-        $this->sourceInfoList = $sourceInfoList;
     }
 
     /**

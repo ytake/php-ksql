@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -54,8 +55,9 @@ final class ServerInfo implements QueryInterface
     /**
      * {@inheritdoc}
      */
-    public function queryResult(ResponseInterface $response): ResultInterface
-    {
+    public function queryResult(
+        ResponseInterface $response
+    ): ResultInterface {
         return new ServerInfoMapper($response);
     }
 

@@ -1,13 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
-use GuzzleHttp\Psr7\Response;
-use Ytake\KsqlClient\Mapper\KsqlMapper;
-use Ytake\KsqlClient\Entity\KsqlCollection;
-use Ytake\KsqlClient\Entity\SourceDescriptionEntity;
-use Ytake\KsqlClient\Entity\RunningQuery;
+namespace Tests\Mapper;
 
-final class KsqlMapperTest extends \PHPUnit\Framework\TestCase
+use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
+use Ytake\KsqlClient\Entity\KsqlCollection;
+use Ytake\KsqlClient\Entity\RunningQuery;
+use Ytake\KsqlClient\Entity\SourceDescriptionEntity;
+use Ytake\KsqlClient\Mapper\KsqlMapper;
+
+final class KsqlMapperTest extends TestCase
 {
     public function testShouldReturnDescriptionEntity(): void
     {

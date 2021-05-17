@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -25,14 +26,11 @@ use Psr\Http\Message\ResponseInterface;
  */
 abstract class AbstractMapper implements ResultInterface
 {
-    /** @var ResponseInterface */
-    protected $response;
-
     /**
      * @param ResponseInterface $response
      */
-    public function __construct(ResponseInterface $response)
-    {
-        $this->response = $response;
+    public function __construct(
+        protected ResponseInterface $response
+    ) {
     }
 }

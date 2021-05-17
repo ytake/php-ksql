@@ -1,5 +1,8 @@
 <?php
+
 declare(strict_types=1);
+
+namespace Tests;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
@@ -8,24 +11,22 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 
-/**
- * Trait MockClientTrait
- */
 trait MockClientTrait
 {
     /**
-     * @param int         $statusCode
+     * @param int $statusCode
      * @param string|null $body
-     * @param array       $options
+     * @param array $options
      *
      * @return Client
      */
     public function mockClient(int $statusCode, string $body = null, array $options = []): Client
     {
-        $mock = new MockHandler([
-            new Response($statusCode, $options, $body),
-        ]);
-
+        $mock = new MockHandler(
+            [
+                new Response($statusCode, $options, $body),
+            ]
+        );
         return new Client(['handler' => HandlerStack::create($mock)]);
     }
 
@@ -34,10 +35,11 @@ trait MockClientTrait
      */
     public function throwRequestExceptionClient(): Client
     {
-        $mock = new MockHandler([
-            new RequestException("Error Communicating with Server", new Request('GET', 'test')),
-        ]);
-
+        $mock = new MockHandler(
+            [
+                new RequestException("Error Communicating with Server", new Request('GET', 'test')),
+            ]
+        );
         return new Client(['handler' => HandlerStack::create($mock)]);
     }
 
@@ -46,10 +48,15 @@ trait MockClientTrait
      */
     public function throwClientExceptionClient(): Client
     {
-        $mock = new MockHandler([
-            new \GuzzleHttp\Exception\ClientException("Error Communicating with Server", new Request('POST', 'test')),
-        ]);
-
+        $mock = new MockHandler(
+            [
+                new \GuzzleHttp\Exception\ClientException(
+                    "Error Communicating with Server",
+                    new Request('POST', 'test'),
+                    new Response()
+                ),
+            ]
+        );
         return new Client(['handler' => HandlerStack::create($mock)]);
     }
 }

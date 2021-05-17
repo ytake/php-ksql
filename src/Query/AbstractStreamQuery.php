@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -24,19 +25,13 @@ use Ytake\KsqlClient\StreamConsumable;
  */
 abstract class AbstractStreamQuery implements StreamQueryInterface
 {
-    /** @var string */
-    protected $query;
-
-    /** @var StreamConsumable */
-    protected $callback;
-
     /**
-     * @param string           $query
+     * @param string $query
      * @param StreamConsumable $callback
      */
-    public function __construct(string $query, StreamConsumable $callback)
-    {
-        $this->query = $query;
-        $this->callback = $callback;
+    public function __construct(
+        protected string $query,
+        protected StreamConsumable $callback
+    ) {
     }
 }

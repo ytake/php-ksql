@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,19 +23,15 @@ namespace Ytake\KsqlClient\Entity;
  */
 final class TablesList extends KsqlEntity
 {
-    /** @var SourceInfoTable[] */
-    private $sourceInfoTable;
-
     /**
      * @param string $statementText
-     * @param SourceInfoTable[]  $sourceInfoTable
+     * @param SourceInfoTable[] $sourceInfoTable
      */
     public function __construct(
         string $statementText,
-        array $sourceInfoTable
+        private array $sourceInfoTable
     ) {
         parent::__construct($statementText);
-        $this->sourceInfoTable = $sourceInfoTable;
     }
 
     /**

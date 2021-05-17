@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -25,20 +26,14 @@ use function spl_object_hash;
  */
 final class FieldInfo implements EntityInterface
 {
-    /** @var string */
-    private $name;
-
-    /** @var SchemaInfo|null */
-    private $schemaInfo;
-
     /**
-     * @param string          $name
+     * @param string $name
      * @param SchemaInfo|null $schemaInfo
      */
-    public function __construct(string $name, ?SchemaInfo $schemaInfo)
-    {
-        $this->name = $name;
-        $this->schemaInfo = $schemaInfo;
+    public function __construct(
+        private string $name,
+        private ?SchemaInfo $schemaInfo
+    ) {
     }
 
     /**

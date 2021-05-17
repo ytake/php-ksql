@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -18,11 +19,16 @@ declare(strict_types=1);
 namespace Ytake\KsqlClient\Mapper;
 
 use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Utils;
 use Ytake\KsqlClient\Entity\EntityInterface;
 use Ytake\KsqlClient\Entity\KsqlErrorMessage;
 use Ytake\KsqlClient\Entity\StreamedRow;
 use Ytake\KsqlClient\Entity\StreamedRows;
 use Ytake\KsqlClient\StreamConsumable;
+
+use function call_user_func_array;
+use function strval;
+use function trim;
 
 /**
  * Class StreamResult
@@ -30,18 +36,19 @@ use Ytake\KsqlClient\StreamConsumable;
 final class StreamMapper extends AbstractMapper
 {
     /** @var StreamConsumable */
-    protected $callback;
+    private StreamConsumable $callback;
 
     /**
      * @param StreamConsumable $callback
      */
-    public function setCallback(StreamConsumable $callback): void
-    {
+    public function setCallback(
+        StreamConsumable $callback
+    ): void {
         $this->callback = $callback;
     }
 
     /**
-     * @return EntityInterface|StreamedRows
+     * @return EntityInterface
      */
     public function result(): EntityInterface
     {
@@ -49,9 +56,9 @@ final class StreamMapper extends AbstractMapper
         $streamed = [];
         if ($stream instanceof Stream) {
             while (!$stream->eof()) {
-                $line = trim(\GuzzleHttp\Psr7\readline($stream));
+                $line = trim(\GuzzleHttp\Psr7\Utils::readLine($stream));
                 if (!empty($line)) {
-                    $decode = \GuzzleHttp\json_decode($line, true);
+                    $decode = Utils::jsonDecode($line, true);
                     $row = new StreamedRow(
                         $decode['row']['columns'],
                         new KsqlErrorMessage(
@@ -64,7 +71,6 @@ final class StreamMapper extends AbstractMapper
                 }
             }
         }
-
         return new StreamedRows($streamed);
     }
 }

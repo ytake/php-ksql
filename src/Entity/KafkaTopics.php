@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,21 +23,15 @@ namespace Ytake\KsqlClient\Entity;
  */
 class KafkaTopics extends KsqlEntity
 {
-    /** @var array */
-    private $kafkaTopicInfoList;
-
     /**
-     * KafkaTopics constructor.
-     *
-     * @param string           $statementText
+     * @param string $statementText
      * @param KafkaTopicInfo[] $kafkaTopicInfoList
      */
     public function __construct(
         string $statementText,
-        array $kafkaTopicInfoList
+        private array $kafkaTopicInfoList
     ) {
         parent::__construct($statementText);
-        $this->kafkaTopicInfoList = $kafkaTopicInfoList;
     }
 
     /**

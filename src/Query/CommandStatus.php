@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -18,25 +19,24 @@ declare(strict_types=1);
 namespace Ytake\KsqlClient\Query;
 
 use Fig\Http\Message\RequestMethodInterface;
-use Ytake\KsqlClient\Computation\CommandId;
-use Ytake\KsqlClient\Mapper\ResultInterface;
 use Psr\Http\Message\ResponseInterface;
+use Ytake\KsqlClient\Computation\CommandId;
 use Ytake\KsqlClient\Mapper\CommandStatusMapper;
+use Ytake\KsqlClient\Mapper\ResultInterface;
+
+use function sprintf;
 
 /**
  * Class StatusCommand
  */
 final class CommandStatus implements QueryInterface
 {
-    /** @var CommandId */
-    protected $commandId;
-
     /**
      * @param CommandId $commandId
      */
-    public function __construct(CommandId $commandId)
-    {
-        $this->commandId = $commandId;
+    public function __construct(
+        private CommandId $commandId
+    ) {
     }
 
     /**
@@ -68,8 +68,9 @@ final class CommandStatus implements QueryInterface
      *
      * @return ResultInterface
      */
-    public function queryResult(ResponseInterface $response): ResultInterface
-    {
+    public function queryResult(
+        ResponseInterface $response
+    ): ResultInterface {
         return new CommandStatusMapper($response);
     }
 

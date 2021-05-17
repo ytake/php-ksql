@@ -1,13 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
-use GuzzleHttp\Psr7\Response;
-use Ytake\KsqlClient\Mapper\KsqlMapper;
-use Ytake\KsqlClient\Entity\FieldInfo;
-use Ytake\KsqlClient\Entity\SourceDescriptionEntity;
-use Ytake\KsqlClient\Entity\SchemaInfo;
+namespace Tests\Mapper;
 
-final class SourceDescriptionTest extends \PHPUnit\Framework\TestCase
+use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
+use Ytake\KsqlClient\Entity\FieldInfo;
+use Ytake\KsqlClient\Entity\SchemaInfo;
+use Ytake\KsqlClient\Entity\SourceDescriptionEntity;
+use Ytake\KsqlClient\Mapper\KsqlMapper;
+
+use function file_get_contents;
+
+final class SourceDescriptionTest extends TestCase
 {
     public function testShouldReturnSourceDescriptionEntity(): void
     {

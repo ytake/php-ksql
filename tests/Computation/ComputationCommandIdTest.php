@@ -1,12 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
+namespace Tests\Computation;
+
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Ytake\KsqlClient\Computation\CommandId;
 
-/**
- * Class ComputationCommandIdTest
- */
 final class ComputationCommandIdTest extends TestCase
 {
     public function testShouldReturnCommandIdInstance(): void
@@ -19,11 +20,10 @@ final class ComputationCommandIdTest extends TestCase
         $this->assertSame('stream/KSQLTESTING/create', \strval($commandId));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testShouldThrowException(): void
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected a string of the form <type>/<entity>/<action>');
         CommandId::fromString('');
     }
 }

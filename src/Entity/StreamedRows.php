@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,15 +23,12 @@ namespace Ytake\KsqlClient\Entity;
  */
 final class StreamedRows implements EntityInterface
 {
-    /** @var StreamedRow[] */
-    protected $rows = [];
-
     /**
      * @param StreamedRow[] $rows
      */
-    public function __construct(array $rows)
-    {
-        $this->rows = $rows;
+    public function __construct(
+        private array $rows
+    ) {
     }
 
     /**
