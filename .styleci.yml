@@ -1,6 +1,0 @@
-preset: psr12
-php:
-  version: 8
-finder:
-  exclude:
-    - tests
