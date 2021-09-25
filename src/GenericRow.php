@@ -42,7 +42,7 @@ final class GenericRow
     /**
      * @param int $index
      *
-     * @return array|mixed|null
+     * @return mixed
      */
     public function getColumnValue(int $index): mixed
     {

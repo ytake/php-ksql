@@ -41,7 +41,7 @@ final class ServerInfo implements QueryInterface
      */
     public function uri(): string
     {
-        return 'info';
+        return '/info';
     }
 
     /**

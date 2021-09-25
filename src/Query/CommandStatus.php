@@ -52,7 +52,7 @@ final class CommandStatus implements QueryInterface
      */
     public function uri(): string
     {
-        return sprintf('status/%s', $this->commandId);
+        return sprintf('/status/%s', $this->commandId);
     }
 
     /**
