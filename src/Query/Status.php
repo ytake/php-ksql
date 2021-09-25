@@ -41,7 +41,7 @@ final class Status implements QueryInterface
      */
     public function uri(): string
     {
-        return 'status';
+        return '/status';
     }
 
     /**

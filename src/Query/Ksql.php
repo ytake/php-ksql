@@ -51,7 +51,7 @@ class Ksql implements QueryInterface
      */
     public function uri(): string
     {
-        return 'ksql';
+        return '/ksql';
     }
 
     /**

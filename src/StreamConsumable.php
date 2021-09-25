@@ -28,7 +28,7 @@ interface StreamConsumable
     /**
      * @param StreamedRow $row
      *
-     * @return mixed
+     * @return void
      */
     public function __invoke(
         StreamedRow $row

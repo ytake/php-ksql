@@ -41,7 +41,7 @@ final class Stream extends AbstractStreamQuery
      */
     public function uri(): string
     {
-        return 'query';
+        return '/query';
     }
 
     /**
